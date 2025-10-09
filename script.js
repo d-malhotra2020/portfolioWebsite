@@ -34,11 +34,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 const offsetTop = targetSection.offsetTop - 80;
                 console.log('Scrolling to:', offsetTop);
                 
-                // Simple scroll - removing complex fallback for now
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
+                // Custom smooth scroll animation
+                const startingY = window.pageYOffset;
+                const diff = offsetTop - startingY;
+                const duration = 1000;
+                let start = null;
+                
+                function animateScroll(timestamp) {
+                    if (!start) start = timestamp;
+                    const progress = timestamp - start;
+                    const percent = Math.min(progress / duration, 1);
+                    
+                    // Easing function for smoother animation
+                    const easeInOutQuart = percent < 0.5 
+                        ? 8 * percent * percent * percent * percent 
+                        : 1 - 8 * (--percent) * percent * percent * percent;
+                    
+                    window.scrollTo(0, startingY + diff * easeInOutQuart);
+                    
+                    if (progress < duration) {
+                        window.requestAnimationFrame(animateScroll);
+                    }
+                }
+                
+                window.requestAnimationFrame(animateScroll);
             } else {
                 console.error('Target section not found for:', targetId);
             }
@@ -57,33 +76,30 @@ document.addEventListener('DOMContentLoaded', function() {
             if (targetSection) {
                 const offsetTop = targetSection.offsetTop - 80;
                 
-                // Fallback for browsers that don't support smooth scrolling
-                if ('scrollBehavior' in document.documentElement.style) {
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
-                    });
-                } else {
-                    // Fallback smooth scroll
-                    const startingY = window.pageYOffset;
-                    const diff = offsetTop - startingY;
-                    const duration = 800;
-                    let start;
+                // Custom smooth scroll animation
+                const startingY = window.pageYOffset;
+                const diff = offsetTop - startingY;
+                const duration = 1000;
+                let start = null;
+                
+                function animateScroll(timestamp) {
+                    if (!start) start = timestamp;
+                    const progress = timestamp - start;
+                    const percent = Math.min(progress / duration, 1);
                     
-                    function animateScroll(timestamp) {
-                        if (!start) start = timestamp;
-                        const progress = timestamp - start;
-                        const percent = Math.min(progress / duration, 1);
-                        
-                        window.scrollTo(0, startingY + diff * percent);
-                        
-                        if (progress < duration) {
-                            window.requestAnimationFrame(animateScroll);
-                        }
+                    // Easing function for smoother animation
+                    const easeInOutQuart = percent < 0.5 
+                        ? 8 * percent * percent * percent * percent 
+                        : 1 - 8 * (--percent) * percent * percent * percent;
+                    
+                    window.scrollTo(0, startingY + diff * easeInOutQuart);
+                    
+                    if (progress < duration) {
+                        window.requestAnimationFrame(animateScroll);
                     }
-                    
-                    window.requestAnimationFrame(animateScroll);
                 }
+                
+                window.requestAnimationFrame(animateScroll);
             }
         });
     }
