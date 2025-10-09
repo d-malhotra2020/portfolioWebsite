@@ -51,13 +51,14 @@ body, html {
     background: none;
     border: 2px solid white;
     color: white;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
     margin-left: 2rem;
+    min-width: 60px;
 }
 
 .theme-toggle:hover {
