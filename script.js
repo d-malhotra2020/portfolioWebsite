@@ -19,44 +19,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('.nav-link');
+    console.log('Found nav links:', navLinks.length);
     
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
+            console.log('Nav link clicked:', this.getAttribute('href'));
             e.preventDefault();
             
             const targetId = this.getAttribute('href');
             const targetSection = document.querySelector(targetId);
+            console.log('Target section found:', targetSection);
             
             if (targetSection) {
-                const offsetTop = targetSection.offsetTop - 80; // Account for fixed navbar
+                const offsetTop = targetSection.offsetTop - 80;
+                console.log('Scrolling to:', offsetTop);
                 
-                // Fallback for browsers that don't support smooth scrolling
-                if ('scrollBehavior' in document.documentElement.style) {
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
-                    });
-                } else {
-                    // Fallback smooth scroll
-                    const startingY = window.pageYOffset;
-                    const diff = offsetTop - startingY;
-                    const duration = 800;
-                    let start;
-                    
-                    function animateScroll(timestamp) {
-                        if (!start) start = timestamp;
-                        const progress = timestamp - start;
-                        const percent = Math.min(progress / duration, 1);
-                        
-                        window.scrollTo(0, startingY + diff * percent);
-                        
-                        if (progress < duration) {
-                            window.requestAnimationFrame(animateScroll);
-                        }
-                    }
-                    
-                    window.requestAnimationFrame(animateScroll);
-                }
+                // Simple scroll - removing complex fallback for now
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            } else {
+                console.error('Target section not found for:', targetId);
             }
         });
     });
