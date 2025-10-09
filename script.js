@@ -165,17 +165,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentTheme = localStorage.getItem('theme') || 'dark';
     if (currentTheme === 'light') {
         body.classList.add('light-theme');
-        themeToggle.textContent = 'Light';
+        themeToggle.textContent = '☀️';
     }
     
     themeToggle.addEventListener('click', function() {
         body.classList.toggle('light-theme');
         
         if (body.classList.contains('light-theme')) {
-            themeToggle.textContent = 'Light';
+            themeToggle.textContent = '☀️';
             localStorage.setItem('theme', 'light');
         } else {
-            themeToggle.textContent = 'Dark';
+            themeToggle.textContent = '🌙';
             localStorage.setItem('theme', 'dark');
         }
     });
