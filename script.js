@@ -32,12 +32,12 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (targetSection) {
                 const offsetTop = targetSection.offsetTop - 80;
-                console.log('Scrolling to:', offsetTop);
-                console.log('Current scroll position:', window.pageYOffset);
                 
-                // Test: Try instant scroll first
-                window.scrollTo(0, offsetTop);
-                console.log('After scroll, position:', window.pageYOffset);
+                // Use browser smooth scroll
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
                 
             } else {
                 console.error('Target section not found for:', targetId);
