@@ -253,7 +253,7 @@
                 <p>I'm always interested in new opportunities and collaborations. Feel free to reach out!</p>
                 <div class="contact-grid">
                     <div class="contact-form-container">
-                        <form class="contact-form" id="contactForm">
+                        <form class="contact-form" id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <input type="text" id="name" name="name" required>
@@ -270,6 +270,7 @@
                                 <label for="message">Message</label>
                                 <textarea id="message" name="message" rows="5" required></textarea>
                             </div>
+                            <input type="hidden" name="_next" value="https://drewmalhotra.com?success=true">
                             <button type="submit" class="submit-btn">Send Message</button>
                         </form>
                         <div class="form-success" id="formSuccess" style="display: none;">

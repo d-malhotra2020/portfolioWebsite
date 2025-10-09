@@ -116,22 +116,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(contactForm);
-            const name = formData.get('name');
-            const email = formData.get('email');
-            const subject = formData.get('subject');
-            const message = formData.get('message');
-            
-            // Simple form validation
-            if (!name || !email || !subject || !message) {
-                alert('Please fill in all fields.');
-                return;
-            }
-            
-            // Simulate form submission (in real implementation, you'd send to a server)
             const submitBtn = contactForm.querySelector('.submit-btn');
             const originalText = submitBtn.textContent;
             
@@ -139,22 +123,38 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
             
-            // Simulate API call delay
-            setTimeout(() => {
-                // Hide form and show success message
-                contactForm.style.display = 'none';
-                formSuccess.style.display = 'block';
-                
-                // Reset form after 5 seconds
-                setTimeout(() => {
-                    contactForm.style.display = 'flex';
-                    formSuccess.style.display = 'none';
-                    contactForm.reset();
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                }, 5000);
-            }, 2000);
+            // Let the form submit naturally to Formspree
+            // Don't prevent default - let it submit
+            
+            // If form action contains YOUR_FORM_ID, show setup message
+            if (contactForm.action.includes('YOUR_FORM_ID')) {
+                e.preventDefault();
+                alert('Contact form not yet configured. Please set up Formspree first!');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                return;
+            }
+            
+            // For successful Formspree submission, they'll redirect back
+            // We'll handle the success state when they return
         });
+        
+        // Check if user returned from successful Formspree submission
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('success') === 'true') {
+            // Show success message
+            contactForm.style.display = 'none';
+            formSuccess.style.display = 'block';
+            
+            // Reset after 5 seconds
+            setTimeout(() => {
+                contactForm.style.display = 'flex';
+                formSuccess.style.display = 'none';
+                contactForm.reset();
+                // Clean up URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }, 5000);
+        }
     }
 
     // Theme toggle functionality
