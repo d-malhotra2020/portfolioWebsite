@@ -159,7 +159,7 @@ body, html {
 /* Projects Section */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 2rem;
     margin-top: 2rem;
 }
@@ -176,13 +176,41 @@ body, html {
 }
 
 .project-card h3 {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     color: #4CAF50;
+}
+
+.project-type {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    font-style: italic;
 }
 
 .project-card p {
     line-height: 1.6;
     margin-bottom: 1.5rem;
+}
+
+.project-highlights {
+    margin-bottom: 1.5rem;
+}
+
+.highlight-item {
+    display: flex;
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+}
+
+.highlight-label {
+    color: #4CAF50;
+    font-weight: bold;
+    min-width: 80px;
+    margin-right: 0.5rem;
+}
+
+.highlight-item span:last-child {
+    color: #ddd;
 }
 
 .tech-stack {
