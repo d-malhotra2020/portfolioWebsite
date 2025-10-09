@@ -141,19 +141,28 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Check if user returned from successful Formspree submission
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('success') === 'true') {
+        const hashParams = new URLSearchParams(window.location.hash.split('?')[1] || '');
+        
+        if (urlParams.get('success') === 'true' || hashParams.get('success') === 'true') {
             // Show success message
             contactForm.style.display = 'none';
             formSuccess.style.display = 'block';
             
-            // Reset after 5 seconds
+            // Scroll to contact section if not already there
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Reset after 7 seconds
             setTimeout(() => {
                 contactForm.style.display = 'flex';
                 formSuccess.style.display = 'none';
                 contactForm.reset();
                 // Clean up URL
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }, 5000);
+                const cleanUrl = window.location.origin + window.location.pathname + '#contact';
+                window.history.replaceState({}, document.title, cleanUrl);
+            }, 7000);
         }
     }
 
