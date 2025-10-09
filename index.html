@@ -13,6 +13,7 @@
         <a href="#projects" class="nav-link">Projects</a>
         <a href="#skills" class="nav-link">Skills</a>
         <a href="#contact" class="nav-link">Contact</a>
+        <button class="theme-toggle" id="themeToggle">🌙</button>
     </div>
 </nav>
 
@@ -79,53 +80,55 @@
                     </div>
                 </div>
                 <div class="project-card">
-                    <h3>API Testing Tool</h3>
-                    <div class="project-type">Backend Development</div>
-                    <p>Built a comprehensive API testing framework that automates endpoint validation, response verification, and performance benchmarking for REST APIs.</p>
+                    <h3>Smart Home Automation System</h3>
+                    <div class="project-type">IoT & Backend Development</div>
+                    <p>Developed a comprehensive IoT system that monitors and controls home devices through a web dashboard and mobile app, featuring real-time sensor data collection and automated scheduling.</p>
                     <div class="project-highlights">
                         <div class="highlight-item">
-                            <span class="highlight-label">Impact:</span>
-                            <span>Reduced manual testing time by 75%</span>
+                            <span class="highlight-label">Features:</span>
+                            <span>15+ connected devices, real-time monitoring</span>
                         </div>
                         <div class="highlight-item">
-                            <span class="highlight-label">Challenge:</span>
-                            <span>Automated complex authentication flows</span>
+                            <span class="highlight-label">Achievement:</span>
+                            <span>30% reduction in energy consumption</span>
                         </div>
                     </div>
                     <div class="tech-stack">
                         <span class="tech-tag">Python</span>
-                        <span class="tech-tag">Requests</span>
-                        <span class="tech-tag">pytest</span>
-                        <span class="tech-tag">JSON</span>
+                        <span class="tech-tag">Raspberry Pi</span>
+                        <span class="tech-tag">MQTT</span>
+                        <span class="tech-tag">SQLite</span>
+                        <span class="tech-tag">Flask</span>
                     </div>
                     <div class="project-links">
-                        <a href="#" class="project-link">View Code</a>
-                        <a href="#" class="project-link">Documentation</a>
+                        <a href="https://github.com/d-malhotra2020" target="_blank" class="project-link">View Code</a>
+                        <a href="#" class="project-link">Architecture</a>
                     </div>
                 </div>
                 <div class="project-card">
-                    <h3>Database Optimization Project</h3>
-                    <div class="project-type">Data Engineering</div>
-                    <p>Redesigned database schema and optimized queries for a high-traffic application, improving performance and reducing server costs.</p>
+                    <h3>Financial Data Analysis Tool</h3>
+                    <div class="project-type">Data Science & Visualization</div>
+                    <p>Built a Python-based financial analysis platform that processes stock market data, generates predictive models, and creates interactive visualizations for investment decision-making.</p>
                     <div class="project-highlights">
                         <div class="highlight-item">
-                            <span class="highlight-label">Result:</span>
-                            <span>60% faster query execution</span>
+                            <span class="highlight-label">Data Scale:</span>
+                            <span>Processes 50K+ daily transactions</span>
                         </div>
                         <div class="highlight-item">
-                            <span class="highlight-label">Scale:</span>
-                            <span>Handles 10K+ concurrent users</span>
+                            <span class="highlight-label">Accuracy:</span>
+                            <span>85% prediction accuracy for trends</span>
                         </div>
                     </div>
                     <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Pandas</span>
+                        <span class="tech-tag">Plotly</span>
+                        <span class="tech-tag">scikit-learn</span>
                         <span class="tech-tag">PostgreSQL</span>
-                        <span class="tech-tag">Redis</span>
-                        <span class="tech-tag">Docker</span>
-                        <span class="tech-tag">SQL</span>
                     </div>
                     <div class="project-links">
-                        <a href="#" class="project-link">Schema Design</a>
-                        <a href="#" class="project-link">Performance Report</a>
+                        <a href="https://github.com/d-malhotra2020" target="_blank" class="project-link">View Code</a>
+                        <a href="#" class="project-link">Live Dashboard</a>
                     </div>
                 </div>
             </div>
@@ -138,39 +141,99 @@
             <h2>Skills & Technologies</h2>
             <div class="skills-grid">
                 <div class="skill-category">
-                    <h3>Frontend</h3>
-                    <div class="skills-list">
-                        <span class="skill-item">HTML/CSS</span>
-                        <span class="skill-item">JavaScript</span>
-                        <span class="skill-item">React</span>
-                        <span class="skill-item">Vue.js</span>
+                    <h3>Frontend Development</h3>
+                    <div class="skill-bars">
+                        <div class="skill-bar">
+                            <div class="skill-info">
+                                <span class="skill-name">HTML/CSS</span>
+                                <span class="skill-percentage">90%</span>
+                            </div>
+                            <div class="skill-progress">
+                                <div class="skill-fill" data-width="90"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-info">
+                                <span class="skill-name">JavaScript</span>
+                                <span class="skill-percentage">85%</span>
+                            </div>
+                            <div class="skill-progress">
+                                <div class="skill-fill" data-width="85"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-info">
+                                <span class="skill-name">React</span>
+                                <span class="skill-percentage">80%</span>
+                            </div>
+                            <div class="skill-progress">
+                                <div class="skill-fill" data-width="80"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="skill-category">
-                    <h3>Backend</h3>
-                    <div class="skills-list">
-                        <span class="skill-item">Node.js</span>
-                        <span class="skill-item">Python</span>
-                        <span class="skill-item">Java</span>
-                        <span class="skill-item">Express.js</span>
+                    <h3>Backend Development</h3>
+                    <div class="skill-bars">
+                        <div class="skill-bar">
+                            <div class="skill-info">
+                                <span class="skill-name">Python</span>
+                                <span class="skill-percentage">88%</span>
+                            </div>
+                            <div class="skill-progress">
+                                <div class="skill-fill" data-width="88"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-info">
+                                <span class="skill-name">Node.js</span>
+                                <span class="skill-percentage">75%</span>
+                            </div>
+                            <div class="skill-progress">
+                                <div class="skill-fill" data-width="75"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-info">
+                                <span class="skill-name">Java</span>
+                                <span class="skill-percentage">70%</span>
+                            </div>
+                            <div class="skill-progress">
+                                <div class="skill-fill" data-width="70"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="skill-category">
-                    <h3>Database</h3>
-                    <div class="skills-list">
-                        <span class="skill-item">MongoDB</span>
-                        <span class="skill-item">PostgreSQL</span>
-                        <span class="skill-item">MySQL</span>
-                        <span class="skill-item">Redis</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Tools & Others</h3>
-                    <div class="skills-list">
-                        <span class="skill-item">Git</span>
-                        <span class="skill-item">Docker</span>
-                        <span class="skill-item">AWS</span>
-                        <span class="skill-item">Linux</span>
+                    <h3>Database & DevOps</h3>
+                    <div class="skill-bars">
+                        <div class="skill-bar">
+                            <div class="skill-info">
+                                <span class="skill-name">PostgreSQL</span>
+                                <span class="skill-percentage">82%</span>
+                            </div>
+                            <div class="skill-progress">
+                                <div class="skill-fill" data-width="82"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-info">
+                                <span class="skill-name">Docker</span>
+                                <span class="skill-percentage">78%</span>
+                            </div>
+                            <div class="skill-progress">
+                                <div class="skill-fill" data-width="78"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-info">
+                                <span class="skill-name">Git</span>
+                                <span class="skill-percentage">92%</span>
+                            </div>
+                            <div class="skill-progress">
+                                <div class="skill-fill" data-width="92"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -183,16 +246,60 @@
             <h2>Get In Touch</h2>
             <div class="contact-content">
                 <p>I'm always interested in new opportunities and collaborations. Feel free to reach out!</p>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <h3>Email</h3>
-                        <a href="mailto:dhruvmalhotra2025@gmail.com">dhruvmalhotra2025@gmail.com</a>
+                <div class="contact-grid">
+                    <div class="contact-form-container">
+                        <form class="contact-form" id="contactForm">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <input type="text" id="subject" name="subject" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="submit-btn">Send Message</button>
+                        </form>
+                        <div class="form-success" id="formSuccess" style="display: none;">
+                            <h3>Message Sent!</h3>
+                            <p>Thank you for reaching out. I'll get back to you soon!</p>
+                        </div>
                     </div>
-                    <div class="contact-item">
-                        <h3>Connect</h3>
-                        <div class="contact-links">
-                            <a href="https://www.linkedin.com/in/drewmalhotra/" target="_blank" class="contact-link">LinkedIn</a>
-                            <a href="https://github.com/d-malhotra2020" target="_blank" class="contact-link">GitHub</a>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <h3>Direct Contact</h3>
+                            <a href="mailto:dhruvmalhotra2025@gmail.com" class="email-link">
+                                <span class="icon">📧</span>
+                                dhruvmalhotra2025@gmail.com
+                            </a>
+                        </div>
+                        <div class="contact-item">
+                            <h3>Connect With Me</h3>
+                            <div class="social-links">
+                                <a href="https://www.linkedin.com/in/drewmalhotra/" target="_blank" class="social-link-item">
+                                    <span class="icon">💼</span>
+                                    LinkedIn
+                                </a>
+                                <a href="https://github.com/d-malhotra2020" target="_blank" class="social-link-item">
+                                    <span class="icon">🔗</span>
+                                    GitHub
+                                </a>
+                                <a href="Documents/Dhruv_malhotra_resume.pdf" target="_blank" class="social-link-item">
+                                    <span class="icon">📄</span>
+                                    Resume
+                                </a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <h3>Response Time</h3>
+                            <p class="response-info">I typically respond to messages within 24 hours.</p>
                         </div>
                     </div>
                 </div>

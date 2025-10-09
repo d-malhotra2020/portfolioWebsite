@@ -109,4 +109,106 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Contact form handling
+    const contactForm = document.getElementById('contactForm');
+    const formSuccess = document.getElementById('formSuccess');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(contactForm);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
+            
+            // Simple form validation
+            if (!name || !email || !subject || !message) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            
+            // Simulate form submission (in real implementation, you'd send to a server)
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            
+            // Show loading state
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Hide form and show success message
+                contactForm.style.display = 'none';
+                formSuccess.style.display = 'block';
+                
+                // Reset form after 5 seconds
+                setTimeout(() => {
+                    contactForm.style.display = 'flex';
+                    formSuccess.style.display = 'none';
+                    contactForm.reset();
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }, 5000);
+            }, 2000);
+        });
+    }
+
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    
+    // Check for saved theme preference or default to 'dark'
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    if (currentTheme === 'light') {
+        body.classList.add('light-theme');
+        themeToggle.textContent = '☀️';
+    }
+    
+    themeToggle.addEventListener('click', function() {
+        body.classList.toggle('light-theme');
+        
+        if (body.classList.contains('light-theme')) {
+            themeToggle.textContent = '☀️';
+            localStorage.setItem('theme', 'light');
+        } else {
+            themeToggle.textContent = '🌙';
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+
+    // Skill bars animation
+    function animateSkillBars() {
+        const skillFills = document.querySelectorAll('.skill-fill');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const skillFill = entry.target;
+                    const width = skillFill.getAttribute('data-width');
+                    
+                    // Trigger animation
+                    setTimeout(() => {
+                        skillFill.style.width = width + '%';
+                        skillFill.classList.add('animated');
+                    }, 200);
+                    
+                    // Stop observing once animated
+                    observer.unobserve(skillFill);
+                }
+            });
+        }, {
+            threshold: 0.5
+        });
+
+        skillFills.forEach(skillFill => {
+            observer.observe(skillFill);
+        });
+    }
+
+    // Initialize skill bar animations
+    animateSkillBars();
 });
