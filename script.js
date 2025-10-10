@@ -175,6 +175,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentTheme === 'light') {
         body.classList.add('light-theme');
         themeToggle.textContent = '☀️';
+        themeToggle.setAttribute('title', 'Switch to Dark Mode');
+    } else {
+        themeToggle.textContent = '🌙';
+        themeToggle.setAttribute('title', 'Switch to Light Mode');
     }
     
     themeToggle.addEventListener('click', function() {
@@ -182,10 +186,14 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (body.classList.contains('light-theme')) {
             themeToggle.textContent = '☀️';
+            themeToggle.setAttribute('title', 'Switch to Dark Mode');
             localStorage.setItem('theme', 'light');
+            console.log('Switched to light theme');
         } else {
             themeToggle.textContent = '🌙';
+            themeToggle.setAttribute('title', 'Switch to Light Mode');
             localStorage.setItem('theme', 'dark');
+            console.log('Switched to dark theme');
         }
     });
 
