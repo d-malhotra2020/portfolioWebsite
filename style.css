@@ -167,12 +167,13 @@ body.light-theme .response-info {
 .content-container {
     max-width: 1200px;
     width: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.85);
     padding: 3rem;
     border-radius: 10px;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
     color: white;
     margin: 0 auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 /* Hero Section */
@@ -183,6 +184,11 @@ body.light-theme .response-info {
 .hero-content {
     max-width: 800px;
     margin: 0 auto;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 3rem 2rem;
+    border-radius: 15px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
 .hero-content h1 {
@@ -632,6 +638,8 @@ video {
     transform: translate(-50%, -50%);
     z-index: -1;
     object-fit: cover;
+    opacity: 0.7; /* Reduce video opacity to make text more readable */
+    filter: brightness(0.6) blur(1px); /* Darken and slightly blur video */
 }
 
 /* Responsive Design */
