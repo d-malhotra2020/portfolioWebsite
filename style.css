@@ -182,7 +182,7 @@ body.light-theme .video-container::after {
     background: rgba(0, 0, 0, 0.85);
     padding: 3rem;
     border-radius: 10px;
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(8px);
     color: white;
     margin: 0 auto;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -199,7 +199,7 @@ body.light-theme .video-container::after {
     background: rgba(0, 0, 0, 0.8);
     padding: 3rem 2rem;
     border-radius: 15px;
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(8px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
@@ -650,8 +650,7 @@ video {
     transform: translate(-50%, -50%);
     z-index: -1;
     object-fit: cover;
-    opacity: 0.7; /* Reduce video opacity to make text more readable */
-    filter: brightness(0.6) blur(1px); /* Darken and slightly blur video */
+    opacity: 0.5; /* Reduce opacity instead of using heavy filters */
 }
 
 /* Responsive Design */
