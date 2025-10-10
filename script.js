@@ -182,19 +182,34 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     themeToggle.addEventListener('click', function() {
-        body.classList.toggle('light-theme');
+        // Add switching animation
+        themeToggle.classList.add('switching');
         
-        if (body.classList.contains('light-theme')) {
-            themeToggle.textContent = '☀️';
-            themeToggle.setAttribute('title', 'Switch to Dark Mode');
-            localStorage.setItem('theme', 'light');
-            console.log('Switched to light theme');
-        } else {
-            themeToggle.textContent = '🌙';
-            themeToggle.setAttribute('title', 'Switch to Light Mode');
-            localStorage.setItem('theme', 'dark');
-            console.log('Switched to dark theme');
-        }
+        // Prevent multiple clicks during animation
+        themeToggle.disabled = true;
+        
+        setTimeout(() => {
+            body.classList.toggle('light-theme');
+            
+            if (body.classList.contains('light-theme')) {
+                themeToggle.textContent = '☀️';
+                themeToggle.setAttribute('title', 'Switch to Dark Mode');
+                localStorage.setItem('theme', 'light');
+                console.log('Switched to light theme');
+                
+            } else {
+                themeToggle.textContent = '🌙';
+                themeToggle.setAttribute('title', 'Switch to Light Mode');
+                localStorage.setItem('theme', 'dark');
+                console.log('Switched to dark theme');
+            }
+            
+            // Remove animation class and re-enable button
+            setTimeout(() => {
+                themeToggle.classList.remove('switching');
+                themeToggle.disabled = false;
+            }, 200);
+        }, 150);
     });
 
     // Skill bars animation
@@ -228,4 +243,94 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize skill bar animations
     animateSkillBars();
+
+    // Project filtering functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const filter = this.getAttribute('data-filter');
+
+            // Update active button
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+
+            // Filter projects
+            projectCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                
+                if (filter === 'all' || category === filter) {
+                    card.classList.remove('hidden');
+                    card.style.display = 'block';
+                } else {
+                    card.classList.add('hidden');
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Scroll animations with performance optimization
+    const observerOptions = {
+        threshold: 0.15,
+        rootMargin: '0px 0px -80px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Stop observing once animated to improve performance
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Observe all elements with animation classes
+    const animatedElements = document.querySelectorAll(
+        '.fade-in, .slide-in-left, .slide-in-right, .scale-in, .stagger-animation'
+    );
+
+    animatedElements.forEach(el => {
+        observer.observe(el);
+    });
+
+    // Hero section should animate immediately on page load
+    const heroContent = document.querySelector('.hero-content');
+    if (heroContent) {
+        setTimeout(() => {
+            heroContent.classList.add('visible');
+        }, 500);
+    }
 });
+
+// Timeline expandable details functionality
+function toggleTimelineDetails(button) {
+    const timelineContent = button.closest('.timeline-content');
+    const details = timelineContent.querySelector('.timeline-details');
+    const expandText = button.querySelector('.expand-text');
+    const isExpanded = button.classList.contains('expanded');
+    
+    if (isExpanded) {
+        // Collapse
+        details.style.display = 'none';
+        button.classList.remove('expanded');
+        details.classList.remove('expanded');
+        expandText.textContent = 'View Details';
+    } else {
+        // Expand
+        details.style.display = 'block';
+        button.classList.add('expanded');
+        details.classList.add('expanded');
+        expandText.textContent = 'Hide Details';
+        
+        // Smooth scroll animation
+        setTimeout(() => {
+            details.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'nearest' 
+            });
+        }, 100);
+    }
+}
