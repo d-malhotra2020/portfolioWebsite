@@ -176,9 +176,11 @@ document.addEventListener('DOMContentLoaded', function() {
         body.classList.add('light-theme');
         themeToggle.textContent = '☀️';
         themeToggle.setAttribute('title', 'Switch to Dark Mode');
+        updateGitHubStatsTheme('light');
     } else {
         themeToggle.textContent = '🌙';
         themeToggle.setAttribute('title', 'Switch to Light Mode');
+        updateGitHubStatsTheme('dark');
     }
     
     themeToggle.addEventListener('click', function() {
@@ -195,12 +197,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 themeToggle.textContent = '☀️';
                 themeToggle.setAttribute('title', 'Switch to Dark Mode');
                 localStorage.setItem('theme', 'light');
+                updateGitHubStatsTheme('light');
                 console.log('Switched to light theme');
                 
             } else {
                 themeToggle.textContent = '🌙';
                 themeToggle.setAttribute('title', 'Switch to Light Mode');
                 localStorage.setItem('theme', 'dark');
+                updateGitHubStatsTheme('dark');
                 console.log('Switched to dark theme');
             }
             
@@ -333,4 +337,105 @@ function toggleTimelineDetails(button) {
             });
         }, 100);
     }
+}
+
+// GitHub stats theme updater with fallbacks
+function updateGitHubStatsTheme(theme) {
+    const username = 'd-malhotra2020';
+    const accentColor = '4CAF50';
+    const lightAccentColor = '2E7D32';
+    
+    // Get all GitHub stat images
+    const githubHeatmap = document.querySelector('.github-heatmap');
+    const githubStreak = document.querySelector('.github-streak');
+    const githubLanguages = document.querySelector('.github-languages');
+    
+    if (theme === 'light') {
+        // Light theme URLs with better parameters
+        if (githubHeatmap) {
+            githubHeatmap.src = `https://ghchart.rshah.org/${lightAccentColor}/${username}`;
+            githubHeatmap.onerror = () => handleImageError(githubHeatmap, 'heatmap');
+        }
+        if (githubStreak) {
+            // Using a more reliable streak service
+            githubStreak.src = `https://streak-stats.demolab.com/?user=${username}&theme=default&background=ffffff&stroke=${lightAccentColor}&ring=${lightAccentColor}&fire=${lightAccentColor}&currStreakLabel=333333&sideLabels=333333&currStreakNum=${lightAccentColor}&sideNums=${lightAccentColor}&dates=666666`;
+            githubStreak.onerror = () => handleImageError(githubStreak, 'streak');
+        }
+        if (githubLanguages) {
+            githubLanguages.src = `https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&layout=compact&theme=default&hide_border=false&bg_color=ffffff&text_color=333333&title_color=${lightAccentColor}&border_color=${lightAccentColor}&cache_seconds=86400`;
+            githubLanguages.onerror = () => handleImageError(githubLanguages, 'languages');
+        }
+    } else {
+        // Dark theme URLs with better parameters
+        if (githubHeatmap) {
+            githubHeatmap.src = `https://ghchart.rshah.org/${accentColor}/${username}`;
+            githubHeatmap.onerror = () => handleImageError(githubHeatmap, 'heatmap');
+        }
+        if (githubStreak) {
+            // Using a more reliable streak service
+            githubStreak.src = `https://streak-stats.demolab.com/?user=${username}&theme=dark&background=0d1117&stroke=${accentColor}&ring=${accentColor}&fire=${accentColor}&currStreakLabel=ffffff&sideLabels=ffffff&currStreakNum=${accentColor}&sideNums=${accentColor}&dates=cccccc`;
+            githubStreak.onerror = () => handleImageError(githubStreak, 'streak');
+        }
+        if (githubLanguages) {
+            githubLanguages.src = `https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&layout=compact&theme=dark&hide_border=false&bg_color=0d1117&text_color=ffffff&title_color=${accentColor}&border_color=${accentColor}&cache_seconds=86400`;
+            githubLanguages.onerror = () => handleImageError(githubLanguages, 'languages');
+        }
+    }
+}
+
+// Handle image loading errors with fallbacks
+function handleImageError(img, type) {
+    const container = img.parentElement;
+    const theme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
+    
+    // Remove broken image
+    img.style.display = 'none';
+    
+    // Create fallback content
+    let fallbackContent = '';
+    
+    switch (type) {
+        case 'heatmap':
+            fallbackContent = `
+                <div class="github-fallback">
+                    <div class="fallback-icon">📊</div>
+                    <div class="fallback-text">
+                        <h5>GitHub Activity</h5>
+                        <p>Visit my <a href="https://github.com/d-malhotra2020" target="_blank">GitHub profile</a> to see my contribution history</p>
+                    </div>
+                </div>
+            `;
+            break;
+        case 'streak':
+            fallbackContent = `
+                <div class="github-fallback">
+                    <div class="fallback-icon">🔥</div>
+                    <div class="fallback-text">
+                        <h5>Coding Consistency</h5>
+                        <p>Regular contributor maintaining consistent development activity</p>
+                        <p>Committed to continuous learning and improvement</p>
+                    </div>
+                </div>
+            `;
+            break;
+        case 'languages':
+            fallbackContent = `
+                <div class="github-fallback">
+                    <div class="fallback-icon">💻</div>
+                    <div class="fallback-text">
+                        <h5>Programming Languages</h5>
+                        <div class="fallback-languages">
+                            <span class="lang-tag">Python</span>
+                            <span class="lang-tag">JavaScript</span>
+                            <span class="lang-tag">HTML/CSS</span>
+                            <span class="lang-tag">Java</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            break;
+    }
+    
+    container.innerHTML = fallbackContent;
+    container.classList.add('fallback-active');
 }
