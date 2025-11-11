@@ -80,28 +80,29 @@ body, html {
 
 /* Code Syntax Highlighting */
 .code-keyword {
-    color: var(--color-keyword);
+    color: #ff79c6 !important;
     font-weight: 600;
+    text-shadow: 0 0 5px rgba(255, 121, 198, 0.3);
 }
 
 .code-string {
-    color: var(--color-string);
+    color: #f1fa8c !important;
     font-weight: 400;
 }
 
 .code-function {
-    color: var(--color-function);
+    color: #50fa7b !important;
     font-weight: 500;
 }
 
 .code-comment {
-    color: var(--color-comment);
+    color: #6272a4 !important;
     font-style: italic;
     font-weight: 400;
 }
 
 .code-bracket {
-    color: var(--color-bracket);
+    color: #8be9fd !important;
     font-weight: 600;
 }
 
@@ -509,12 +510,24 @@ body.light-theme .loader-subtext {
 }
 
 /* Light Theme Code Syntax Colors */
-body.light-theme {
-    --color-keyword: #d63384;
-    --color-string: #198754;
-    --color-function: #0d6efd;
-    --color-comment: #6c757d;
-    --color-bracket: #fd7e14;
+body.light-theme .code-keyword {
+    color: #d63384 !important;
+}
+
+body.light-theme .code-string {
+    color: #198754 !important;
+}
+
+body.light-theme .code-function {
+    color: #0d6efd !important;
+}
+
+body.light-theme .code-comment {
+    color: #6c757d !important;
+}
+
+body.light-theme .code-bracket {
+    color: #fd7e14 !important;
 }
 
 body.light-theme .code-block-header {
@@ -692,6 +705,15 @@ body.light-theme .social-link-item:hover {
     font-size: 3.5rem;
     margin-bottom: 1rem;
     color: white;
+    font-family: var(--font-mono);
+    line-height: 1.2;
+}
+
+.hero-content h1 .code-keyword,
+.hero-content h1 .code-string,
+.hero-content h1 .code-function,
+.hero-content h1 .code-bracket {
+    font-family: var(--font-mono);
 }
 
 .hero-subtitle {
