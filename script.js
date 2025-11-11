@@ -1,4 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Page loader
+    const pageLoader = document.getElementById('pageLoader');
+    
+    // Hide loader after page loads
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            pageLoader.classList.add('hidden');
+        }, 800);
+    });
+    
+    // Fallback: hide loader after 3 seconds if load event doesn't fire
+    setTimeout(() => {
+        pageLoader.classList.add('hidden');
+    }, 3000);
     // Video carousel functionality
     var videoPlayer = document.getElementById('videoPlayer');
     var videos = ['VideoFiles/rocket_launch.mp4', 'VideoFiles/satellite.mp4', 'VideoFiles/CIA.mp4',
@@ -85,8 +99,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Navigation highlighting on scroll
+    // Scroll progress indicator and navigation highlighting
+    const scrollProgress = document.getElementById('scrollProgress');
+    
     window.addEventListener('scroll', function() {
+        // Update scroll progress
+        const scrollTop = window.pageYOffset;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        scrollProgress.style.width = scrollPercent + '%';
+        
+        // Navigation highlighting
         const sections = document.querySelectorAll('.section');
         const scrollPos = window.scrollY + 100;
 
@@ -108,6 +131,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
+        
+        // Parallax effect for video background
+        const video = document.getElementById('videoPlayer');
+        if (video) {
+            const scrolled = window.pageYOffset;
+            const parallax = scrolled * 0.5;
+            video.style.transform = `translate(-50%, -50%) translateY(${parallax}px)`;
+        }
     });
 
     // Contact form handling
@@ -307,6 +338,9 @@ document.addEventListener('DOMContentLoaded', function() {
             heroContent.classList.add('visible');
         }, 500);
     }
+
+    // Initialize typing animation
+    initTypeWriter();
 });
 
 // Timeline expandable details functionality
@@ -438,4 +472,70 @@ function handleImageError(img, type) {
     
     container.innerHTML = fallbackContent;
     container.classList.add('fallback-active');
+}
+
+// Typing animation for hero subtitle
+function initTypeWriter() {
+    const typedTextElement = document.getElementById('typed-text');
+    const cursor = document.querySelector('.typing-cursor');
+    
+    if (!typedTextElement) return;
+    
+    const phrases = [
+        'Software Developer & Problem Solver 🚀',
+        'Full-Stack Engineer 💻',
+        'AI/ML Enthusiast 🤖',
+        'Cloud Solutions Architect ☁️',
+        'Python & JavaScript Expert 🐍',
+        'Test Automation Specialist 🧪'
+    ];
+    
+    let currentPhraseIndex = 0;
+    let currentCharIndex = 0;
+    let isDeleting = false;
+    let isWaiting = false;
+    
+    function typeWriter() {
+        const currentPhrase = phrases[currentPhraseIndex];
+        
+        if (isWaiting) {
+            // Wait period between phrases
+            setTimeout(() => {
+                isWaiting = false;
+                isDeleting = true;
+                typeWriter();
+            }, 2000);
+            return;
+        }
+        
+        if (!isDeleting) {
+            // Typing forward
+            if (currentCharIndex < currentPhrase.length) {
+                typedTextElement.textContent = currentPhrase.substring(0, currentCharIndex + 1);
+                currentCharIndex++;
+                setTimeout(typeWriter, 50 + Math.random() * 50); // Variable speed for natural feel
+            } else {
+                // Finished typing current phrase
+                isWaiting = true;
+                typeWriter();
+            }
+        } else {
+            // Deleting backwards
+            if (currentCharIndex > 0) {
+                typedTextElement.textContent = currentPhrase.substring(0, currentCharIndex - 1);
+                currentCharIndex--;
+                setTimeout(typeWriter, 30); // Faster deletion
+            } else {
+                // Finished deleting, move to next phrase
+                isDeleting = false;
+                currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+                setTimeout(typeWriter, 500); // Brief pause before starting next phrase
+            }
+        }
+    }
+    
+    // Start the animation after a short delay to allow page to load
+    setTimeout(() => {
+        typeWriter();
+    }, 1000);
 }
