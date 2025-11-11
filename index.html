@@ -34,7 +34,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
     
     <!-- Structured Data -->
@@ -102,9 +102,9 @@
                     <img src="ImageFiles/profilePhoto.jpeg" alt="Dhruv (Drew) Malhotra" class="profile-image" />
                 </div>
                 <div class="hero-text">
-                    <h1>Dhruv (Drew) Malhotra 👨‍💻</h1>
+                    <h1><span class="code-keyword">const</span> developer = <span class="code-string">"Dhruv (Drew) Malhotra"</span> 👨‍💻</h1>
                     <p class="hero-subtitle">
-                        <span id="typed-text"></span>
+                        <span class="code-comment">// </span><span id="typed-text"></span>
                         <span class="typing-cursor">|</span>
                     </p>
                 </div>
@@ -123,7 +123,15 @@
     <!-- About Section -->
     <section id="about" class="section">
         <div class="content-container fade-in">
-            <h2>About Me</h2>
+            <div class="code-block-header">
+                <div class="window-controls">
+                    <div class="control close"></div>
+                    <div class="control minimize"></div>
+                    <div class="control maximize"></div>
+                </div>
+                <span class="code-filename">about.js</span>
+            </div>
+            <h2><span class="code-keyword">function</span> <span class="code-function">getAboutMe</span>() <span class="code-bracket">{</span></h2>
             <div class="about-content">
                 <p class="slide-in-left">Hello! I'm Dhruv (you can call me Drew if that's easier to pronounce), a passionate software developer who loves creating innovative solutions and tackling complex problems. I enjoy working with cutting-edge technologies and continuously learning new skills.</p>
                 <p class="slide-in-right">Currently, I'm focused on building full-stack applications and exploring the latest trends in software development. I believe in writing clean, efficient code and creating user experiences that make a difference.</p>
@@ -183,6 +191,9 @@
                             View Full GitHub Profile
                         </a>
                     </div>
+                </div>
+                <div class="code-closing">
+                    <span class="code-bracket">}</span> <span class="code-comment">// End getAboutMe()</span>
                 </div>
             </div>
         </div>

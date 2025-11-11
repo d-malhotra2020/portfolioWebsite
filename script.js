@@ -482,12 +482,14 @@ function initTypeWriter() {
     if (!typedTextElement) return;
     
     const phrases = [
-        'Software Developer & Problem Solver 🚀',
-        'Full-Stack Engineer 💻',
-        'AI/ML Enthusiast 🤖',
-        'Cloud Solutions Architect ☁️',
-        'Python & JavaScript Expert 🐍',
-        'Test Automation Specialist 🧪'
+        'specializes in full-stack development',
+        'builds scalable web applications',
+        'optimizes system performance',
+        'implements AI/ML solutions',
+        'architects cloud infrastructure',
+        'automates testing pipelines',
+        'debugs complex problems',
+        'codes in Python & JavaScript'
     ];
     
     let currentPhraseIndex = 0;
