@@ -63,7 +63,7 @@
     }
     </script>
 </head>
-<body>
+<body data-theme="dracula">
 
 <!-- Loading Screen -->
 <div class="page-loader" id="pageLoader">
@@ -85,7 +85,16 @@
         <a href="#projects" class="nav-link">Projects</a>
         <a href="#skills" class="nav-link">Skills</a>
         <a href="#contact" class="nav-link">Contact</a>
-        <button class="theme-toggle" id="themeToggle">🌙</button>
+        <div class="theme-controls">
+            <select class="theme-selector" id="themeSelector">
+                <option value="dracula">🧛 Dracula</option>
+                <option value="monokai">🌙 Monokai</option>
+                <option value="github">☀️ GitHub</option>
+                <option value="vscode">💙 VS Code</option>
+                <option value="sublime">🌊 Sublime</option>
+            </select>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+        </div>
     </div>
 </nav>
 
@@ -93,6 +102,12 @@
     <video autoplay muted playsinline id="videoPlayer">
         Your browser does not support the video tag.
     </video>
+    
+    <!-- Floating Code Elements -->
+    <div class="floating-code-bg" id="floatingCodeBg"></div>
+    
+    <!-- Particle System -->
+    <canvas class="particle-canvas" id="particleCanvas"></canvas>
 
     <!-- Hero Section -->
     <section id="home" class="section hero-section">

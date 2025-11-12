@@ -4,17 +4,124 @@
     box-sizing: border-box;
 }
 
-/* Code Font Variables */
+/* Code Font Variables & Theme System */
 :root {
     --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-    
-    /* Code Syntax Colors */
+}
+
+/* Dracula Theme (Default) */
+body[data-theme="dracula"] {
+    --bg-primary: #282a36;
+    --bg-secondary: #44475a;
+    --text-primary: #f8f8f2;
+    --text-secondary: #6272a4;
     --color-keyword: #ff79c6;
     --color-string: #f1fa8c;
     --color-function: #50fa7b;
     --color-comment: #6272a4;
     --color-bracket: #8be9fd;
+    --accent: #bd93f9;
+    background: radial-gradient(circle at 20% 80%, #ff79c6 0%, transparent 50%), 
+                radial-gradient(circle at 80% 20%, #bd93f9 0%, transparent 50%),
+                linear-gradient(135deg, #282a36 0%, #1a1b26 100%);
+}
+
+/* Monokai Theme */
+body[data-theme="monokai"] {
+    --bg-primary: #272822;
+    --bg-secondary: #3e3d32;
+    --text-primary: #f8f8f2;
+    --text-secondary: #75715e;
+    --color-keyword: #f92672;
+    --color-string: #e6db74;
+    --color-function: #a6e22e;
+    --color-comment: #75715e;
+    --color-bracket: #66d9ef;
+    --accent: #fd971f;
+    background: radial-gradient(circle at 80% 20%, #f92672 0%, transparent 60%),
+                radial-gradient(circle at 20% 80%, #a6e22e 0%, transparent 60%),
+                linear-gradient(45deg, #272822 0%, #1a1a14 100%);
+}
+
+/* GitHub Light Theme */
+body[data-theme="github"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f6f8fa;
+    --text-primary: #24292e;
+    --text-secondary: #586069;
+    --color-keyword: #d73a49;
+    --color-string: #032f62;
+    --color-function: #6f42c1;
+    --color-comment: #6a737d;
+    --color-bracket: #005cc5;
+    --accent: #0366d6;
+    background: 
+        radial-gradient(circle at 10% 20%, rgba(3, 102, 214, 0.25) 0%, transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(40, 167, 69, 0.2) 0%, transparent 35%),
+        radial-gradient(circle at 70% 10%, rgba(111, 66, 193, 0.15) 0%, transparent 25%),
+        radial-gradient(circle at 30% 90%, rgba(215, 58, 73, 0.12) 0%, transparent 30%),
+        radial-gradient(circle at 50% 50%, rgba(0, 92, 197, 0.08) 0%, transparent 50%),
+        conic-gradient(from 0deg at 25% 25%, rgba(3, 102, 214, 0.1) 0deg, transparent 120deg),
+        conic-gradient(from 180deg at 75% 75%, rgba(40, 167, 69, 0.08) 0deg, transparent 120deg),
+        linear-gradient(135deg, #ffffff 0%, #f8fbff 25%, #e8f4fd 50%, #dbeafe 75%, #f0f6ff 100%);
+    background-attachment: fixed;
+    animation: githubBackgroundPulse 8s ease-in-out infinite alternate;
+}
+
+/* Hide video background for light themes */
+body[data-theme="github"] video {
+    display: none;
+}
+
+/* GitHub theme animation */
+@keyframes githubBackgroundPulse {
+    0% {
+        background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+        filter: brightness(1) hue-rotate(0deg);
+    }
+    50% {
+        background-size: 110% 110%, 110% 110%, 105% 105%, 108% 108%, 115% 115%, 100% 100%, 100% 100%, 100% 100%;
+        filter: brightness(1.05) hue-rotate(2deg);
+    }
+    100% {
+        background-size: 105% 105%, 105% 105%, 100% 100%, 103% 103%, 110% 110%, 100% 100%, 100% 100%, 100% 100%;
+        filter: brightness(1.02) hue-rotate(-1deg);
+    }
+}
+
+/* VS Code Dark Theme */
+body[data-theme="vscode"] {
+    --bg-primary: #1e1e1e;
+    --bg-secondary: #2d2d30;
+    --text-primary: #d4d4d4;
+    --text-secondary: #808080;
+    --color-keyword: #569cd6;
+    --color-string: #ce9178;
+    --color-function: #dcdcaa;
+    --color-comment: #6a9955;
+    --color-bracket: #da70d6;
+    --accent: #007acc;
+    background: radial-gradient(circle at 70% 30%, #007acc 0%, transparent 50%),
+                radial-gradient(circle at 30% 70%, #569cd6 0%, transparent 50%),
+                linear-gradient(225deg, #1e1e1e 0%, #0e0e0e 100%);
+}
+
+/* Sublime Text Theme */
+body[data-theme="sublime"] {
+    --bg-primary: #263238;
+    --bg-secondary: #37474f;
+    --text-primary: #eeffff;
+    --text-secondary: #546e7a;
+    --color-keyword: #c792ea;
+    --color-string: #c3e88d;
+    --color-function: #82aaff;
+    --color-comment: #546e7a;
+    --color-bracket: #89ddff;
+    --accent: #ff5722;
+    background: radial-gradient(circle at 25% 75%, #ff5722 0%, transparent 45%),
+                radial-gradient(circle at 75% 25%, #c792ea 0%, transparent 45%),
+                linear-gradient(135deg, #263238 0%, #1a252f 100%);
 }
 
 body, html {
@@ -23,7 +130,9 @@ body, html {
     font-family: var(--font-mono);
     scroll-behavior: smooth;
     overflow-x: hidden;
-    transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Loading Animation */
@@ -80,43 +189,81 @@ body, html {
 
 /* Code Syntax Highlighting */
 .code-keyword {
-    color: #ff79c6 !important;
+    color: var(--color-keyword) !important;
     font-weight: 600;
-    text-shadow: 0 0 5px rgba(255, 121, 198, 0.3);
+    text-shadow: 0 0 5px rgba(255, 121, 198, 0.2);
+    transition: all 0.3s ease;
 }
 
 .code-string {
-    color: #f1fa8c !important;
+    color: var(--color-string) !important;
     font-weight: 400;
+    transition: all 0.3s ease;
 }
 
 .code-function {
-    color: #50fa7b !important;
+    color: var(--color-function) !important;
     font-weight: 500;
+    transition: all 0.3s ease;
 }
 
 .code-comment {
-    color: #6272a4 !important;
+    color: var(--color-comment) !important;
     font-style: italic;
     font-weight: 400;
+    transition: all 0.3s ease;
 }
 
 .code-bracket {
-    color: #8be9fd !important;
+    color: var(--color-bracket) !important;
     font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* Theme Controls */
+.theme-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.theme-selector {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: 2px solid var(--accent, #4CAF50);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.theme-selector:hover {
+    background: var(--accent, #4CAF50);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.theme-selector option {
+    background: var(--bg-primary);
+    color: var(--text-primary);
 }
 
 /* Code Block Headers (VS Code style) */
 .code-block-header {
-    background: #2d2d2d;
+    background: var(--bg-primary);
     padding: 0.8rem 1rem;
     border-radius: 8px 8px 0 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #404040;
+    border-bottom: 1px solid var(--accent);
     font-family: var(--font-mono);
     font-size: 0.9rem;
+    color: var(--text-primary);
 }
 
 .window-controls {
@@ -143,7 +290,7 @@ body, html {
 }
 
 .code-filename {
-    color: #8be9fd;
+    color: var(--accent);
     font-weight: 500;
     font-size: 0.85rem;
 }
@@ -157,10 +304,330 @@ body, html {
 
 /* Content Container Adjustments for Code Blocks */
 .content-container {
-    border-radius: 0;
-    background: linear-gradient(135deg, rgba(33, 37, 41, 0.95), rgba(52, 58, 64, 0.95));
+    border-radius: 8px;
+    background: var(--bg-secondary);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--accent);
+    transition: all 0.4s ease;
+    color: var(--text-primary);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
+                0 0 0 1px var(--accent);
+}
+
+/* Theme-specific container enhancements */
+body[data-theme="dracula"] .content-container {
+    background: rgba(68, 71, 90, 0.8);
+    box-shadow: 0 8px 32px rgba(255, 121, 198, 0.2), 
+                0 0 20px rgba(189, 147, 249, 0.1);
+}
+
+body[data-theme="monokai"] .content-container {
+    background: rgba(62, 61, 50, 0.8);
+    box-shadow: 0 8px 32px rgba(249, 38, 114, 0.2), 
+                0 0 20px rgba(166, 226, 46, 0.1);
+}
+
+body[data-theme="github"] .content-container {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 251, 255, 0.95), rgba(227, 242, 253, 0.9));
+    box-shadow: 0 12px 40px rgba(3, 102, 214, 0.3), 
+                0 0 50px rgba(40, 167, 69, 0.2),
+                0 0 100px rgba(111, 66, 193, 0.15),
+                inset 0 2px 0 rgba(255, 255, 255, 0.9),
+                inset 0 -1px 0 rgba(3, 102, 214, 0.1);
+    border: 3px solid rgba(3, 102, 214, 0.4);
+    backdrop-filter: blur(20px);
+    animation: githubContainerGlow 6s ease-in-out infinite alternate;
+}
+
+/* GitHub container glow animation */
+@keyframes githubContainerGlow {
+    0% {
+        box-shadow: 0 12px 40px rgba(3, 102, 214, 0.3), 
+                    0 0 50px rgba(40, 167, 69, 0.2),
+                    0 0 100px rgba(111, 66, 193, 0.15),
+                    inset 0 2px 0 rgba(255, 255, 255, 0.9),
+                    inset 0 -1px 0 rgba(3, 102, 214, 0.1);
+    }
+    100% {
+        box-shadow: 0 15px 50px rgba(3, 102, 214, 0.4), 
+                    0 0 70px rgba(40, 167, 69, 0.3),
+                    0 0 120px rgba(111, 66, 193, 0.2),
+                    inset 0 3px 0 rgba(255, 255, 255, 0.95),
+                    inset 0 -2px 0 rgba(3, 102, 214, 0.15);
+    }
+}
+
+/* Additional GitHub theme enhancements */
+body[data-theme="github"] .hero-content {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.99), rgba(248, 251, 255, 0.97), rgba(240, 246, 255, 0.95)) !important;
+    box-shadow: 0 15px 50px rgba(3, 102, 214, 0.25), 
+                0 0 70px rgba(40, 167, 69, 0.15),
+                0 0 120px rgba(111, 66, 193, 0.1) !important;
+    border: 3px solid rgba(3, 102, 214, 0.3) !important;
+    backdrop-filter: blur(15px) !important;
+    animation: githubHeroGlow 7s ease-in-out infinite alternate;
+}
+
+/* Dark theme hero content styles */
+body[data-theme="dracula"] .hero-content {
+    background: rgba(40, 42, 54, 0.9) !important;
+    box-shadow: 0 15px 50px rgba(189, 147, 249, 0.3), 
+                0 0 70px rgba(80, 250, 123, 0.2),
+                0 0 120px rgba(255, 121, 198, 0.15) !important;
+    border: 2px solid rgba(189, 147, 249, 0.4) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+body[data-theme="monokai"] .hero-content {
+    background: rgba(39, 40, 34, 0.9) !important;
+    box-shadow: 0 15px 50px rgba(249, 38, 114, 0.3), 
+                0 0 70px rgba(166, 226, 46, 0.2),
+                0 0 120px rgba(253, 151, 31, 0.15) !important;
+    border: 2px solid rgba(249, 38, 114, 0.4) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+body[data-theme="vscode"] .hero-content {
+    background: rgba(30, 30, 30, 0.9) !important;
+    box-shadow: 0 15px 50px rgba(0, 122, 204, 0.3), 
+                0 0 70px rgba(86, 156, 214, 0.2),
+                0 0 120px rgba(220, 220, 170, 0.15) !important;
+    border: 2px solid rgba(0, 122, 204, 0.4) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+body[data-theme="sublime"] .hero-content {
+    background: rgba(38, 50, 56, 0.9) !important;
+    box-shadow: 0 15px 50px rgba(255, 87, 34, 0.3), 
+                0 0 70px rgba(199, 146, 234, 0.2),
+                0 0 120px rgba(128, 203, 196, 0.15) !important;
+    border: 2px solid rgba(255, 87, 34, 0.4) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+/* GitHub hero glow animation */
+@keyframes githubHeroGlow {
+    0% {
+        box-shadow: 0 15px 50px rgba(3, 102, 214, 0.25), 
+                    0 0 70px rgba(40, 167, 69, 0.15),
+                    0 0 120px rgba(111, 66, 193, 0.1);
+        transform: translateY(0px);
+    }
+    100% {
+        box-shadow: 0 20px 70px rgba(3, 102, 214, 0.35), 
+                    0 0 100px rgba(40, 167, 69, 0.25),
+                    0 0 150px rgba(111, 66, 193, 0.2);
+        transform: translateY(-3px);
+    }
+}
+
+body[data-theme="github"] .github-stat-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 251, 255, 0.95), rgba(246, 248, 250, 0.92));
+    border: 3px solid rgba(3, 102, 214, 0.5);
+    box-shadow: 0 12px 35px rgba(3, 102, 214, 0.25),
+                0 0 50px rgba(40, 167, 69, 0.2),
+                0 0 80px rgba(111, 66, 193, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(15px);
+    animation: githubCardPulse 4s ease-in-out infinite alternate;
+}
+
+/* GitHub card pulse animation */
+@keyframes githubCardPulse {
+    0% {
+        transform: translateY(0px) scale(1);
+        box-shadow: 0 12px 35px rgba(3, 102, 214, 0.25),
+                    0 0 50px rgba(40, 167, 69, 0.2),
+                    0 0 80px rgba(111, 66, 193, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+    100% {
+        transform: translateY(-2px) scale(1.01);
+        box-shadow: 0 15px 45px rgba(3, 102, 214, 0.3),
+                    0 0 60px rgba(40, 167, 69, 0.25),
+                    0 0 100px rgba(111, 66, 193, 0.15),
+                    inset 0 2px 0 rgba(255, 255, 255, 0.9);
+    }
+}
+
+body[data-theme="github"] .timeline-content {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 251, 255, 0.95), rgba(246, 248, 250, 0.92));
+    border: 3px solid rgba(3, 102, 214, 0.4);
+    box-shadow: 0 12px 35px rgba(3, 102, 214, 0.2),
+                0 0 50px rgba(40, 167, 69, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+}
+
+body[data-theme="github"] .project-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 251, 255, 0.95), rgba(246, 248, 250, 0.92));
+    border: 3px solid rgba(3, 102, 214, 0.4);
+    box-shadow: 0 12px 35px rgba(3, 102, 214, 0.2),
+                0 0 50px rgba(40, 167, 69, 0.15),
+                0 0 80px rgba(111, 66, 193, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    transition: all 0.4s ease;
+}
+
+body[data-theme="github"] .project-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(3, 102, 214, 0.3),
+                0 0 70px rgba(40, 167, 69, 0.2),
+                0 0 120px rgba(111, 66, 193, 0.15),
+                inset 0 2px 0 rgba(255, 255, 255, 0.9);
+    border-color: rgba(3, 102, 214, 0.6);
+}
+
+body[data-theme="vscode"] .content-container {
+    background: rgba(45, 45, 48, 0.8);
+    box-shadow: 0 8px 32px rgba(0, 122, 204, 0.2), 
+                0 0 20px rgba(86, 156, 214, 0.1);
+}
+
+body[data-theme="sublime"] .content-container {
+    background: rgba(55, 71, 79, 0.8);
+    box-shadow: 0 8px 32px rgba(255, 87, 34, 0.2), 
+                0 0 20px rgba(199, 146, 234, 0.1);
+}
+
+/* Floating Code Elements Background */
+.floating-code-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.floating-code {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-comment);
+    opacity: 0.3;
+    pointer-events: none;
+    animation: float 20s linear infinite;
+    white-space: nowrap;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.3;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Particle Canvas */
+.particle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.6;
+}
+
+/* Morphing Text Effect */
+.morphing-text {
+    background: linear-gradient(45deg, var(--accent), var(--color-function), var(--color-keyword));
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: morphGradient 3s ease-in-out infinite;
+}
+
+@keyframes morphGradient {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Theme Transition Animation */
+body {
+    animation: themeTransition 0.6s ease-in-out;
+}
+
+@keyframes themeTransition {
+    0% { 
+        opacity: 1; 
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.8; 
+        transform: scale(0.98);
+    }
+    100% { 
+        opacity: 1; 
+        transform: scale(1);
+    }
+}
+
+/* Accent Pulse Animation for Key Elements */
+.accent-pulse {
+    animation: accentPulse 2s ease-in-out infinite;
+}
+
+@keyframes accentPulse {
+    0%, 100% { 
+        box-shadow: 0 0 0 0 var(--accent);
+    }
+    50% { 
+        box-shadow: 0 0 0 20px transparent;
+    }
+}
+
+/* Add pulse to specific elements */
+.github-stat-card,
+.timeline-content,
+.project-card {
+    position: relative;
+}
+
+.github-stat-card::before,
+.timeline-content::before,
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--accent), var(--color-function));
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0.3;
+    animation: pulseGlow 3s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { 
+        opacity: 0.2;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.4;
+        transform: scale(1.02);
+    }
 }
 
 /* Selective smooth transitions for theme-sensitive elements only */
@@ -263,6 +730,44 @@ body, html {
     backdrop-filter: blur(10px);
     padding: 1rem 0;
     transition: all 0.3s ease;
+    border-bottom: 1px solid var(--bg-secondary);
+}
+
+/* Theme-based navbar backgrounds */
+body[data-theme="github"] .navbar {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 251, 255, 0.95), rgba(246, 248, 250, 0.92));
+    border-bottom: 3px solid var(--accent);
+    box-shadow: 0 8px 30px rgba(3, 102, 214, 0.2),
+                0 0 40px rgba(40, 167, 69, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    animation: githubNavbarGlow 5s ease-in-out infinite alternate;
+}
+
+/* GitHub navbar glow animation */
+@keyframes githubNavbarGlow {
+    0% {
+        box-shadow: 0 8px 30px rgba(3, 102, 214, 0.2),
+                    0 0 40px rgba(40, 167, 69, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+    100% {
+        box-shadow: 0 12px 40px rgba(3, 102, 214, 0.3),
+                    0 0 60px rgba(40, 167, 69, 0.15),
+                    inset 0 2px 0 rgba(255, 255, 255, 0.9);
+    }
+}
+
+body[data-theme="vscode"] .navbar {
+    background: rgba(30, 30, 30, 0.95);
+}
+
+body[data-theme="monokai"] .navbar {
+    background: rgba(39, 40, 34, 0.95);
+}
+
+body[data-theme="sublime"] .navbar {
+    background: rgba(38, 50, 56, 0.95);
 }
 
 .nav-container {
@@ -275,7 +780,7 @@ body, html {
 }
 
 .nav-link {
-    color: white;
+    color: var(--text-primary);
     text-decoration: none;
     font-weight: 500;
     transition: all 0.3s ease;
@@ -292,7 +797,8 @@ body, html {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(76, 175, 80, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.2;
     transition: left 0.5s ease;
 }
 
@@ -302,10 +808,10 @@ body, html {
 
 .nav-link:hover,
 .nav-link.active {
-    color: #4CAF50;
-    background: rgba(76, 175, 80, 0.1);
+    color: var(--accent);
+    background: var(--bg-secondary);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .theme-toggle {
@@ -689,15 +1195,41 @@ body.light-theme .social-link-item:hover {
     height: 180px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid #4CAF50;
-    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+    border: 4px solid var(--accent);
+    box-shadow: 0 8px 25px var(--accent);
     transition: all 0.3s ease;
 }
 
 .profile-image:hover {
     transform: scale(1.05);
-    box-shadow: 0 12px 35px rgba(76, 175, 80, 0.4);
-    border-color: #45a049;
+    box-shadow: 0 12px 35px var(--accent);
+    border-width: 6px;
+}
+
+/* Theme-specific profile image effects */
+body[data-theme="dracula"] .profile-image {
+    box-shadow: 0 8px 25px rgba(189, 147, 249, 0.4), 
+                0 0 30px rgba(255, 121, 198, 0.3);
+}
+
+body[data-theme="monokai"] .profile-image {
+    box-shadow: 0 8px 25px rgba(253, 151, 31, 0.4), 
+                0 0 30px rgba(249, 38, 114, 0.3);
+}
+
+body[data-theme="github"] .profile-image {
+    box-shadow: 0 8px 25px rgba(3, 102, 214, 0.4), 
+                0 0 30px rgba(40, 167, 69, 0.2);
+}
+
+body[data-theme="vscode"] .profile-image {
+    box-shadow: 0 8px 25px rgba(0, 122, 204, 0.4), 
+                0 0 30px rgba(86, 156, 214, 0.3);
+}
+
+body[data-theme="sublime"] .profile-image {
+    box-shadow: 0 8px 25px rgba(255, 87, 34, 0.4), 
+                0 0 30px rgba(199, 146, 234, 0.3);
 }
 
 .hero-text {
@@ -709,7 +1241,7 @@ body.light-theme .social-link-item:hover {
 .hero-content h1 {
     font-size: 3.5rem;
     margin-bottom: 1rem;
-    color: white;
+    color: var(--text-primary);
     font-family: var(--font-mono);
     line-height: 1.2;
 }
@@ -724,7 +1256,7 @@ body.light-theme .social-link-item:hover {
 .hero-subtitle {
     font-size: 1.5rem;
     margin-bottom: 0;
-    color: #ccc;
+    color: var(--text-secondary);
     min-height: 2rem;
     display: flex;
     align-items: center;
@@ -733,7 +1265,7 @@ body.light-theme .social-link-item:hover {
 
 /* Typing Animation */
 .typing-cursor {
-    color: #4CAF50;
+    color: var(--accent);
     animation: blink 1s infinite;
     font-weight: bold;
 }
@@ -853,7 +1385,13 @@ body.light-theme .social-link-item:hover {
 
 .highlight h3 {
     margin-bottom: 1rem;
-    color: #4CAF50;
+    color: var(--accent);
+}
+
+.highlight {
+    background: var(--bg-primary);
+    border: 1px solid var(--accent);
+    color: var(--text-primary);
 }
 
 /* Developer Activity Section */
@@ -871,7 +1409,7 @@ body.light-theme .social-link-item:hover {
 }
 
 .developer-activity h3 {
-    color: #4CAF50;
+    color: var(--accent);
     font-size: 2rem;
     margin-bottom: 1rem;
 }
@@ -879,7 +1417,7 @@ body.light-theme .social-link-item:hover {
 .developer-activity p {
     font-size: 1.1rem;
     margin-bottom: 2rem;
-    color: #ccc;
+    color: var(--text-secondary);
 }
 
 .github-stats-grid {
@@ -890,23 +1428,24 @@ body.light-theme .social-link-item:hover {
 }
 
 .github-stat-card {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-primary);
     padding: 1.5rem;
     border-radius: 12px;
-    border: 1px solid rgba(76, 175, 80, 0.2);
+    border: 1px solid var(--accent);
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     text-align: center;
+    color: var(--text-primary);
 }
 
 .github-stat-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2);
-    border-color: rgba(76, 175, 80, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-color: var(--accent);
 }
 
 .github-stat-card h4 {
-    color: #4CAF50;
+    color: var(--accent);
     font-size: 1.1rem;
     margin-bottom: 1rem;
     font-weight: 600;
@@ -1449,7 +1988,7 @@ h2 {
     font-size: 2.5rem;
     margin-bottom: 2rem;
     text-align: center;
-    color: white;
+    color: var(--text-primary);
 }
 
 .video-container {
@@ -1479,6 +2018,18 @@ video {
         flex-wrap: wrap;
         gap: 1rem;
         padding: 0 1rem;
+    }
+    
+    .theme-controls {
+        order: 3;
+        flex-basis: 100%;
+        justify-content: center;
+        margin-top: 0.5rem;
+    }
+    
+    .theme-selector {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
     }
     
     .hero-content h1 {
