@@ -36,7 +36,18 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-DNGHGRF5MM');
+        
+        // Exclude development/testing traffic
+        const isDev = window.location.hostname === 'localhost' || 
+                     window.location.hostname === '127.0.0.1' ||
+                     window.location.hostname.includes('localhost') ||
+                     window.location.port === '8000' ||
+                     window.location.search.includes('debug=true');
+        
+        gtag('config', 'G-DNGHGRF5MM', {
+            'send_page_view': !isDev,
+            'debug_mode': isDev
+        });
     </script>
     <link rel="apple-touch-icon" sizes="180x180" href="favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
@@ -85,6 +96,25 @@
 
 <!-- Scroll Progress Indicator -->
 <div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- Visitor Counter (Developer Only) -->
+<div class="visitor-counter" id="visitorCounter" style="display: none;">
+    <div class="visitor-stats">
+        <div class="stat-item">
+            <span class="stat-label">👥 Total Visitors</span>
+            <span class="stat-value" id="totalVisitors">-</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">🔄 Today</span>
+            <span class="stat-value" id="todayVisitors">-</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">👁️ Online Now</span>
+            <span class="stat-value" id="onlineNow">-</span>
+        </div>
+    </div>
+    <button class="close-stats" id="closeStats">×</button>
+</div>
 
 <nav class="navbar">
     <div class="nav-container">
@@ -138,7 +168,7 @@
                 <a href="https://github.com/d-malhotra2020" target="_blank" class="social-link">GitHub</a>
                 <a href="Documents/Dhruv_malhotra_resume.pdf" download="Dhruv_malhotra_resume.pdf" class="social-link">Resume</a>
             </div>
-            <a href="#about" class="cta-button">
+            <a href="#projects" class="cta-button">
                 <span>View My Work</span>
             </a>
         </div>

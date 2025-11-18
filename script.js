@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         pageLoader.classList.add('hidden');
     }, 3000);
+
+    // Developer-only visitor counter
+    initVisitorCounter();
     // Video carousel functionality
     var videoPlayer = document.getElementById('videoPlayer');
     var videos = ['VideoFiles/rocket_launch.mp4', 'VideoFiles/satellite.mp4', 'VideoFiles/CIA.mp4',
@@ -737,4 +740,121 @@ function initParticleSystem() {
             const accentColor = computedStyle.getPropertyValue('--accent') || '#4CAF50';
         }
     };
+}
+
+// Developer-only visitor counter functionality
+function initVisitorCounter() {
+    // Check for developer access - triggered by specific key combo or URL parameter
+    let isDevMode = false;
+    
+    // Check URL parameter
+    if (window.location.search.includes('dev=true') || window.location.search.includes('stats=true')) {
+        isDevMode = true;
+        showVisitorCounter();
+    }
+    
+    // Secret key combination: Ctrl+Shift+V
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.shiftKey && e.key === 'V') {
+            isDevMode = !isDevMode;
+            if (isDevMode) {
+                showVisitorCounter();
+            } else {
+                hideVisitorCounter();
+            }
+        }
+    });
+    
+    // Close button functionality
+    const closeBtn = document.getElementById('closeStats');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', hideVisitorCounter);
+    }
+    
+    // Update stats if visible
+    if (isDevMode) {
+        updateVisitorStats();
+        // Update every 30 seconds
+        setInterval(updateVisitorStats, 30000);
+    }
+}
+
+function showVisitorCounter() {
+    const counter = document.getElementById('visitorCounter');
+    if (counter) {
+        counter.style.display = 'block';
+        updateVisitorStats();
+        
+        // Update every 30 seconds while visible
+        if (!window.visitorStatsInterval) {
+            window.visitorStatsInterval = setInterval(updateVisitorStats, 30000);
+        }
+    }
+}
+
+function hideVisitorCounter() {
+    const counter = document.getElementById('visitorCounter');
+    if (counter) {
+        counter.style.display = 'none';
+    }
+    
+    // Stop updating
+    if (window.visitorStatsInterval) {
+        clearInterval(window.visitorStatsInterval);
+        window.visitorStatsInterval = null;
+    }
+}
+
+function updateVisitorStats() {
+    // Use localStorage to track basic stats
+    const now = new Date();
+    const today = now.toDateString();
+    
+    // Get or initialize stats
+    let stats = JSON.parse(localStorage.getItem('portfolioStats') || '{}');
+    
+    // Initialize if empty
+    if (!stats.totalVisitors) stats.totalVisitors = 0;
+    if (!stats.dailyVisits) stats.dailyVisits = {};
+    if (!stats.lastVisit) stats.lastVisit = null;
+    if (!stats.sessionStart) stats.sessionStart = now.toISOString();
+    
+    // Track if this is a new session (more than 30 minutes since last visit)
+    const lastVisit = stats.lastVisit ? new Date(stats.lastVisit) : null;
+    const thirtyMinutesAgo = new Date(now.getTime() - 30 * 60 * 1000);
+    
+    const isNewSession = !lastVisit || lastVisit < thirtyMinutesAgo;
+    
+    if (isNewSession) {
+        stats.totalVisitors++;
+        stats.dailyVisits[today] = (stats.dailyVisits[today] || 0) + 1;
+    }
+    
+    stats.lastVisit = now.toISOString();
+    
+    // Clean old daily data (keep only last 30 days)
+    const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    Object.keys(stats.dailyVisits).forEach(date => {
+        if (new Date(date) < thirtyDaysAgo) {
+            delete stats.dailyVisits[date];
+        }
+    });
+    
+    // Save updated stats
+    localStorage.setItem('portfolioStats', JSON.stringify(stats));
+    
+    // Update display
+    document.getElementById('totalVisitors').textContent = stats.totalVisitors.toLocaleString();
+    document.getElementById('todayVisitors').textContent = (stats.dailyVisits[today] || 0).toLocaleString();
+    
+    // Simulate "online now" (1 for current session)
+    const sessionDuration = Math.floor((now - new Date(stats.sessionStart)) / 1000 / 60);
+    document.getElementById('onlineNow').textContent = sessionDuration < 30 ? '1' : '0';
+    
+    // Try to get real stats from Google Analytics if available
+    if (typeof gtag !== 'undefined') {
+        // This would require GA4 Measurement Protocol or Reporting API
+        // For now, we'll use the localStorage approach
+        console.log('Google Analytics is available for enhanced tracking');
+    }
 }
