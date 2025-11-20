@@ -1,7 +1,103 @@
-import React from 'react'
-import { motion } from 'framer-motion'
+import React, { useRef } from 'react'
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { Download, ExternalLink, Github, Linkedin } from 'lucide-react'
 import TypeWriter from './TypeWriter'
+
+// Magnetic Button Component
+const MagneticButton = ({ children, className, ...props }) => {
+  const ref = useRef(null)
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+  const springX = useSpring(x, { stiffness: 150, damping: 15 })
+  const springY = useSpring(y, { stiffness: 150, damping: 15 })
+
+  const handleMouseMove = (e) => {
+    if (!ref.current) return
+    const rect = ref.current.getBoundingClientRect()
+    const centerX = rect.left + rect.width / 2
+    const centerY = rect.top + rect.height / 2
+    const distanceX = e.clientX - centerX
+    const distanceY = e.clientY - centerY
+    
+    // Magnetic effect - stronger pull when closer
+    const maxDistance = 100
+    const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY)
+    
+    if (distance < maxDistance) {
+      x.set(distanceX * 0.2)
+      y.set(distanceY * 0.2)
+    }
+  }
+
+  const handleMouseLeave = () => {
+    x.set(0)
+    y.set(0)
+  }
+
+  return (
+    <motion.button
+      ref={ref}
+      className={className}
+      style={{ x: springX, y: springY }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      {...props}
+    >
+      {children}
+    </motion.button>
+  )
+}
+
+// Magnetic Link Component
+const MagneticLink = ({ children, className, ...props }) => {
+  const ref = useRef(null)
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+  const springX = useSpring(x, { stiffness: 150, damping: 15 })
+  const springY = useSpring(y, { stiffness: 150, damping: 15 })
+  const rotateX = useTransform(y, [-10, 10], [5, -5])
+  const rotateY = useTransform(x, [-10, 10], [-5, 5])
+
+  const handleMouseMove = (e) => {
+    if (!ref.current) return
+    const rect = ref.current.getBoundingClientRect()
+    const centerX = rect.left + rect.width / 2
+    const centerY = rect.top + rect.height / 2
+    const distanceX = e.clientX - centerX
+    const distanceY = e.clientY - centerY
+    
+    x.set(distanceX * 0.15)
+    y.set(distanceY * 0.15)
+  }
+
+  const handleMouseLeave = () => {
+    x.set(0)
+    y.set(0)
+  }
+
+  return (
+    <motion.a
+      ref={ref}
+      className={className}
+      style={{ 
+        x: springX, 
+        y: springY,
+        rotateX,
+        rotateY,
+        transformStyle: 'preserve-3d'
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      whileHover={{ scale: 1.1, y: -3 }}
+      whileTap={{ scale: 0.95 }}
+      {...props}
+    >
+      {children}
+    </motion.a>
+  )
+}
 
 const Hero = () => {
   const scrollToProjects = () => {
@@ -25,11 +121,15 @@ const Hero = () => {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.6 }}
+            whileHover={{ scale: 1.1 }}
           >
-            <img 
+            <motion.img 
               src="/ImageFiles/profilePhoto.jpeg" 
               alt="Dhruv (Drew) Malhotra" 
               className="profile-image" 
+              whileHover={{
+                boxShadow: "0 20px 60px rgba(189, 147, 249, 0.5)"
+              }}
             />
           </motion.div>
           
@@ -72,46 +172,70 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.6 }}
         >
-          <a 
+          <MagneticLink
             href="https://www.linkedin.com/in/drewmalhotra/" 
             target="_blank" 
             rel="noopener noreferrer"
             className="social-link"
           >
-            <Linkedin size={20} />
+            <motion.div
+              whileHover={{ rotate: [0, -10, 10, -5, 5, 0] }}
+              transition={{ duration: 0.5 }}
+            >
+              <Linkedin size={20} />
+            </motion.div>
             LinkedIn
-          </a>
-          <a 
+          </MagneticLink>
+          <MagneticLink
             href="https://github.com/d-malhotra2020" 
             target="_blank" 
             rel="noopener noreferrer"
             className="social-link"
           >
-            <Github size={20} />
+            <motion.div
+              whileHover={{ rotate: [0, -10, 10, -5, 5, 0] }}
+              transition={{ duration: 0.5 }}
+            >
+              <Github size={20} />
+            </motion.div>
             GitHub
-          </a>
-          <a 
+          </MagneticLink>
+          <MagneticLink
             href="/Documents/Dhruv_malhotra_resume.pdf" 
             download="Dhruv_malhotra_resume.pdf" 
             className="social-link"
           >
-            <Download size={20} />
+            <motion.div
+              whileHover={{ y: [0, -2, 2, -1, 1, 0] }}
+              transition={{ duration: 0.4 }}
+            >
+              <Download size={20} />
+            </motion.div>
             Resume
-          </a>
+          </MagneticLink>
         </motion.div>
 
-        <motion.button 
-          className="cta-button"
-          onClick={scrollToProjects}
+        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 1.2, duration: 0.6 }}
-          whileHover={{ scale: 1.05, y: -3 }}
-          whileTap={{ scale: 0.95 }}
         >
-          <span>View My Work</span>
-          <ExternalLink size={20} />
-        </motion.button>
+          <MagneticButton 
+            className="cta-button"
+            onClick={scrollToProjects}
+          >
+            <span>View My Work</span>
+            <motion.div
+              whileHover={{ 
+                x: [0, 3, -3, 2, -2, 0],
+                rotate: [0, 5, -5, 3, -3, 0] 
+              }}
+              transition={{ duration: 0.6 }}
+            >
+              <ExternalLink size={20} />
+            </motion.div>
+          </MagneticButton>
+        </motion.div>
       </motion.div>
     </section>
   )
