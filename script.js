@@ -16,23 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Developer-only visitor counter
     initVisitorCounter();
-    // Video carousel functionality
-    var videoPlayer = document.getElementById('videoPlayer');
-    var videos = ['VideoFiles/rocket_launch.mp4', 'VideoFiles/satellite.mp4', 'VideoFiles/CIA.mp4',
-        'VideoFiles/hubble_telescope.mp4', 'VideoFiles/codingprogramming.mp4', 'VideoFiles/coding.mp4', 'VideoFiles/algorithm.mp4'];
-    var currentVideoIndex = 0;
-
-    videoPlayer.src = videos[currentVideoIndex];
-    videoPlayer.play();
-
-    videoPlayer.addEventListener('ended', function() {
-        currentVideoIndex++;
-        if (currentVideoIndex >= videos.length) {
-            currentVideoIndex = 0;
-        }
-        videoPlayer.src = videos[currentVideoIndex];
-        videoPlayer.play();
-    });
 
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('.nav-link');
@@ -134,14 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
-        
-        // Parallax effect for video background
-        const video = document.getElementById('videoPlayer');
-        if (video) {
-            const scrolled = window.pageYOffset;
-            const parallax = scrolled * 0.5;
-            video.style.transform = `translate(-50%, -50%) translateY(${parallax}px)`;
-        }
     });
 
     // Contact form handling
@@ -347,7 +322,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize advanced features
     initThemeSystem();
-    initFloatingCodeElements();
     initParticleSystem();
 });
 
@@ -588,61 +562,6 @@ function initThemeSystem() {
     }
 }
 
-// Floating Code Elements
-function initFloatingCodeElements() {
-    const floatingCodeBg = document.getElementById('floatingCodeBg');
-    if (!floatingCodeBg) return;
-    
-    const codeSnippets = [
-        'function developWebsite()',
-        'const skills = ["Python", "JavaScript"]',
-        'if (problem) { solve(); }',
-        'return "Hello World";',
-        'async/await fetchData()',
-        'class SoftwareDeveloper {}',
-        'import React from "react"',
-        'git commit -m "feature"',
-        'npm install dependencies',
-        'docker run --name app',
-        'SELECT * FROM experience',
-        'while(learning) { code(); }',
-        'export default Portfolio',
-        'console.log("Drew Malhotra")',
-        'try { innovate(); } catch(e)',
-        'let passion = "coding"',
-        'kubectl apply -f deploy.yml',
-        'pip install requirements',
-        'terraform apply --auto-approve'
-    ];
-    
-    function createFloatingCode() {
-        const codeElement = document.createElement('div');
-        codeElement.className = 'floating-code';
-        codeElement.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
-        
-        // Random positioning
-        codeElement.style.left = Math.random() * 100 + '%';
-        codeElement.style.animationDuration = (Math.random() * 10 + 15) + 's';
-        codeElement.style.animationDelay = Math.random() * 5 + 's';
-        
-        floatingCodeBg.appendChild(codeElement);
-        
-        // Remove after animation
-        setTimeout(() => {
-            if (codeElement.parentNode) {
-                codeElement.parentNode.removeChild(codeElement);
-            }
-        }, 25000);
-    }
-    
-    // Create floating elements periodically
-    setInterval(createFloatingCode, 3000);
-    
-    // Create initial elements
-    for (let i = 0; i < 5; i++) {
-        setTimeout(createFloatingCode, i * 1000);
-    }
-}
 
 // Particle System
 function initParticleSystem() {

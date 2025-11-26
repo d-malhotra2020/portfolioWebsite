@@ -1,6 +1,38 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
+
+// Simple Skill Bar Component
+const SimpleSkillBar = ({ skill, inView, delay = 0 }) => {
+  const skillBarVariants = {
+    hidden: { width: 0 },
+    visible: {
+      width: `${skill.level}%`,
+      transition: {
+        duration: 1.5,
+        delay: delay,
+        ease: "easeOut"
+      }
+    }
+  }
+
+  return (
+    <div className="skill-bar">
+      <div className="skill-info">
+        <span className="skill-name">{skill.name}</span>
+        <span className="skill-percentage">{skill.level}%</span>
+      </div>
+      <div className="skill-progress">
+        <motion.div
+          className="skill-fill"
+          variants={skillBarVariants}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+        />
+      </div>
+    </div>
+  )
+}
 
 const Skills = () => {
   const [ref, inView] = useInView({
@@ -140,21 +172,12 @@ const Skills = () => {
               
               <div className="skill-bars">
                 {category.skills.map((skill, skillIndex) => (
-                  <div key={skillIndex} className="skill-bar">
-                    <div className="skill-info">
-                      <span className="skill-name">{skill.name}</span>
-                      <span className="skill-percentage">{skill.level}%</span>
-                    </div>
-                    <div className="skill-progress">
-                      <motion.div
-                        className="skill-fill"
-                        custom={skill.level}
-                        variants={skillBarVariants}
-                        initial="hidden"
-                        animate={inView ? "visible" : "hidden"}
-                      />
-                    </div>
-                  </div>
+                  <SimpleSkillBar
+                    key={skillIndex}
+                    skill={skill}
+                    inView={inView}
+                    delay={skillIndex * 0.1}
+                  />
                 ))}
               </div>
             </motion.div>

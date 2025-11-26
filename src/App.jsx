@@ -10,9 +10,7 @@ import Contact from './components/Contact'
 import LoadingScreen from './components/LoadingScreen'
 import ScrollProgress from './components/ScrollProgress'
 import VisitorCounter from './components/VisitorCounter'
-import VideoBackground from './components/VideoBackground'
 import ParticleSystem from './components/ParticleSystem'
-import FloatingCode from './components/FloatingCode'
 import { useTheme } from './hooks/useTheme'
 import { useVisitorTracking } from './hooks/useVisitorTracking'
 import './styles/App.css'
@@ -50,9 +48,7 @@ function App() {
 
       <Navbar theme={theme} setTheme={setTheme} />
       
-      <VideoBackground />
       <ParticleSystem theme={theme} />
-      <FloatingCode theme={theme} />
       
       <main className="main-content">
         <Hero />

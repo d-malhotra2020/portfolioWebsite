@@ -5,6 +5,64 @@
   box-sizing: border-box;
 }
 
+/* Prevent flash of unstyled content */
+.skill-bar,
+.project-card,
+.timeline-content,
+.github-stat-card,
+.about-highlight {
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+/* Ensure skill bars have proper initial state */
+.skill-fill {
+  width: 0;
+  opacity: 0;
+}
+
+/* Smooth loading for images */
+img {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+}
+
+img.loaded,
+img[src]:not([src=""]) {
+  opacity: 1;
+}
+
+/* GitHub stats image containers */
+.heatmap-container,
+.stats-container,
+.streak-container,
+.languages-container {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.heatmap-container img,
+.stats-container img,
+.streak-container img,
+.languages-container img {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.heatmap-container img[src],
+.stats-container img[src],
+.streak-container img[src],
+.languages-container img[src] {
+  opacity: 1;
+}
+
 /* Font Variables */
 :root {
   --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
@@ -443,6 +501,9 @@ body, html {
 
 .profile-image-container {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-image {
@@ -459,6 +520,35 @@ body, html {
   transform: scale(1.05);
   box-shadow: 0 12px 35px var(--accent);
   border-width: 6px;
+}
+
+/* Orbiting Elements */
+.orbit-element {
+  position: absolute;
+  font-size: 1.5rem;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.orbit-1 {
+  top: -20px;
+  left: 50%;
+  transform-origin: 0 110px;
+  animation-delay: 0s;
+}
+
+.orbit-2 {
+  top: 50%;
+  right: -30px;
+  transform-origin: -80px 0;
+  animation-delay: -2s;
+}
+
+.orbit-3 {
+  bottom: -20px;
+  left: 30%;
+  transform-origin: 20px -90px;
+  animation-delay: -4s;
 }
 
 .hero-text {
@@ -1475,9 +1565,12 @@ h2 {
 .skill-fill {
   background: linear-gradient(90deg, var(--accent), var(--color-function));
   height: 100%;
+  width: 0;
   border-radius: 4px;
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
+  opacity: 1;
 }
 
 .skill-fill::after {
@@ -1489,6 +1582,49 @@ h2 {
   width: 100%;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
   animation: skillShimmer 2s ease-out;
+}
+
+/* Enhanced interactive skill bar effects */
+.skill-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.6), 
+    transparent
+  );
+  border-radius: 4px;
+}
+
+.skill-glow {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  height: calc(100% + 4px);
+  background: linear-gradient(90deg, var(--accent), var(--color-function));
+  border-radius: 6px;
+  filter: blur(8px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.skill-bar:hover .skill-progress {
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
+}
+
+.skill-bar:hover .skill-name {
+  font-weight: 600;
+  transition: font-weight 0.3s ease;
+}
+
+.skill-bar:hover .skill-percentage {
+  font-weight: bold;
+  color: var(--accent);
+  transition: all 0.3s ease;
 }
 
 @keyframes skillShimmer {
