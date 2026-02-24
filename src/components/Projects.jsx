@@ -42,7 +42,8 @@ const Projects = () => {
       ],
       techStack: ["Python", "Raspberry Pi", "MQTT", "Flask", "SQLite"],
       links: {
-        github: "https://github.com/d-malhotra2020/smart-home-automation"
+        github: "https://github.com/d-malhotra2020/smart-home-automation",
+        live: "http://localhost:5000"
       }
     },
     {
@@ -58,7 +59,8 @@ const Projects = () => {
       ],
       techStack: ["Python", "Pandas", "Scikit-learn", "PostgreSQL", "FastAPI"],
       links: {
-        github: "https://github.com/d-malhotra2020/financial-analysis-tool"
+        github: "https://github.com/d-malhotra2020/financial-analysis-tool",
+        live: "http://localhost:8000"
       }
     },
     {
@@ -74,7 +76,8 @@ const Projects = () => {
       ],
       techStack: ["Python", "TensorFlow", "AWS", "Docker", "Kubernetes"],
       links: {
-        github: "https://github.com/d-malhotra2020/traffic-optimization"
+        github: "https://github.com/d-malhotra2020/traffic-optimization",
+        live: "http://localhost:8001"
       }
     },
     {
@@ -90,7 +93,8 @@ const Projects = () => {
       ],
       techStack: ["Python", "aiohttp", "Docker", "PostgreSQL", "Computer Vision"],
       links: {
-        github: "https://github.com/d-malhotra2020/video-analytics"
+        github: "https://github.com/d-malhotra2020/video-analytics",
+        live: "http://localhost:8002"
       }
     },
     {
@@ -106,7 +110,8 @@ const Projects = () => {
       ],
       techStack: ["Python", "PyTorch", "React", "Mobile Development"],
       links: {
-        github: "https://github.com/d-malhotra2020/donation-platform"
+        github: "https://github.com/d-malhotra2020/donation-platform",
+        live: "http://localhost:8003"
       }
     }
   ]
