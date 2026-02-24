@@ -33,12 +33,14 @@ def main():
         # Run the application
         import os
         port = int(os.environ.get('PORT', 5000))
+        print(f"🌐 Starting server on port {port}")
         socketio.run(
             app, 
             host='0.0.0.0', 
             port=port, 
             debug=False,  # Set to False for production
-            allow_unsafe_werkzeug=True
+            allow_unsafe_werkzeug=True,
+            log_output=True
         )
     except KeyboardInterrupt:
         print("\n🛑 Shutting down Smart Home System...")
