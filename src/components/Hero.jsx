@@ -201,7 +201,7 @@ const Hero = () => {
             GitHub
           </MagneticLink>
           <MagneticLink
-            href="/Documents/Dhruv_malhotra_resume.pdf" 
+            href="/Dhruv_malhotra_resume.pdf"
             download="Dhruv_malhotra_resume.pdf" 
             className="social-link"
           >
