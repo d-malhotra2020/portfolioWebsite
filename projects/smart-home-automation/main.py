@@ -31,11 +31,13 @@ def main():
     
     try:
         # Run the application
+        import os
+        port = int(os.environ.get('PORT', 5000))
         socketio.run(
             app, 
             host='0.0.0.0', 
-            port=5000, 
-            debug=True, 
+            port=port, 
+            debug=False,  # Set to False for production
             allow_unsafe_werkzeug=True
         )
     except KeyboardInterrupt:
