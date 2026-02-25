@@ -60,7 +60,7 @@ const Projects = () => {
       techStack: ["Python", "Pandas", "Scikit-learn", "PostgreSQL", "FastAPI"],
       links: {
         github: "https://github.com/d-malhotra2020/financial-analysis-tool",
-        live: "https://financial-analysis-production.up.railway.app"
+        live: "https://financial-analysis-tool-production.up.railway.app"
       }
     },
     {
