@@ -42,7 +42,7 @@ const Projects = () => {
       ],
       techStack: ["Python", "Raspberry Pi", "MQTT", "Flask", "SQLite"],
       links: {
-        github: "https://github.com/d-malhotra2020/portfolioWebsite/tree/main/projects/smart-home-automation",
+        github: "https://github.com/d-malhotra2020/smart-home-automation",
         live: "https://smart-home-automation-production.up.railway.app"
       }
     },
@@ -59,7 +59,7 @@ const Projects = () => {
       ],
       techStack: ["Python", "Pandas", "Scikit-learn", "PostgreSQL", "FastAPI"],
       links: {
-        github: "https://github.com/d-malhotra2020/portfolioWebsite/tree/main/projects/financial-analysis-tool",
+        github: "https://github.com/d-malhotra2020/financial-analysis-tool",
         live: "https://financial-analysis-production.up.railway.app"
       }
     },
@@ -76,7 +76,7 @@ const Projects = () => {
       ],
       techStack: ["Python", "TensorFlow", "AWS", "Docker", "Kubernetes"],
       links: {
-        github: "https://github.com/d-malhotra2020/portfolioWebsite/tree/main/projects/traffic-optimization",
+        github: "https://github.com/d-malhotra2020/traffic-optimization",
         live: "https://traffic-optimization-production.up.railway.app"
       }
     },
@@ -93,7 +93,7 @@ const Projects = () => {
       ],
       techStack: ["Python", "aiohttp", "Docker", "PostgreSQL", "Computer Vision"],
       links: {
-        github: "https://github.com/d-malhotra2020/portfolioWebsite/tree/main/projects/video-analytics",
+        github: "https://github.com/d-malhotra2020/video-analytics",
         live: "https://video-analytics-production.up.railway.app"
       }
     },
@@ -110,7 +110,7 @@ const Projects = () => {
       ],
       techStack: ["Python", "PyTorch", "React", "Mobile Development"],
       links: {
-        github: "https://github.com/d-malhotra2020/portfolioWebsite/tree/main/projects/donation-platform",
+        github: "https://github.com/d-malhotra2020/donation-platform",
         live: "https://donation-platform-production.up.railway.app"
       }
     }
