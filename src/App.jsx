@@ -10,27 +10,34 @@ import Contact from './components/Contact'
 import LoadingScreen from './components/LoadingScreen'
 import ScrollProgress from './components/ScrollProgress'
 import VisitorCounter from './components/VisitorCounter'
-import ParticleSystem from './components/ParticleSystem'
-import { useTheme } from './hooks/useTheme'
 import { useVisitorTracking } from './hooks/useVisitorTracking'
 import './styles/App.css'
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
-  const { theme, setTheme } = useTheme()
   const { stats, showVisitorCounter, setShowVisitorCounter } = useVisitorTracking()
 
   useEffect(() => {
-    // Hide loading screen after initial load
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 1500)
+    }, 800)
 
     return () => clearTimeout(timer)
   }, [])
 
   return (
-    <div className={`app ${theme}`} data-theme={theme}>
+    <div className="app">
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.03) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.02) 0%, transparent 40%)',
+        pointerEvents: 'none',
+        zIndex: -1
+      }} />
+      
       <AnimatePresence>
         {isLoading && <LoadingScreen />}
       </AnimatePresence>
@@ -46,9 +53,7 @@ function App() {
         )}
       </AnimatePresence>
 
-      <Navbar theme={theme} setTheme={setTheme} />
-      
-      <ParticleSystem theme={theme} />
+      <Navbar />
       
       <main className="main-content">
         <Hero />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { Github, ExternalLink, Code, Globe } from 'lucide-react'
+import { Github, ExternalLink } from 'lucide-react'
 
 const Projects = () => {
   const [ref, inView] = useInView({
@@ -135,102 +135,327 @@ const Projects = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
+        staggerChildren: 0.05
       }
     }
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6 }
+      transition: { duration: 0.5 }
     }
   }
 
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4 }
+    },
+    exit: {
+      opacity: 0,
+      y: -20,
+      transition: { duration: 0.3 }
+    }
+  }
+
+  const techStackColors = {
+    React: '#3B82F6',
+    JavaScript: '#F59E0B',
+    Python: '#10B981',
+    TypeScript: '#3B82F6',
+    Node: '#059669',
+    Docker: '#0EA5E9',
+    AWS: '#F97316',
+    TensorFlow: '#EF4444',
+    PostgreSQL: '#8B5CF6',
+    MongoDB: '#10B981'
+  }
+
+  const getTechColor = (tech) => techStackColors[tech] || '#6B7280'
+
   return (
-    <section id="projects" className="section">
+    <section id="projects" style={{
+      padding: '120px 0',
+      backgroundColor: '#09090b',
+      minHeight: '100vh'
+    }}>
       <motion.div 
-        className="content-container"
+        style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          padding: '0 24px'
+        }}
         ref={ref}
         variants={containerVariants}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
       >
-        <motion.h2 variants={itemVariants}>Featured Projects</motion.h2>
+        <motion.div 
+          variants={itemVariants}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '16px',
+            marginBottom: '64px'
+          }}
+        >
+          <div style={{
+            width: '4px',
+            height: '32px',
+            backgroundColor: '#3B82F6',
+            borderRadius: '2px'
+          }} />
+          <h2 style={{
+            fontSize: '48px',
+            fontWeight: 'bold',
+            color: '#F4F4F5',
+            margin: 0,
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+          }}>
+            Featured Projects
+          </h2>
+        </motion.div>
 
-        {/* Project Filters */}
-        <motion.div className="project-filters" variants={itemVariants}>
+        <motion.div 
+          variants={itemVariants}
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '12px',
+            marginBottom: '64px',
+            justifyContent: 'center'
+          }}
+        >
           {filters.map(filter => (
             <button
               key={filter.key}
-              className={`filter-btn ${activeFilter === filter.key ? 'active' : ''}`}
               onClick={() => setActiveFilter(filter.key)}
+              style={{
+                padding: '12px 24px',
+                borderRadius: '24px',
+                border: activeFilter === filter.key 
+                  ? 'none' 
+                  : '1px solid rgba(255, 255, 255, 0.06)',
+                backgroundColor: activeFilter === filter.key 
+                  ? '#3B82F6' 
+                  : 'rgba(255, 255, 255, 0.03)',
+                color: activeFilter === filter.key ? '#ffffff' : '#E4E4E7',
+                fontSize: '14px',
+                fontWeight: '500',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+              }}
             >
               {filter.label}
             </button>
           ))}
         </motion.div>
 
-        {/* Projects Grid */}
-        <motion.div className="projects-grid" variants={containerVariants}>
-          {filteredProjects.map((project, index) => (
-            <motion.div 
-              key={index}
-              className="project-card"
-              variants={itemVariants}
-              whileHover={{ y: -5, scale: 1.02 }}
-              layout
-            >
-              <div className="project-header">
-                <h3>{project.title}</h3>
-                <div className="project-type">{project.type}</div>
-              </div>
-              
-              <p>{project.description}</p>
-              
-              <div className="project-highlights">
-                {project.highlights.map((highlight, i) => (
-                  <div key={i} className="highlight-item">
-                    <span className="highlight-label">{highlight.label}:</span>
-                    <span>{highlight.value}</span>
+        <motion.div 
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))',
+            gap: '32px'
+          }}
+          variants={containerVariants}
+          layout
+        >
+          <AnimatePresence mode="wait">
+            {filteredProjects.map((project, index) => (
+              <motion.div 
+                key={`${activeFilter}-${index}`}
+                variants={cardVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                layout
+                whileHover={{ 
+                  y: -8,
+                  transition: { duration: 0.2 }
+                }}
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                  border: '1px solid rgba(255, 255, 255, 0.06)',
+                  borderRadius: '24px',
+                  padding: '32px',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.12)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.06)'
+                }}
+              >
+                <div style={{ marginBottom: '24px' }}>
+                  <h3 style={{
+                    fontSize: '24px',
+                    fontWeight: 'bold',
+                    color: '#F4F4F5',
+                    margin: '0 0 8px 0',
+                    fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+                  }}>
+                    {project.title}
+                  </h3>
+                  <div style={{
+                    display: 'inline-block',
+                    padding: '4px 12px',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    color: '#93C5FD',
+                    fontSize: '12px',
+                    borderRadius: '12px',
+                    fontWeight: '500'
+                  }}>
+                    {project.type}
                   </div>
-                ))}
-              </div>
-              
-              <div className="tech-stack">
-                {project.techStack.map((tech, i) => (
-                  <span key={i} className="tech-tag">{tech}</span>
-                ))}
-              </div>
-              
-              <div className="project-links">
-                {project.links.github && (
-                  <a 
-                    href={project.links.github} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="project-link"
-                  >
-                    <Github size={16} />
-                    Code
-                  </a>
-                )}
-                {project.links.live && (
-                  <a 
-                    href={project.links.live} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="project-link"
-                  >
-                    <ExternalLink size={16} />
-                    Live Demo
-                  </a>
-                )}
-              </div>
-            </motion.div>
-          ))}
+                </div>
+                
+                <p style={{
+                  color: '#A1A1AA',
+                  fontSize: '16px',
+                  lineHeight: '1.6',
+                  margin: '0 0 24px 0',
+                  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+                }}>
+                  {project.description}
+                </p>
+                
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(2, 1fr)',
+                  gap: '8px',
+                  marginBottom: '24px'
+                }}>
+                  {project.highlights.map((highlight, i) => (
+                    <div 
+                      key={i} 
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '8px 12px',
+                        backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                        borderRadius: '8px',
+                        border: '1px solid rgba(255, 255, 255, 0.04)'
+                      }}
+                    >
+                      <span style={{
+                        fontSize: '12px',
+                        fontWeight: '500',
+                        color: '#71717A',
+                        minWidth: 'fit-content'
+                      }}>
+                        {highlight.label}:
+                      </span>
+                      <span style={{
+                        fontSize: '12px',
+                        fontWeight: '600',
+                        color: '#E4E4E7'
+                      }}>
+                        {highlight.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                
+                <div style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '8px',
+                  marginBottom: '24px'
+                }}>
+                  {project.techStack.map((tech, i) => (
+                    <span 
+                      key={i} 
+                      style={{
+                        padding: '6px 12px',
+                        backgroundColor: `${getTechColor(tech)}20`,
+                        color: getTechColor(tech),
+                        fontSize: '12px',
+                        borderRadius: '16px',
+                        fontWeight: '500',
+                        border: `1px solid ${getTechColor(tech)}30`
+                      }}
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                
+                <div style={{
+                  display: 'flex',
+                  gap: '12px'
+                }}>
+                  {project.links.github && (
+                    <a 
+                      href={project.links.github} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '8px 16px',
+                        backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                        color: '#E4E4E7',
+                        textDecoration: 'none',
+                        fontSize: '14px',
+                        borderRadius: '8px',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        fontWeight: '500',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.06)'
+                      }}
+                    >
+                      <Github size={16} />
+                      Code
+                    </a>
+                  )}
+                  {project.links.live && (
+                    <a 
+                      href={project.links.live} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '8px 16px',
+                        backgroundColor: '#3B82F6',
+                        color: '#ffffff',
+                        textDecoration: 'none',
+                        fontSize: '14px',
+                        borderRadius: '8px',
+                        fontWeight: '500',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.backgroundColor = '#2563EB'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.backgroundColor = '#3B82F6'
+                      }}
+                    >
+                      <ExternalLink size={16} />
+                      Live Demo
+                    </a>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </motion.div>
       </motion.div>
     </section>

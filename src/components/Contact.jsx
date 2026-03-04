@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { Mail, Linkedin, Github, Phone, MapPin, Send, CheckCircle } from 'lucide-react'
+import { Mail, Linkedin, Github, MapPin, Send, CheckCircle } from 'lucide-react'
 
 const Contact = () => {
   const [ref, inView] = useInView({
@@ -29,7 +29,6 @@ const Contact = () => {
     setIsSubmitting(true)
     
     try {
-      // Replace with your actual Formspree endpoint
       const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
         method: 'POST',
         headers: {
@@ -42,7 +41,6 @@ const Contact = () => {
         setIsSubmitted(true)
         setFormData({ name: '', email: '', message: '' })
         
-        // Reset after 5 seconds
         setTimeout(() => {
           setIsSubmitted(false)
         }, 5000)
@@ -85,50 +83,142 @@ const Contact = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
+        staggerChildren: 0.1
       }
     }
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6 }
+      transition: { duration: 0.5 }
     }
   }
 
+  const inputStyle = {
+    width: '100%',
+    padding: '16px 20px',
+    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    border: '1px solid rgba(255, 255, 255, 0.06)',
+    borderRadius: '12px',
+    color: '#F4F4F5',
+    fontSize: '16px',
+    fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+    outline: 'none',
+    transition: 'all 0.2s ease'
+  }
+
+  const inputFocusStyle = {
+    border: '1px solid #3B82F6',
+    boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.1)'
+  }
+
   return (
-    <section id="contact" className="section">
+    <section id="contact" style={{
+      padding: '120px 0',
+      backgroundColor: '#09090b',
+      minHeight: '100vh'
+    }}>
       <motion.div 
-        className="content-container"
+        style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          padding: '0 24px'
+        }}
         ref={ref}
         variants={containerVariants}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
       >
-        <motion.h2 variants={itemVariants}>Get In Touch</motion.h2>
+        <motion.div 
+          variants={itemVariants}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '16px',
+            marginBottom: '32px'
+          }}
+        >
+          <div style={{
+            width: '4px',
+            height: '32px',
+            backgroundColor: '#3B82F6',
+            borderRadius: '2px'
+          }} />
+          <h2 style={{
+            fontSize: '48px',
+            fontWeight: 'bold',
+            color: '#F4F4F5',
+            margin: 0,
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+          }}>
+            Get In Touch
+          </h2>
+        </motion.div>
         
-        <motion.div className="contact-content" variants={itemVariants}>
-          <p>
+        <motion.div 
+          variants={itemVariants}
+          style={{ marginBottom: '64px' }}
+        >
+          <p style={{
+            fontSize: '20px',
+            color: '#A1A1AA',
+            lineHeight: '1.6',
+            margin: 0,
+            textAlign: 'center',
+            maxWidth: '600px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+          }}>
             I'm always interested in hearing about new opportunities, interesting projects, 
             or just connecting with fellow developers. Feel free to reach out!
           </p>
         </motion.div>
 
-        <div className="contact-grid">
-          {/* Contact Form */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '64px',
+          '@media (max-width: 768px)': {
+            gridTemplateColumns: '1fr',
+            gap: '48px'
+          }
+        }}>
           <motion.div 
-            className="contact-form-container"
             variants={itemVariants}
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.03)',
+              border: '1px solid rgba(255, 255, 255, 0.06)',
+              borderRadius: '24px',
+              padding: '32px'
+            }}
           >
             {!isSubmitted ? (
               <>
-                <h3>📧 Send me a message</h3>
-                <form className="contact-form" onSubmit={handleSubmit}>
-                  <div className="form-group">
-                    <label htmlFor="name">Name *</label>
+                <h3 style={{
+                  fontSize: '24px',
+                  fontWeight: 'bold',
+                  color: '#F4F4F5',
+                  margin: '0 0 24px 0',
+                  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+                }}>
+                  Send me a message
+                </h3>
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                  <div>
+                    <label htmlFor="name" style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      color: '#E4E4E7',
+                      marginBottom: '8px',
+                      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+                    }}>
+                      Name *
+                    </label>
                     <input
                       type="text"
                       id="name"
@@ -137,11 +227,26 @@ const Contact = () => {
                       onChange={handleInputChange}
                       required
                       placeholder="Your full name"
+                      style={{
+                        ...inputStyle,
+                        '::placeholder': { color: '#71717A' }
+                      }}
+                      onFocus={(e) => Object.assign(e.target.style, inputFocusStyle)}
+                      onBlur={(e) => Object.assign(e.target.style, inputStyle)}
                     />
                   </div>
                   
-                  <div className="form-group">
-                    <label htmlFor="email">Email *</label>
+                  <div>
+                    <label htmlFor="email" style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      color: '#E4E4E7',
+                      marginBottom: '8px',
+                      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+                    }}>
+                      Email *
+                    </label>
                     <input
                       type="email"
                       id="email"
@@ -150,11 +255,26 @@ const Contact = () => {
                       onChange={handleInputChange}
                       required
                       placeholder="your.email@example.com"
+                      style={{
+                        ...inputStyle,
+                        '::placeholder': { color: '#71717A' }
+                      }}
+                      onFocus={(e) => Object.assign(e.target.style, inputFocusStyle)}
+                      onBlur={(e) => Object.assign(e.target.style, inputStyle)}
                     />
                   </div>
                   
-                  <div className="form-group">
-                    <label htmlFor="message">Message *</label>
+                  <div>
+                    <label htmlFor="message" style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      color: '#E4E4E7',
+                      marginBottom: '8px',
+                      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+                    }}>
+                      Message *
+                    </label>
                     <textarea
                       id="message"
                       name="message"
@@ -163,23 +283,54 @@ const Contact = () => {
                       required
                       rows="5"
                       placeholder="Tell me about your project, opportunity, or just say hello!"
+                      style={{
+                        ...inputStyle,
+                        minHeight: '120px',
+                        resize: 'vertical'
+                      }}
+                      onFocus={(e) => Object.assign(e.target.style, inputFocusStyle)}
+                      onBlur={(e) => Object.assign(e.target.style, inputStyle)}
                     />
                   </div>
                   
                   <motion.button
                     type="submit"
-                    className="submit-btn"
                     disabled={isSubmitting}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      width: '100%',
+                      padding: '16px 24px',
+                      backgroundColor: '#3B82F6',
+                      color: '#ffffff',
+                      border: 'none',
+                      borderRadius: '12px',
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                      opacity: isSubmitting ? 0.7 : 1,
+                      transition: 'all 0.2s ease',
+                      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+                    }}
                   >
                     {isSubmitting ? (
                       <>
                         <motion.div
                           animate={{ rotate: 360 }}
                           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          style={{ width: '18px', height: '18px' }}
                         >
-                          ⏳
+                          <div style={{
+                            width: '18px',
+                            height: '18px',
+                            border: '2px solid rgba(255, 255, 255, 0.3)',
+                            borderTop: '2px solid #ffffff',
+                            borderRadius: '50%'
+                          }} />
                         </motion.div>
                         Sending...
                       </>
@@ -194,38 +345,87 @@ const Contact = () => {
               </>
             ) : (
               <motion.div 
-                className="form-success"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.5 }}
+                style={{
+                  textAlign: 'center',
+                  padding: '40px 0'
+                }}
               >
-                <CheckCircle size={48} />
-                <h3>Message Sent Successfully!</h3>
-                <p>Thank you for reaching out. I'll get back to you as soon as possible!</p>
+                <CheckCircle size={64} style={{ color: '#10B981', marginBottom: '16px' }} />
+                <h3 style={{
+                  fontSize: '24px',
+                  fontWeight: 'bold',
+                  color: '#F4F4F5',
+                  margin: '0 0 12px 0',
+                  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+                }}>
+                  Message Sent Successfully!
+                </h3>
+                <p style={{
+                  color: '#A1A1AA',
+                  fontSize: '16px',
+                  margin: 0,
+                  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+                }}>
+                  Thank you for reaching out. I'll get back to you as soon as possible!
+                </p>
               </motion.div>
             )}
           </motion.div>
 
-          {/* Contact Info */}
           <motion.div 
-            className="contact-info"
             variants={itemVariants}
+            style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}
           >
-            <div className="contact-item">
-              <h3>💬 Let's connect!</h3>
-              <p className="response-info">
+            <div style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.03)',
+              border: '1px solid rgba(255, 255, 255, 0.06)',
+              borderRadius: '16px',
+              padding: '24px'
+            }}>
+              <h3 style={{
+                fontSize: '18px',
+                fontWeight: 'bold',
+                color: '#F4F4F5',
+                margin: '0 0 12px 0',
+                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+              }}>
+                Let's connect!
+              </h3>
+              <p style={{
+                color: '#A1A1AA',
+                fontSize: '14px',
+                lineHeight: '1.5',
+                margin: 0,
+                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+              }}>
                 I typically respond within 24 hours. Whether you're looking to collaborate, 
                 have questions about my work, or just want to chat about technology, I'd love to hear from you.
               </p>
             </div>
 
-            <div className="contact-item">
-              <h3>📬 Contact Information</h3>
-              <div className="contact-links">
+            <div style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.03)',
+              border: '1px solid rgba(255, 255, 255, 0.06)',
+              borderRadius: '16px',
+              padding: '24px'
+            }}>
+              <h3 style={{
+                fontSize: '18px',
+                fontWeight: 'bold',
+                color: '#F4F4F5',
+                margin: '0 0 16px 0',
+                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+              }}>
+                Contact Information
+              </h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {contactInfo.map((info, index) => (
                   <motion.div
                     key={index}
-                    whileHover={{ x: 5 }}
+                    whileHover={{ x: 4 }}
                     transition={{ duration: 0.2 }}
                   >
                     {info.link ? (
@@ -233,20 +433,91 @@ const Contact = () => {
                         href={info.link}
                         target={info.link.startsWith('mailto:') ? '_self' : '_blank'}
                         rel="noopener noreferrer"
-                        className="contact-link-item"
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '12px',
+                          padding: '12px',
+                          backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                          borderRadius: '8px',
+                          textDecoration: 'none',
+                          color: 'inherit',
+                          transition: 'all 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.02)'
+                        }}
                       >
-                        <span className="contact-icon">{info.icon}</span>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: '40px',
+                          height: '40px',
+                          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                          borderRadius: '8px',
+                          color: '#3B82F6'
+                        }}>
+                          {info.icon}
+                        </div>
                         <div>
-                          <div className="contact-label">{info.label}</div>
-                          <div className="contact-value">{info.value}</div>
+                          <div style={{
+                            fontSize: '12px',
+                            fontWeight: '500',
+                            color: '#71717A',
+                            marginBottom: '2px'
+                          }}>
+                            {info.label}
+                          </div>
+                          <div style={{
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            color: '#E4E4E7'
+                          }}>
+                            {info.value}
+                          </div>
                         </div>
                       </a>
                     ) : (
-                      <div className="contact-link-item">
-                        <span className="contact-icon">{info.icon}</span>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        padding: '12px',
+                        backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                        borderRadius: '8px'
+                      }}>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: '40px',
+                          height: '40px',
+                          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                          borderRadius: '8px',
+                          color: '#3B82F6'
+                        }}>
+                          {info.icon}
+                        </div>
                         <div>
-                          <div className="contact-label">{info.label}</div>
-                          <div className="contact-value">{info.value}</div>
+                          <div style={{
+                            fontSize: '12px',
+                            fontWeight: '500',
+                            color: '#71717A',
+                            marginBottom: '2px'
+                          }}>
+                            {info.label}
+                          </div>
+                          <div style={{
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            color: '#E4E4E7'
+                          }}>
+                            {info.value}
+                          </div>
                         </div>
                       </div>
                     )}
@@ -255,21 +526,153 @@ const Contact = () => {
               </div>
             </div>
 
-            <div className="contact-item">
-              <h3>🤝 Open to opportunities</h3>
-              <p className="response-info">
+            <div style={{
+              backgroundColor: 'rgba(16, 185, 129, 0.05)',
+              border: '1px solid rgba(16, 185, 129, 0.2)',
+              borderRadius: '16px',
+              padding: '24px'
+            }}>
+              <h3 style={{
+                fontSize: '18px',
+                fontWeight: 'bold',
+                color: '#10B981',
+                margin: '0 0 12px 0',
+                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+              }}>
+                Open to opportunities
+              </h3>
+              <p style={{
+                color: '#A1A1AA',
+                fontSize: '14px',
+                lineHeight: '1.5',
+                margin: '0 0 16px 0',
+                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+              }}>
                 Currently open to full-time software engineering positions, freelance projects, 
                 and consulting opportunities. Particularly interested in:
               </p>
-              <ul className="opportunity-list">
-                <li>Full-stack development roles</li>
-                <li>AI/ML engineering positions</li>
-                <li>Cloud architecture projects</li>
+              <ul style={{
+                margin: 0,
+                paddingLeft: '20px',
+                color: '#A1A1AA',
+                fontSize: '14px'
+              }}>
+                <li style={{ marginBottom: '6px' }}>Full-stack development roles</li>
+                <li style={{ marginBottom: '6px' }}>AI/ML engineering positions</li>
+                <li style={{ marginBottom: '6px' }}>Cloud architecture projects</li>
                 <li>Performance optimization challenges</li>
               </ul>
             </div>
           </motion.div>
         </div>
+
+        <motion.footer 
+          variants={itemVariants}
+          style={{
+            marginTop: '120px',
+            paddingTop: '48px',
+            borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+            textAlign: 'center'
+          }}
+        >
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '24px',
+            marginBottom: '24px'
+          }}>
+            <a
+              href="https://github.com/d-malhotra2020"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '48px',
+                height: '48px',
+                backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.06)',
+                borderRadius: '12px',
+                color: '#A1A1AA',
+                textDecoration: 'none',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.06)'
+                e.currentTarget.style.color = '#F4F4F5'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)'
+                e.currentTarget.style.color = '#A1A1AA'
+              }}
+            >
+              <Github size={20} />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/drewmalhotra/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '48px',
+                height: '48px',
+                backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.06)',
+                borderRadius: '12px',
+                color: '#A1A1AA',
+                textDecoration: 'none',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.06)'
+                e.currentTarget.style.color = '#F4F4F5'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)'
+                e.currentTarget.style.color = '#A1A1AA'
+              }}
+            >
+              <Linkedin size={20} />
+            </a>
+            <a
+              href="mailto:dhruvmalhotra2025@gmail.com"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '48px',
+                height: '48px',
+                backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.06)',
+                borderRadius: '12px',
+                color: '#A1A1AA',
+                textDecoration: 'none',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.06)'
+                e.currentTarget.style.color = '#F4F4F5'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)'
+                e.currentTarget.style.color = '#A1A1AA'
+              }}
+            >
+              <Mail size={20} />
+            </a>
+          </div>
+          <p style={{
+            color: '#71717A',
+            fontSize: '14px',
+            margin: 0,
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+          }}>
+            © 2025 Dhruv Malhotra. Built with React and lots of coffee.
+          </p>
+        </motion.footer>
       </motion.div>
     </section>
   )

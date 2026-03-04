@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 
@@ -40,7 +40,7 @@ const Experience = () => {
         ]
       },
       skills: ["Python", "aiohttp", "Docker", "PostgreSQL", "pytest"],
-      side: "left"
+      current: true
     },
     {
       date: "Jul 2023 - Oct 2024",
@@ -62,8 +62,7 @@ const Experience = () => {
           "98% bug resolution success rate through Pytest testing protocols"
         ]
       },
-      skills: ["Python", "TensorFlow", "AWS", "Docker", "Kubernetes"],
-      side: "right"
+      skills: ["Python", "TensorFlow", "AWS", "Docker", "Kubernetes"]
     },
     {
       date: "May 2020 - Jul 2023",
@@ -84,16 +83,14 @@ const Experience = () => {
           "Supported platform growth to serve 1.5M+ users across 70,000+ organizations"
         ]
       },
-      skills: ["Python", "PyTorch", "React", "Google API"],
-      side: "left"
+      skills: ["Python", "PyTorch", "React", "Google API"]
     },
     {
       date: "Aug 2018 - Dec 2021",
       title: "Bachelor of Science in Computer Science",
       company: "University of Texas at Dallas",
       description: "Completed comprehensive computer science education covering algorithms, data structures, software engineering principles, and database management systems.",
-      skills: ["Algorithms", "Data Structures", "Software Engineering", "Database Systems"],
-      side: "right"
+      skills: ["Algorithms", "Data Structures", "Software Engineering", "Database Systems"]
     },
     {
       date: "Oct 2019 - May 2020",
@@ -112,16 +109,14 @@ const Experience = () => {
           "Achieved 20% improvement in overall software reliability metrics"
         ]
       },
-      skills: ["JUnit", "Jira", "QA Testing", "Regression Testing"],
-      side: "left"
+      skills: ["JUnit", "Jira", "QA Testing", "Regression Testing"]
     },
     {
       date: "Jul 2011 - Jul 2016",
       title: "Navy Corpsman",
       company: "United States Navy, Okinawa JP",
       description: "Managed medical care for 4,500 servicemembers including checkups, immunizations, and preventative care. Attached to S-2 Security and Intelligence Division ensuring security clearances for 3,000 servicemembers.",
-      skills: ["Healthcare", "Security Clearance", "Leadership", "Operations"],
-      side: "right"
+      skills: ["Healthcare", "Security Clearance", "Leadership", "Operations"]
     }
   ]
 
@@ -130,90 +125,315 @@ const Experience = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
+        staggerChildren: 0.1
       }
     }
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8 }
+      transition: { duration: 0.6, ease: 'easeOut' }
     }
   }
 
+  const sectionStyle = {
+    minHeight: '100vh',
+    paddingTop: '6rem',
+    paddingBottom: '6rem',
+    backgroundColor: '#09090b'
+  }
+
+  const containerStyle = {
+    maxWidth: '64rem',
+    margin: '0 auto',
+    padding: '0 2rem'
+  }
+
+  const headingStyle = {
+    fontSize: '3rem',
+    fontWeight: '700',
+    color: '#f4f4f5',
+    marginBottom: '3rem',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1rem'
+  }
+
+  const accentBarStyle = {
+    width: '3px',
+    height: '2rem',
+    backgroundColor: '#3b82f6',
+    borderRadius: '2px'
+  }
+
+  const timelineStyle = {
+    position: 'relative',
+    paddingLeft: '2rem'
+  }
+
+  const timelineLineStyle = {
+    position: 'absolute',
+    left: '1rem',
+    top: '0',
+    bottom: '0',
+    width: '2px',
+    backgroundColor: '#27272a',
+    borderRadius: '1px'
+  }
+
+  const timelineItemStyle = {
+    position: 'relative',
+    marginBottom: '3rem',
+    paddingLeft: '3rem'
+  }
+
+  const timelineDotStyle = {
+    position: 'absolute',
+    left: '-2.75rem',
+    top: '0.5rem',
+    width: '12px',
+    height: '12px',
+    backgroundColor: '#3b82f6',
+    borderRadius: '50%',
+    border: '2px solid #09090b'
+  }
+
+  const timelineCardStyle = {
+    background: 'rgba(255, 255, 255, 0.03)',
+    border: '1px solid rgba(255, 255, 255, 0.06)',
+    borderRadius: '1rem',
+    padding: '2rem'
+  }
+
+  const timelineHeaderStyle = {
+    marginBottom: '1.5rem'
+  }
+
+  const dateStyle = {
+    color: '#71717a',
+    fontSize: '0.875rem',
+    fontWeight: '500',
+    marginBottom: '0.5rem'
+  }
+
+  const titleStyle = {
+    fontSize: '1.5rem',
+    fontWeight: '600',
+    color: '#f4f4f5',
+    marginBottom: '0.25rem',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem'
+  }
+
+  const companyStyle = {
+    fontSize: '1.125rem',
+    fontWeight: '500',
+    color: '#60a5fa',
+    marginBottom: '1rem'
+  }
+
+  const currentBadgeStyle = {
+    background: '#065f46',
+    color: '#10b981',
+    padding: '0.25rem 0.75rem',
+    borderRadius: '9999px',
+    fontSize: '0.75rem',
+    fontWeight: '600',
+    border: '1px solid #059669'
+  }
+
+  const descriptionStyle = {
+    color: '#a1a1aa',
+    lineHeight: '1.6',
+    marginBottom: '1.5rem'
+  }
+
+  const skillsStyle = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '0.5rem',
+    marginBottom: '1.5rem'
+  }
+
+  const skillTagStyle = {
+    background: 'rgba(59, 130, 246, 0.1)',
+    color: '#60a5fa',
+    padding: '0.25rem 0.75rem',
+    borderRadius: '9999px',
+    fontSize: '0.875rem',
+    fontWeight: '500',
+    border: '1px solid rgba(59, 130, 246, 0.2)'
+  }
+
+  const expandButtonStyle = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    color: '#3b82f6',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    fontSize: '0.875rem',
+    fontWeight: '500',
+    padding: '0.5rem 1rem',
+    borderRadius: '0.5rem',
+    transition: 'all 0.2s ease'
+  }
+
+  const detailsSectionStyle = {
+    marginTop: '1.5rem',
+    padding: '1.5rem',
+    background: 'rgba(59, 130, 246, 0.05)',
+    borderRadius: '0.75rem',
+    border: '1px solid rgba(59, 130, 246, 0.1)'
+  }
+
+  const detailsTitleStyle = {
+    fontSize: '1rem',
+    fontWeight: '600',
+    color: '#f4f4f5',
+    marginBottom: '1rem'
+  }
+
+  const detailsListStyle = {
+    listStyle: 'none',
+    padding: 0,
+    margin: 0
+  }
+
+  const detailsItemStyle = {
+    color: '#a1a1aa',
+    marginBottom: '0.5rem',
+    lineHeight: '1.5',
+    paddingLeft: '1rem',
+    position: 'relative'
+  }
+
+  const bulletStyle = {
+    position: 'absolute',
+    left: '0',
+    top: '0.5rem',
+    width: '4px',
+    height: '4px',
+    backgroundColor: '#60a5fa',
+    borderRadius: '50%'
+  }
+
   return (
-    <section id="experience" className="section">
+    <section id="experience" style={sectionStyle}>
       <motion.div 
-        className="content-container"
+        style={containerStyle}
         ref={ref}
         variants={containerVariants}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
       >
-        <motion.h2 variants={itemVariants}>Experience & Education</motion.h2>
+        <motion.div variants={itemVariants} style={headingStyle}>
+          <div style={accentBarStyle}></div>
+          Experience & Education
+        </motion.div>
         
-        <div className="timeline">
+        <motion.div style={timelineStyle} variants={containerVariants}>
+          <div style={timelineLineStyle}></div>
+          
           {experiences.map((exp, index) => (
             <motion.div 
               key={index}
-              className={`timeline-item ${exp.side === 'right' ? 'timeline-item-right' : 'timeline-item-left'}`}
+              style={timelineItemStyle}
               variants={itemVariants}
             >
-              <div className="timeline-date">{exp.date}</div>
-              <div className="timeline-content">
-                <h3>{exp.title}</h3>
-                <h4>{exp.company}</h4>
-                <p>{exp.description}</p>
-                
-                {exp.details && (
-                  <div className={`timeline-details ${expandedItems[index] ? 'expanded' : ''}`} style={{display: expandedItems[index] ? 'block' : 'none'}}>
-                    <div className="detail-section">
-                      <h5>🔧 Key Projects & Achievements:</h5>
-                      <ul>
-                        {exp.details.projects?.map((project, i) => (
-                          <li key={i}><strong>{project.split(':')[0]}:</strong> {project.split(':')[1]}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    {exp.details.impact && (
-                      <div className="detail-section">
-                        <h5>📊 Impact & Metrics:</h5>
-                        <ul>
-                          {exp.details.impact.map((impact, i) => (
-                            <li key={i}>{impact}</li>
-                          ))}
-                        </ul>
-                      </div>
+              <div style={timelineDotStyle}></div>
+              <motion.div 
+                style={timelineCardStyle}
+                whileHover={{ y: -2, scale: 1.01 }}
+              >
+                <div style={timelineHeaderStyle}>
+                  <div style={dateStyle}>{exp.date}</div>
+                  <h3 style={titleStyle}>
+                    {exp.title}
+                    {exp.current && (
+                      <span style={currentBadgeStyle}>Current</span>
                     )}
-                  </div>
-                )}
+                  </h3>
+                  <h4 style={companyStyle}>{exp.company}</h4>
+                </div>
                 
-                <div className="timeline-skills">
+                <p style={descriptionStyle}>{exp.description}</p>
+                
+                <div style={skillsStyle}>
                   {exp.skills.map((skill, i) => (
-                    <span key={i} className="timeline-tag">{skill}</span>
+                    <span key={i} style={skillTagStyle}>{skill}</span>
                   ))}
                 </div>
                 
                 {exp.details && (
-                  <button 
-                    className={`timeline-expand-btn ${expandedItems[index] ? 'expanded' : ''}`}
-                    onClick={() => toggleExpanded(index)}
-                  >
-                    <span className="expand-text">
-                      {expandedItems[index] ? 'Hide Details' : 'View Details'}
-                    </span>
-                    <span className="expand-icon">
+                  <>
+                    <button 
+                      style={expandButtonStyle}
+                      onClick={() => toggleExpanded(index)}
+                      onMouseEnter={(e) => {
+                        e.target.style.backgroundColor = 'rgba(59, 130, 246, 0.1)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.backgroundColor = 'transparent'
+                      }}
+                    >
+                      <span>
+                        {expandedItems[index] ? 'Hide Details' : 'View Details'}
+                      </span>
                       {expandedItems[index] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                    </span>
-                  </button>
+                    </button>
+                    
+                    <AnimatePresence>
+                      {expandedItems[index] && (
+                        <motion.div
+                          style={detailsSectionStyle}
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: 'easeInOut' }}
+                          layout
+                        >
+                          <div>
+                            <h5 style={detailsTitleStyle}>Key Projects & Achievements:</h5>
+                            <ul style={detailsListStyle}>
+                              {exp.details.projects?.map((project, i) => (
+                                <li key={i} style={detailsItemStyle}>
+                                  <div style={bulletStyle}></div>
+                                  <strong style={{ color: '#e4e4e7' }}>
+                                    {project.split(':')[0]}:
+                                  </strong> {project.split(':')[1]}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          
+                          {exp.details.impact && (
+                            <div style={{ marginTop: '1.5rem' }}>
+                              <h5 style={detailsTitleStyle}>Impact & Metrics:</h5>
+                              <ul style={detailsListStyle}>
+                                {exp.details.impact.map((impact, i) => (
+                                  <li key={i} style={detailsItemStyle}>
+                                    <div style={bulletStyle}></div>
+                                    {impact}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </>
                 )}
-              </div>
+              </motion.div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   )

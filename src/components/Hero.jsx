@@ -1,241 +1,258 @@
-import React, { useRef } from 'react'
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
-import { Download, ExternalLink, Github, Linkedin } from 'lucide-react'
+import React from 'react'
+import { motion } from 'framer-motion'
+import { Download, Github, Linkedin, Mail } from 'lucide-react'
 import TypeWriter from './TypeWriter'
 
-// Magnetic Button Component
-const MagneticButton = ({ children, className, ...props }) => {
-  const ref = useRef(null)
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
-  const springX = useSpring(x, { stiffness: 150, damping: 15 })
-  const springY = useSpring(y, { stiffness: 150, damping: 15 })
-
-  const handleMouseMove = (e) => {
-    if (!ref.current) return
-    const rect = ref.current.getBoundingClientRect()
-    const centerX = rect.left + rect.width / 2
-    const centerY = rect.top + rect.height / 2
-    const distanceX = e.clientX - centerX
-    const distanceY = e.clientY - centerY
-    
-    // Magnetic effect - stronger pull when closer
-    const maxDistance = 100
-    const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY)
-    
-    if (distance < maxDistance) {
-      x.set(distanceX * 0.2)
-      y.set(distanceY * 0.2)
-    }
-  }
-
-  const handleMouseLeave = () => {
-    x.set(0)
-    y.set(0)
-  }
-
-  return (
-    <motion.button
-      ref={ref}
-      className={className}
-      style={{ x: springX, y: springY }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      {...props}
-    >
-      {children}
-    </motion.button>
-  )
-}
-
-// Magnetic Link Component
-const MagneticLink = ({ children, className, ...props }) => {
-  const ref = useRef(null)
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
-  const springX = useSpring(x, { stiffness: 150, damping: 15 })
-  const springY = useSpring(y, { stiffness: 150, damping: 15 })
-  const rotateX = useTransform(y, [-10, 10], [5, -5])
-  const rotateY = useTransform(x, [-10, 10], [-5, 5])
-
-  const handleMouseMove = (e) => {
-    if (!ref.current) return
-    const rect = ref.current.getBoundingClientRect()
-    const centerX = rect.left + rect.width / 2
-    const centerY = rect.top + rect.height / 2
-    const distanceX = e.clientX - centerX
-    const distanceY = e.clientY - centerY
-    
-    x.set(distanceX * 0.15)
-    y.set(distanceY * 0.15)
-  }
-
-  const handleMouseLeave = () => {
-    x.set(0)
-    y.set(0)
-  }
-
-  return (
-    <motion.a
-      ref={ref}
-      className={className}
-      style={{ 
-        x: springX, 
-        y: springY,
-        rotateX,
-        rotateY,
-        transformStyle: 'preserve-3d'
-      }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      whileHover={{ scale: 1.1, y: -3 }}
-      whileTap={{ scale: 0.95 }}
-      {...props}
-    >
-      {children}
-    </motion.a>
-  )
-}
-
 const Hero = () => {
-  const scrollToProjects = () => {
-    document.getElementById('projects')?.scrollIntoView({ 
+  const scrollToContact = () => {
+    document.getElementById('contact')?.scrollIntoView({ 
       behavior: 'smooth',
       block: 'start'
     })
   }
 
   return (
-    <section id="home" className="hero-section section">
+    <section id="home" className="section">
       <motion.div 
-        className="hero-content"
+        style={{
+          width: '100%',
+          textAlign: 'left',
+          maxWidth: '800px'
+        }}
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <div className="hero-profile">
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '2rem'
+        }}>
           <motion.div 
-            className="profile-image-container"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '2rem',
+              flexWrap: 'wrap'
+            }}
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            whileHover={{ scale: 1.1 }}
           >
             <motion.img 
               src="/ImageFiles/profilePhoto.jpeg" 
               alt="Dhruv (Drew) Malhotra" 
-              className="profile-image" 
-              whileHover={{
-                boxShadow: "0 20px 60px rgba(189, 147, 249, 0.5)"
+              style={{
+                width: '120px',
+                height: '120px',
+                borderRadius: '1rem',
+                objectFit: 'cover',
+                border: '1px solid rgba(255, 255, 255, 0.06)',
+                background: 'rgba(24, 24, 27, 0.8)'
               }}
+              whileHover={{
+                scale: 1.05
+              }}
+              transition={{ duration: 0.3 }}
             />
-          </motion.div>
-          
-          <div className="hero-text">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-            >
-              <span className="code-keyword">const</span> developer = <span className="code-string">"Dhruv (Drew) Malhotra"</span> 👨‍💻
-            </motion.h1>
             
-            <motion.div 
-              className="hero-subtitle"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.6 }}
-            >
-              <span className="code-comment">// </span>
-              <TypeWriter 
-                phrases={[
-                  'specializes in full-stack development',
-                  'builds scalable web applications',
-                  'optimizes system performance',
-                  'implements AI/ML solutions',
-                  'architects cloud infrastructure',
-                  'automates testing pipelines',
-                  'debugs complex problems',
-                  'codes in Python & JavaScript'
-                ]}
-              />
-              <span className="typing-cursor">|</span>
-            </motion.div>
-          </div>
-        </div>
+            <div>
+              <motion.h1
+                style={{
+                  fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                  fontWeight: '800',
+                  color: '#f4f4f5',
+                  marginBottom: '0.5rem',
+                  lineHeight: '1.1'
+                }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+              >
+                Hi, I'm Dhruv (Drew)
+              </motion.h1>
+              
+              <motion.div 
+                style={{
+                  fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
+                  color: '#a1a1aa',
+                  minHeight: '2rem',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8, duration: 0.6 }}
+              >
+                <TypeWriter 
+                  phrases={[
+                    'Full-Stack Developer',
+                    'AI/ML Engineer',
+                    'Cloud Architect',
+                    'System Optimizer',
+                    'Problem Solver'
+                  ]}
+                />
+              </motion.div>
+            </div>
+          </motion.div>
 
-        <motion.div 
-          className="hero-links"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.6 }}
-        >
-          <MagneticLink
-            href="https://www.linkedin.com/in/drewmalhotra/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="social-link"
+          <motion.div 
+            style={{
+              display: 'flex',
+              gap: '1rem',
+              flexWrap: 'wrap'
+            }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.6 }}
           >
-            <motion.div
-              whileHover={{ rotate: [0, -10, 10, -5, 5, 0] }}
-              transition={{ duration: 0.5 }}
+            <motion.button
+              style={{
+                background: '#3b82f6',
+                color: '#ffffff',
+                border: 'none',
+                padding: '0.75rem 2rem',
+                borderRadius: '0.75rem',
+                fontSize: '1rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                transition: 'all 0.3s ease'
+              }}
+              whileHover={{
+                scale: 1.02,
+                backgroundColor: '#2563eb'
+              }}
+              whileTap={{ scale: 0.98 }}
+              onClick={scrollToContact}
             >
-              <Linkedin size={20} />
-            </motion.div>
-            LinkedIn
-          </MagneticLink>
-          <MagneticLink
-            href="https://github.com/d-malhotra2020" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="social-link"
+              <Mail size={18} />
+              Get in Touch
+            </motion.button>
+
+            <motion.a
+              href="/Dhruv_malhotra_resume.pdf"
+              download="Dhruv_malhotra_resume.pdf"
+              style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                color: '#f4f4f5',
+                textDecoration: 'none',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                padding: '0.75rem 2rem',
+                borderRadius: '0.75rem',
+                fontSize: '1rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                transition: 'all 0.3s ease'
+              }}
+              whileHover={{
+                scale: 1.02,
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                borderColor: 'rgba(255, 255, 255, 0.2)'
+              }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Download size={18} />
+              Resume
+            </motion.a>
+          </motion.div>
+
+          <motion.div 
+            style={{
+              display: 'flex',
+              gap: '1rem',
+              marginTop: '1rem'
+            }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.6 }}
           >
-            <motion.div
-              whileHover={{ rotate: [0, -10, 10, -5, 5, 0] }}
-              transition={{ duration: 0.5 }}
+            <motion.a
+              href="https://github.com/d-malhotra2020" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{
+                color: '#a1a1aa',
+                padding: '0.75rem',
+                borderRadius: '0.5rem',
+                border: '1px solid rgba(255, 255, 255, 0.06)',
+                background: 'rgba(255, 255, 255, 0.02)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease',
+                textDecoration: 'none'
+              }}
+              whileHover={{
+                color: '#f4f4f5',
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                borderColor: 'rgba(255, 255, 255, 0.1)',
+                scale: 1.05
+              }}
+              whileTap={{ scale: 0.95 }}
             >
               <Github size={20} />
-            </motion.div>
-            GitHub
-          </MagneticLink>
-          <MagneticLink
-            href="/Dhruv_malhotra_resume.pdf"
-            download="Dhruv_malhotra_resume.pdf" 
-            className="social-link"
-          >
-            <motion.div
-              whileHover={{ y: [0, -2, 2, -1, 1, 0] }}
-              transition={{ duration: 0.4 }}
-            >
-              <Download size={20} />
-            </motion.div>
-            Resume
-          </MagneticLink>
-        </motion.div>
+            </motion.a>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-        >
-          <MagneticButton 
-            className="cta-button"
-            onClick={scrollToProjects}
-          >
-            <span>View My Work</span>
-            <motion.div
-              whileHover={{ 
-                x: [0, 3, -3, 2, -2, 0],
-                rotate: [0, 5, -5, 3, -3, 0] 
+            <motion.a
+              href="https://www.linkedin.com/in/drewmalhotra/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{
+                color: '#a1a1aa',
+                padding: '0.75rem',
+                borderRadius: '0.5rem',
+                border: '1px solid rgba(255, 255, 255, 0.06)',
+                background: 'rgba(255, 255, 255, 0.02)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease',
+                textDecoration: 'none'
               }}
-              transition={{ duration: 0.6 }}
+              whileHover={{
+                color: '#f4f4f5',
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                borderColor: 'rgba(255, 255, 255, 0.1)',
+                scale: 1.05
+              }}
+              whileTap={{ scale: 0.95 }}
             >
-              <ExternalLink size={20} />
-            </motion.div>
-          </MagneticButton>
-        </motion.div>
+              <Linkedin size={20} />
+            </motion.a>
+
+            <motion.a
+              href="mailto:drewmalhotra@outlook.com"
+              style={{
+                color: '#a1a1aa',
+                padding: '0.75rem',
+                borderRadius: '0.5rem',
+                border: '1px solid rgba(255, 255, 255, 0.06)',
+                background: 'rgba(255, 255, 255, 0.02)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease',
+                textDecoration: 'none'
+              }}
+              whileHover={{
+                color: '#f4f4f5',
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                borderColor: 'rgba(255, 255, 255, 0.1)',
+                scale: 1.05
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Mail size={20} />
+            </motion.a>
+          </motion.div>
+        </div>
       </motion.div>
     </section>
   )
