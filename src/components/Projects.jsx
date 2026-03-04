@@ -77,7 +77,7 @@ const Projects = () => {
       techStack: ["Python", "TensorFlow", "AWS", "Docker", "Kubernetes"],
       links: {
         github: "https://github.com/d-malhotra2020/traffic-optimization",
-        live: "https://traffic-optimization-production.up.railway.app"
+        live: "https://web-production-39d8d.up.railway.app"
       }
     },
     {
