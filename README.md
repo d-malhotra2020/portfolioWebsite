@@ -156,7 +156,7 @@ While this is a personal portfolio, I welcome feedback and suggestions! Feel fre
 
 ## 📞 Contact
 
-- **Email**: dhruvmalhotra2025@gmail.com
+- **Email**: dhruvmalhotra2026@gmail.com
 - **LinkedIn**: [linkedin.com/in/drewmalhotra](https://www.linkedin.com/in/drewmalhotra/)
 - **GitHub**: [github.com/d-malhotra2020](https://github.com/d-malhotra2020)
 

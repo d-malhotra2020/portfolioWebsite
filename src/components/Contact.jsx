@@ -56,8 +56,8 @@ const Contact = () => {
     {
       icon: <Mail size={20} />,
       label: 'Email',
-      value: 'dhruvmalhotra2025@gmail.com',
-      link: 'mailto:dhruvmalhotra2025@gmail.com'
+      value: 'dhruvmalhotra2026@gmail.com',
+      link: 'mailto:dhruvmalhotra2026@gmail.com'
     },
     {
       icon: <Linkedin size={20} />,
@@ -638,7 +638,7 @@ const Contact = () => {
               <Linkedin size={20} />
             </a>
             <a
-              href="mailto:dhruvmalhotra2025@gmail.com"
+              href="mailto:dhruvmalhotra2026@gmail.com"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -670,7 +670,7 @@ const Contact = () => {
             margin: 0,
             fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
           }}>
-            © 2025 Dhruv Malhotra. Built with React and lots of coffee.
+            © 2026 Dhruv Malhotra. Built with React and lots of coffee.
           </p>
         </motion.footer>
       </motion.div>
