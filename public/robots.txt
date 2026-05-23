@@ -1,0 +1,7 @@
+# Robots policy for drewmalhotra.com
+# Public personal portfolio — everything is indexable.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://drewmalhotra.com/sitemap.xml
