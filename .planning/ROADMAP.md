@@ -18,7 +18,7 @@ per hour invested. Phases are sized for single sessions (≤2 hours).
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
-- [ ] **Phase 1: Technical Writeup — PATCH Vulnerability Case Study** - Publish a 1500-word case study at `/writing/patch-vulnerability`
+- [x] **Phase 1: Technical Writeup — PATCH Vulnerability Case Study** - Publish a 1500-word case study at `/writing/patch-vulnerability` ✅ 2026-05-23
 - [ ] **Phase 2: Per-Project Deep-Dive Pages** - Each "selected work" card opens to a richer page (screenshots, architecture, lessons)
 - [ ] **Phase 3: Agent Leveling-Up** - Rate-limiting, hot-lead notification, cost telemetry on the Cloudflare Worker
 - [ ] **Phase 4: A11y + Perf Audit Pass** - Lighthouse ≥ 95 everywhere, WCAG AA, real screen-reader tested
@@ -46,10 +46,10 @@ per hour invested. Phases are sized for single sessions (≤2 hours).
 **Plans**: 4 plans
 
 Plans:
-- [ ] 01-01: Add MDX or markdown loader + `/writing` route + index page
-- [ ] 01-02: Draft the case study (story arc: audit → discovery → analysis → remediation → lesson)
-- [ ] 01-03: Cross-link from About principles and Brivo career card; add OG image generation for the post
-- [ ] 01-04: Polish + ship — verify NDA safety, run Lighthouse, deploy
+- [x] 01-01: Hash router + markdown loader + `/writing` index + post page
+- [x] 01-02: Draft the case study (inverted-pyramid, ~1500 words, in Drew's voice)
+- [x] 01-03: Cross-link from About principle 01, Brivo career card, and add "writing" to nav
+- [x] 01-04: Polish + ship — clean build, deployed via GH Actions to drewmalhotra.com
 
 ### Phase 2: Per-Project Deep-Dive Pages
 **Goal**: Each project card on the homepage links to a richer per-project page showing screenshot, architecture, decisions, and lessons.
@@ -228,7 +228,7 @@ Phases execute in numeric order. Some phases (3, 4, 7, 9, 11) can run in paralle
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 0. Foundation (operator-console rebuild + agent + résumé parity) | 8/8 | Complete | 2026-05-23 |
-| 1. Technical Writeup — PATCH Case Study | 0/4 | Not started | - |
+| 1. Technical Writeup — PATCH Case Study | 4/4 | Complete | 2026-05-23 |
 | 2. Per-Project Deep-Dive Pages | 0/3 | Not started | - |
 | 3. Agent Leveling-Up | 0/3 | Not started | - |
 | 4. A11y + Perf Audit Pass | 0/3 | Not started | - |
