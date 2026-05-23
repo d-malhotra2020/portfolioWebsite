@@ -11,20 +11,22 @@ const experiences = [
     sub: 'fmr. Eagle Eye Networks',
     location: 'Austin, TX',
     current: true,
-    lede: 'Owning the validation layer of the world\'s #1 cloud video surveillance platform — proving 24 production environments deliver notifications reliably for thousands of enterprise customers.',
-    skills: ['Python', 'Flask', 'aiohttp', 'pytest-django', 'Docker', 'Postman'],
+    lede: 'Owning the validation layer of the world\'s #1 cloud video surveillance platform — proving 26 production environments deliver notifications reliably across 6 global regions for enterprise customers.',
+    skills: ['Python', 'Flask', 'aiohttp', 'pytest-django', 'Postman', 'Docker', 'k6', 'Browserstack'],
     details: {
       projects: [
-        'Synthetic Monitoring Platform: Multi-cluster Python/Flask system validating notification pipeline integrity across 24 production environments in 6 global regions; 39+ API routes with real-time health dashboards',
-        'LLM-Augmented QA Workflow: Automated API test generation and data analysis, reducing manual testing cycles from days to ~15 minutes',
-        'Gmail Ingestion Pipeline: Fault-tolerant batch processor for 200+ emails/day with 5× throughput improvement via concurrency, caching, and backoff logic',
-        'API Load Testing Tool: High-concurrency Python/aiohttp framework with session auth, dynamic CLI filtering, pagination handling, and Docker CI/CD integration'
+        'Synthetic Monitoring Platform: Multi-cluster Python/Flask system continuously validating event-driven notification pipeline integrity across 26 production environments in 6 global regions via automated event injection, reconciliation, SLA compliance tracking, and email delivery verification — 39+ API routes with real-time health dashboards',
+        'LLM-Augmented QA Workflow: Automated API test generation and data analysis, reducing manual testing cycles from days to ~15 minutes across enterprise endpoints',
+        'Distributed Error-Handling Suites: End-to-end tests validating cooloff behavior, retry policies, and webhook concurrency across RESTful APIs',
+        'Gmail Ingestion Pipeline: Fault-tolerant batch processor for 200+ emails/day; 5× throughput via concurrency, caching, and backoff logic; enriches alerts via API and exports to CSV',
+        'API Load Testing Tool: High-concurrency Python/aiohttp framework with session auth, dynamic CLI filtering, pagination handling, and Docker CI/CD integration for benchmarking core platform APIs',
+        'API Input-Validation Audit: 6+ endpoint groups reviewed — uncovered critical PATCH vulnerability in the rules endpoint allowing removal of required fields in production; led immediate remediation'
       ],
       impact: [
-        'Reverse-engineered undocumented throttling behavior by analyzing 3,100+ alerts and 10,100+ notifications — influenced platform architecture decisions',
-        'Authored 1,000+ pytest-django tests and 300+ Postman API tests, achieving 100% coverage across core services',
-        'Uncovered critical PATCH vulnerability in rules endpoint allowing removal of required fields in production — led immediate remediation',
-        'Validated platform migration impacting 10,000+ users with 99.9%+ delivery reliability post-migration'
+        'Reverse-engineered undocumented throttling by analyzing 3,100+ alerts and 10,100+ notifications, discovering a shared rule-level cooloff mechanism that influenced platform architecture decisions',
+        'Authored 1,000+ pytest-django tests and 300+ Postman API tests, achieving 100% coverage across core services and validating authentication, role-based permissions, and end-to-end workflows',
+        'Established P95/P99 latency, throughput, and error-rate baselines for alerting, notifications, and rules management APIs — surfaced filter-driven bottlenecks',
+        'Validated platform migration impacting 100,000+ users; automated comparison scripts identified and resolved a 15% performance discrepancy, confirming 99.9%+ delivery reliability post-migration'
       ]
     }
   },
@@ -39,9 +41,10 @@ const experiences = [
       projects: [
         'Real-time Traffic Software: Python management system with complex scheduling algorithms and database-backed state handling',
         'AI/ML Integration: TensorFlow models for predictive traffic analysis using time-series forecasting and anomaly detection',
-        'Load Testing Framework: Simulated 3,000+ intersections with concurrency modeling and data-driven scenarios',
+        'Load Testing Framework: Simulated 3,000+ intersections with concurrency modeling and data-driven scenarios to validate large-scale reliability',
+        'Signal Coordination Tests: Automated suite validating real-time traffic signal coordination across 50+ intersections — achieved 95%+ timing accuracy under variable load',
         'NTCIP Protocol Compliance: Validated 200+ traffic controllers in collaboration with embedded systems team',
-        'AWS Migration: Modernized legacy systems for cloud-native deployment via Docker + Kubernetes'
+        'AWS Migration: Modernized legacy traffic systems for cloud-native deployment via Docker + Kubernetes clusters'
       ],
       impact: [
         '15% improvement in urban traffic flow efficiency across multiple city networks',
@@ -98,9 +101,17 @@ const experiences = [
     date: '2018.08 — 2021.12',
     title: 'B.S. Computer Science',
     company: 'University of Texas at Dallas',
-    location: 'Dallas, TX',
+    location: 'Richardson, TX',
     lede: 'Algorithms, data structures, software engineering principles, database systems.',
     skills: ['Algorithms', 'Data Structures', 'Software Engineering', 'Databases']
+  },
+  {
+    date: '2016.08 — 2018.08',
+    title: 'A.S. Computer Science',
+    company: 'Austin Community College',
+    location: 'Austin, TX',
+    lede: 'Foundational coursework in CS, programming, and mathematics. Transferred to UT Dallas.',
+    skills: ['Programming Fundamentals', 'Discrete Math', 'CS Theory']
   },
   {
     date: '2011.07 — 2016.07',

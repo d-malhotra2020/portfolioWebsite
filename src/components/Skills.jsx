@@ -5,33 +5,33 @@ import { useInView } from 'react-intersection-observer'
 const blocks = [
   {
     n: '01',
-    h: 'Backend & APIs',
-    skills: ['Python', 'Flask', 'Django', 'FastAPI', 'aiohttp', 'Node.js', 'REST', 'GraphQL', 'pytest-django']
+    h: 'Languages',
+    skills: ['Python', 'Java', 'JavaScript', 'TypeScript', 'C/C++', 'Swift', 'HTML/CSS']
   },
   {
     n: '02',
-    h: 'Test & Quality',
-    skills: ['pytest', 'JUnit', 'Postman', 'Load testing', 'Synthetic monitoring', 'Chaos eng.', 'CI/CD', 'Jenkins']
+    h: 'Backend & APIs',
+    skills: ['Flask', 'Django', 'FastAPI', 'aiohttp', 'Node.js', 'REST', 'GraphQL', 'pytest-django', 'Microservices']
   },
   {
     n: '03',
-    h: 'Cloud & Infra',
-    skills: ['AWS', 'Docker', 'Kubernetes', 'PostgreSQL', 'Redis', 'MongoDB', 'Linux', 'Microservices']
+    h: 'Test & Quality',
+    skills: ['pytest', 'pytest-django', 'JUnit', 'Selenium', 'Playwright', 'Postman', 'k6', 'BDD', 'TDD', 'JIRA', 'Browserstack', 'Load testing', 'Synthetic monitoring', 'Chaos eng.']
   },
   {
     n: '04',
-    h: 'AI / ML',
-    skills: ['TensorFlow', 'PyTorch', 'Scikit-learn', 'Pandas', 'NumPy', 'LLM workflows', 'Time-series']
+    h: 'Cloud · Infra · Monitoring',
+    skills: ['AWS (EC2, Lambda, S3, CloudWatch)', 'Docker', 'Kubernetes', 'PostgreSQL', 'MySQL', 'Redis', 'MongoDB', 'Linux', 'Jenkins', 'GitHub Actions', 'Grafana', 'DataDog', 'Prometheus']
   },
   {
     n: '05',
-    h: 'Frontend',
-    skills: ['React', 'TypeScript', 'JavaScript', 'Vite', 'Framer Motion', 'HTML/CSS', 'Vue.js']
+    h: 'AI · ML · LLMs',
+    skills: ['TensorFlow', 'PyTorch', 'Scikit-learn', 'Pandas', 'NumPy', 'Time-series', 'Anomaly detection', 'Claude Code', 'Codex', 'Gemini', 'Anthropic API', 'LLM-augmented QA']
   },
   {
     n: '06',
-    h: 'Edge & IoT',
-    skills: ['Raspberry Pi', 'MQTT', 'Sensor integration', 'Embedded testing', 'NTCIP', 'Real-time']
+    h: 'Frontend',
+    skills: ['React', 'Vite', 'Framer Motion', 'HTML/CSS', 'Vue.js', 'Lucide']
   }
 ]
 

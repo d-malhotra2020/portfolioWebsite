@@ -56,6 +56,7 @@ const About = () => {
               <div className="row"><span className="k">years exp</span><span className="v">6+</span></div>
               <div className="row"><span className="k">location</span><span className="v">Austin, TX</span></div>
               <div className="row"><span className="k">timezone</span><span className="v">UTC −6</span></div>
+              <div className="row"><span className="k">clearance</span><span className="v">eligible</span></div>
               <div className="row"><span className="k">prior</span><span className="v">USN Corpsman</span></div>
             </div>
           </motion.div>
@@ -68,14 +69,22 @@ const About = () => {
             <p>
               Today I'm a <strong>Software Engineer in Test at Brivo</strong> (formerly Eagle
               Eye Networks), where I built a multi-cluster Python/Flask synthetic monitoring
-              platform validating notification pipelines across <strong>24 production
+              platform validating notification pipelines across <strong>26 production
               environments in 6 global regions</strong>.
             </p>
             <p>
               Before that — four years at Givelify shipping a PyTorch recommender to
               <strong> 1.5M users</strong>, and 15 months at Yunex Traffic simulating
               <strong> 3,000+ intersections</strong> to validate signal coordination at city
-              scale.
+              scale. I'm a <strong>security clearance eligible veteran</strong> — five years
+              US Navy before pivoting to software.
+            </p>
+            <p>
+              I work alongside <strong>Claude Code, Codex, and Gemini</strong> daily — LLM
+              tooling is a force multiplier I lean into, not a curiosity. The LLM-augmented
+              QA workflow I built at Brivo collapsed manual testing cycles from days to
+              ~15 minutes; the chat dock on this page is itself a small demo of how I think
+              about agentic systems.
             </p>
             <p>
               The throughline: I find the failure modes nobody else does, document them, and

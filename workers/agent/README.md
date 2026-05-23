@@ -67,21 +67,29 @@ test end-to-end without deploying.
 
 ---
 
-## Tightening security before launch
+## CORS state (already locked down)
 
-Open `wrangler.toml` and replace:
-
-```toml
-ALLOWED_ORIGIN = "*"
-```
-
-with your real origin(s):
+`wrangler.toml` is configured with an origin allowlist:
 
 ```toml
-ALLOWED_ORIGIN = "https://drewmalhotra.com,https://d-malhotra2020.github.io"
+ALLOWED_ORIGIN = "https://drewmalhotra.com,https://d-malhotra2020.github.io,http://localhost:3000"
 ```
 
-Then redeploy. Browsers from other origins will be blocked by CORS.
+The Worker echoes one of these back as `Access-Control-Allow-Origin` for every
+request whose `Origin` matches; mismatched origins get the first allowed origin
+echoed back, which fails the browser's CORS check client-side. To add or remove
+origins, edit the line and `npx wrangler deploy`.
+
+## Updating the agent's knowledge
+
+The system prompt at the top of `src/index.js` is Drew's career profile +
+voice instructions. Keep it in sync with the live résumé whenever:
+- A new role / project ships
+- A metric changes (test counts, user counts, env counts)
+- A new tool joins the daily workflow (e.g. a new LLM dev tool)
+
+After editing, run `npx wrangler deploy` — the Worker picks up the new prompt
+on the next request.
 
 ---
 

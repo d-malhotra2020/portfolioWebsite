@@ -5,7 +5,7 @@ const stats = [
   { num: '1.5', tail: 'M+', label: 'Users served\nat Givelify scale' },
   { num: '99.9', tail: '%', label: 'Delivery reliability\npost-migration' },
   { num: '3,000', tail: '+', label: 'Intersections simulated\nfor Yunex load tests' },
-  { num: '1,300', tail: '+', label: 'Tests authored\nacross prod stacks' }
+  { num: '1,800', tail: '+', label: 'Tests authored\nacross prod stacks' }
 ]
 
 const Hero = () => {
@@ -41,11 +41,12 @@ const Hero = () => {
             </h1>
 
             <p className="hero-lede fade-up" style={{ animationDelay: '0.6s' }}>
-              I'm <strong>Dhruv (Drew) Malhotra</strong> — currently testing notification
-              pipelines across <span className="accent">24 production environments</span> at
-              Brivo (fmr. Eagle Eye Networks). Before that I shipped a PyTorch recommender to
-              <strong> 1.5M users</strong> at Givelify, and ran load tests across
-              <strong> 3,000+ intersections</strong> for Yunex Traffic.
+              I'm <strong>Dhruv (Drew) Malhotra</strong> — Software Engineer in Test at
+              Brivo (fmr. Eagle Eye Networks), running synthetic monitoring across
+              <span className="accent"> 26 production environments</span> in 6 global regions.
+              Before that I shipped a PyTorch recommender to <strong>1.5M users</strong> at
+              Givelify, and ran load tests across <strong>3,000+ intersections</strong> for
+              Yunex Traffic. <strong>Security clearance eligible veteran.</strong>
             </p>
 
             <div className="hero-ctas fade-up" style={{ animationDelay: '0.75s' }}>
