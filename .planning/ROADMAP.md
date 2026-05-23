@@ -20,7 +20,7 @@ per hour invested. Phases are sized for single sessions (≤2 hours).
 
 - [x] **Phase 1: Technical Writeup — PATCH Vulnerability Case Study** - Publish a 1500-word case study at `/writing/patch-vulnerability` ✅ 2026-05-23
 - [x] **Phase 2: Per-Project Deep-Dive Pages** - Each "selected work" card opens to a richer page (screenshots, architecture, lessons) ✅ 2026-05-23
-- [ ] **Phase 3: Agent Leveling-Up** - Rate-limiting, hot-lead notification, cost telemetry on the Cloudflare Worker
+- [x] **Phase 3: Agent Leveling-Up** - Rate-limiting + cost telemetry shipped (hot-lead descoped). ✅ 2026-05-23
 - [ ] **Phase 4: A11y + Perf Audit Pass** - Lighthouse ≥ 95 everywhere, WCAG AA, real screen-reader tested
 - [ ] **Phase 5: SEO + Discoverability** - robots.txt, sitemap, expanded schema.org, per-route metadata
 - [ ] **Phase 6: Trust + Social Proof** - LinkedIn recommendations + certifications surfaced on the site
@@ -76,12 +76,12 @@ Plans:
   2. When a visitor's message contains hot-lead signals (company name, "looking to hire", "salary"), Drew receives a Slack or email notification within 60s
   3. Per-conversation token count and cost are logged to Cloudflare Workers Analytics
   4. Existing functionality (streaming, CORS, message history cap) still works
-**Plans**: 3 plans
+**Plans**: 3 plans (hot-lead descoped → 2 of 3 shipped, 1 deferred)
 
 Plans:
-- [ ] 03-01: Add Cloudflare KV namespace + per-IP rate limit (sliding window) to the Worker
-- [ ] 03-02: Hot-lead detection regex + Slack/email webhook notification
-- [ ] 03-03: Cost telemetry — log token counts and estimated USD per conversation to Workers Analytics Engine
+- [x] 03-01: KV-backed per-IP rate limit (20 reqs / 60s sliding window). Verified by 22-req smoke test.
+- [~] 03-02: Hot-lead detection — **descoped** during discuss-phase (no Slack/email channel chosen).
+- [x] 03-03: Cost telemetry code-ready. Captures input/output tokens + estimated USD per request. Gated on Drew enabling Analytics Engine in CF dashboard (one click).
 
 ### Phase 4: A11y + Perf Audit Pass
 **Goal**: The site scores Lighthouse ≥ 95 across perf / a11y / best practices / SEO and is WCAG AA compliant.
@@ -230,7 +230,7 @@ Phases execute in numeric order. Some phases (3, 4, 7, 9, 11) can run in paralle
 | 0. Foundation (operator-console rebuild + agent + résumé parity) | 8/8 | Complete | 2026-05-23 |
 | 1. Technical Writeup — PATCH Case Study | 4/4 | Complete | 2026-05-23 |
 | 2. Per-Project Deep-Dive Pages (4 of 6 projects) | 3/3 | Complete | 2026-05-23 |
-| 3. Agent Leveling-Up | 0/3 | Not started | - |
+| 3. Agent Leveling-Up (hot-lead descoped) | 2/3 | Complete | 2026-05-23 |
 | 4. A11y + Perf Audit Pass | 0/3 | Not started | - |
 | 5. SEO + Discoverability | 0/3 | Not started | - |
 | 6. Trust + Social Proof | 0/2 | Not started | - |

@@ -20,3 +20,20 @@ ALLOWED_ORIGIN = "https://drewmalhotra.com,https://d-malhotra2020.github.io,http
 
 # Secrets (set via CLI, NOT here):
 #   wrangler secret put ANTHROPIC_API_KEY
+
+# Per-IP rate limit backed by KV. Tried the `[[unsafe.bindings]]` ratelimit form
+# first; in wrangler 3.x it registered as "Unsafe Metadata" but didn't enforce
+# at runtime. KV is bulletproof on any wrangler version. Sliding window: 20
+# requests / 60 seconds, key = client IP.
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "b22c64c77ec34f57bc161773a3b301c1"
+
+# Workers Analytics Engine — receives per-request telemetry events.
+# Enable Analytics Engine in your Cloudflare dashboard FIRST, then uncomment:
+#   https://dash.cloudflare.com/<account>/workers/analytics-engine
+# Once enabled, run `npx wrangler deploy` again and telemetry starts capturing
+# token counts + estimated cost per conversation.
+# [[analytics_engine_datasets]]
+# binding = "TELEMETRY"
+# dataset = "drew_agent_events"

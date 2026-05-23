@@ -17,6 +17,14 @@ const MAX_TOKENS = 1024
 const MAX_HISTORY = 12
 const MAX_USER_CHARS = 1000
 
+// Pricing in micro-USD per token (USD * 1_000_000) for cost telemetry.
+// Update when Anthropic prices change or the default model rotates.
+// Haiku 4.5: $1 / MTok input, $5 / MTok output → 1 / 5 micro-USD per token.
+const PRICING_MICRO_USD = {
+  'claude-haiku-4-5-20251001': { input: 1, output: 5 },
+  'claude-sonnet-4-6': { input: 3, output: 15 }
+}
+
 const SYSTEM_PROMPT = `You are an interview agent on Dhruv (Drew) Malhotra's personal portfolio. You speak in Drew's voice — direct, technically grounded, confident without bragging. Your job is to answer questions from recruiters, hiring managers, and engineers who land on the site.
 
 # Identity
@@ -155,9 +163,114 @@ function sanitizeMessages(raw) {
   return out
 }
 
+function clientIp(request) {
+  return (
+    request.headers.get('cf-connecting-ip') ||
+    request.headers.get('x-forwarded-for') ||
+    'unknown'
+  )
+}
+
+// KV-backed sliding-window rate limit. Limit + windowSec define the policy.
+// Returns { allowed, count } so the caller can decide what to do.
+const RATE_LIMIT_PER_WINDOW = 20
+const RATE_LIMIT_WINDOW_SEC = 60
+
+async function checkRateLimit(kv, ip) {
+  if (!kv || ip === 'unknown') return { allowed: true, count: 0 }
+  const now = Math.floor(Date.now() / 1000)
+  const windowStart = now - RATE_LIMIT_WINDOW_SEC
+  const key = `rl:${ip}`
+  let timestamps = []
+  try {
+    const stored = await kv.get(key)
+    if (stored) {
+      timestamps = JSON.parse(stored).filter((t) => t >= windowStart)
+    }
+  } catch (_) {
+    // Treat KV errors as fail-open so the agent stays responsive.
+    return { allowed: true, count: 0 }
+  }
+
+  if (timestamps.length >= RATE_LIMIT_PER_WINDOW) {
+    return { allowed: false, count: timestamps.length }
+  }
+
+  timestamps.push(now)
+  try {
+    await kv.put(key, JSON.stringify(timestamps), {
+      expirationTtl: RATE_LIMIT_WINDOW_SEC * 2
+    })
+  } catch (_) {
+    // KV write failure — best effort.
+  }
+  return { allowed: true, count: timestamps.length }
+}
+
+function writeTelemetry(env, fields) {
+  if (!env.TELEMETRY) return
+  const { model, outcome, inputTokens, outputTokens, ip } = fields
+  const pricing = PRICING_MICRO_USD[model] || { input: 1, output: 5 }
+  const costMicro =
+    (inputTokens || 0) * pricing.input + (outputTokens || 0) * pricing.output
+  try {
+    env.TELEMETRY.writeDataPoint({
+      blobs: [model, outcome, ip],
+      doubles: [inputTokens || 0, outputTokens || 0, costMicro],
+      indexes: [outcome]
+    })
+  } catch (_) {
+    // Telemetry must never break the request path.
+  }
+}
+
+// Tee the Anthropic SSE stream — one branch streams to the client, the other
+// parses out usage events so we can record token counts + cost. Returns the
+// pass-through stream and a Promise that resolves with usage when the upstream
+// completes.
+function teeWithUsage(upstreamBody) {
+  const [forClient, forUsage] = upstreamBody.tee()
+
+  const usagePromise = (async () => {
+    const reader = forUsage.getReader()
+    const decoder = new TextDecoder()
+    let buf = ''
+    let inputTokens = 0
+    let outputTokens = 0
+
+    while (true) {
+      const { value, done } = await reader.read()
+      if (done) break
+      buf += decoder.decode(value, { stream: true })
+      const lines = buf.split('\n')
+      buf = lines.pop() || ''
+      for (const line of lines) {
+        if (!line.startsWith('data:')) continue
+        const payload = line.slice(5).trim()
+        if (!payload || payload === '[DONE]') continue
+        try {
+          const ev = JSON.parse(payload)
+          if (ev.type === 'message_start' && ev.message?.usage) {
+            inputTokens = ev.message.usage.input_tokens || 0
+          } else if (ev.type === 'message_delta' && ev.usage) {
+            outputTokens = ev.usage.output_tokens || outputTokens
+          }
+        } catch (_) {
+          // ignore parse errors in usage stream
+        }
+      }
+    }
+    return { inputTokens, outputTokens }
+  })()
+
+  return { forClient, usagePromise }
+}
+
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const origin = pickOrigin(request, env)
+    const ip = clientIp(request)
+    const model = env.MODEL || DEFAULT_MODEL
 
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: corsHeaders(origin) })
@@ -168,6 +281,7 @@ export default {
     }
 
     if (!env.ANTHROPIC_API_KEY) {
+      writeTelemetry(env, { model, outcome: 'misconfigured', ip })
       return new Response(
         JSON.stringify({ error: 'agent not configured · missing ANTHROPIC_API_KEY' }),
         {
@@ -177,19 +291,38 @@ export default {
       )
     }
 
+    // Per-IP rate limit — KV-backed sliding window.
+    const rl = await checkRateLimit(env.RATE_LIMIT, ip)
+    if (!rl.allowed) {
+      writeTelemetry(env, { model, outcome: 'rate_limited', ip })
+      return new Response(
+        JSON.stringify({
+          error: "agent's resting — you've hit the per-IP message limit for the minute. Try again shortly, or email Drew directly at dhruvmalhotra2026@gmail.com."
+        }),
+        {
+          status: 429,
+          headers: {
+            'Content-Type': 'application/json',
+            'Retry-After': String(RATE_LIMIT_WINDOW_SEC),
+            ...corsHeaders(origin)
+          }
+        }
+      )
+    }
+
     let body
     try {
       body = await request.json()
     } catch {
+      writeTelemetry(env, { model, outcome: 'bad_request', ip })
       return badRequest('invalid JSON', origin)
     }
 
     const messages = sanitizeMessages(body.messages)
     if (!messages) {
+      writeTelemetry(env, { model, outcome: 'bad_request', ip })
       return badRequest('invalid messages — must end with a user turn', origin)
     }
-
-    const model = env.MODEL || DEFAULT_MODEL
 
     const upstream = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -209,6 +342,7 @@ export default {
 
     if (!upstream.ok || !upstream.body) {
       const text = await upstream.text().catch(() => '')
+      writeTelemetry(env, { model, outcome: 'upstream_error', ip })
       return new Response(
         JSON.stringify({ error: 'upstream error', status: upstream.status, detail: text.slice(0, 500) }),
         {
@@ -218,7 +352,26 @@ export default {
       )
     }
 
-    return new Response(upstream.body, {
+    // Tee the stream — client gets one branch, telemetry inspects the other.
+    const { forClient, usagePromise } = teeWithUsage(upstream.body)
+
+    // ctx.waitUntil keeps the Worker alive past the response so the telemetry
+    // write actually fires after the upstream stream completes.
+    if (ctx?.waitUntil) {
+      ctx.waitUntil(
+        usagePromise.then(({ inputTokens, outputTokens }) => {
+          writeTelemetry(env, {
+            model,
+            outcome: 'ok',
+            inputTokens,
+            outputTokens,
+            ip
+          })
+        })
+      )
+    }
+
+    return new Response(forClient, {
       status: 200,
       headers: {
         'Content-Type': 'text/event-stream',
