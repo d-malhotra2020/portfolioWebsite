@@ -91,7 +91,7 @@ deploying or modifying the Worker itself.
 | `npm run build` | Production build to `dist/` |
 | `npm run preview` | Serve the production build locally |
 | `npm run lint` | ESLint with React rules |
-| `npm run deploy` | Build, then push `dist/` to the `gh-pages` branch |
+| `npm run deploy` | Push `main` to GitHub (triggers the deploy workflow) |
 
 ---
 
@@ -100,12 +100,28 @@ deploying or modifying the Worker itself.
 ### Portfolio (GitHub Pages)
 
 ```bash
-npm run deploy
+git add -A && git commit -m "..."
+npm run deploy   # = git push origin main
 ```
 
-This runs `vite build` then `gh-pages -d dist`. The `public/CNAME` file ships
-into the build so the custom domain stays mapped. GitHub Pages typically
-reflects the change within 1–10 minutes (CDN cache lag is normal).
+Pushing to `main` triggers `.github/workflows/deploy.yml`, which runs
+`npm install && npm run build` in an Actions runner, uploads `dist/` as a
+Pages artifact, and serves it at [drewmalhotra.com](https://drewmalhotra.com).
+The custom domain + HTTPS cert are managed through GitHub Pages settings
+(no `gh-pages` branch in use).
+
+The agent endpoint is wired in via a **GitHub repository variable** named
+`VITE_AGENT_ENDPOINT`. Update it under Settings → Secrets and variables →
+Actions → Variables, or via the gh CLI:
+
+```bash
+gh variable set VITE_AGENT_ENDPOINT \
+  --body "https://drew-agent.drewmalhotra.workers.dev" \
+  --repo d-malhotra2020/portfolioWebsite
+```
+
+The workflow exposes this variable to Vite during the build, so the URL
+gets baked into the static bundle.
 
 ### Agent Worker (Cloudflare)
 

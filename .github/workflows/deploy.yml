@@ -33,6 +33,8 @@ jobs:
       run: npm install
 
     - name: Build
+      env:
+        VITE_AGENT_ENDPOINT: ${{ vars.VITE_AGENT_ENDPOINT }}
       run: npm run build
 
     - name: Setup Pages
