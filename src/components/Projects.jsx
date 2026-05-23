@@ -151,7 +151,7 @@ const Projects = () => {
                 onClick={onCardOpen}
                 onKeyDown={onCardKey}
                 tabIndex={clickable ? 0 : undefined}
-                role={clickable ? 'link' : undefined}
+                role={clickable ? 'button' : undefined}
                 aria-label={clickable ? `Read about ${p.title}` : undefined}
               >
                 <div className="work-row1">

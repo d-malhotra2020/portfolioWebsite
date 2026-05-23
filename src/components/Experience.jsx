@@ -191,7 +191,7 @@ const Experience = () => {
                       {exp.details && (
                         <div className="grid">
                           <div>
-                            <h5>Projects</h5>
+                            <h4 className="career-detail-heading">Projects</h4>
                             <ul>
                               {exp.details.projects.map((p, k) => {
                                 const [head, ...rest] = p.split(':')
@@ -215,7 +215,7 @@ const Experience = () => {
                             </ul>
                           </div>
                           <div>
-                            <h5>Impact</h5>
+                            <h4 className="career-detail-heading">Impact</h4>
                             <ul>
                               {exp.details.impact.map((p, k) => (
                                 <li key={k}>{p}</li>

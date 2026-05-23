@@ -106,7 +106,14 @@ export const Markdown = ({ source }) => {
       }
       i++ // skip closing fence
       blocks.push(
-        <pre key={blocks.length} className="md-code" data-lang={lang || 'text'}>
+        <pre
+          key={blocks.length}
+          className="md-code"
+          data-lang={lang || 'text'}
+          tabIndex={0}
+          role="region"
+          aria-label={`Code block (${lang || 'text'})`}
+        >
           <code>{codeLines.join('\n')}</code>
         </pre>
       )

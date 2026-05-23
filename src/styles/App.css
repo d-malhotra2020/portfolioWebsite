@@ -1065,7 +1065,8 @@ button {
   padding-top: 1.25rem;
 }
 
-.career-body h5 {
+.career-body h5,
+.career-body .career-detail-heading {
   font-family: var(--mono);
   font-size: 0.7rem;
   font-weight: 500;
@@ -1078,7 +1079,8 @@ button {
   gap: 0.45rem;
 }
 
-.career-body h5::before {
+.career-body h5::before,
+.career-body .career-detail-heading::before {
   content: '';
   width: 4px;
   height: 4px;
@@ -2838,4 +2840,24 @@ button {
   background: var(--cyan);
   border-color: var(--cyan);
   color: var(--bg);
+}
+
+/* ============================================================
+   prefers-reduced-motion
+   Users who request less motion (OS-level setting) get instant
+   transitions and no decorative animation.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Specific opt-out for elements where motion is part of the meaning. */
+  body::before {
+    animation: none !important;
+  }
 }

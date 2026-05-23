@@ -59,7 +59,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="statusbar">
+      <div className="statusbar" role="region" aria-label="System status">
         <div className="shell statusbar-inner">
           <div className="statusbar-group">
             <span className="status-pill">
