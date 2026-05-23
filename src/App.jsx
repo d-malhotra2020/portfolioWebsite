@@ -9,9 +9,35 @@ import Skills from './components/Skills'
 import Contact from './components/Contact'
 import ScrollProgress from './components/ScrollProgress'
 import AgentDock from './components/AgentDock'
+import WritingIndex from './components/WritingIndex'
+import WritingPost from './components/WritingPost'
+import { useHashRoute, matchRoute } from './lib/router'
 import './styles/App.css'
 
 function App() {
+  const path = useHashRoute()
+  const route = matchRoute(path)
+
+  if (route.kind === 'writing-index') {
+    return (
+      <div className="app">
+        <ScrollProgress />
+        <WritingIndex />
+        <AgentDock />
+      </div>
+    )
+  }
+
+  if (route.kind === 'writing-post') {
+    return (
+      <div className="app">
+        <ScrollProgress />
+        <WritingPost slug={route.slug} />
+        <AgentDock />
+      </div>
+    )
+  }
+
   return (
     <div className="app">
       <ScrollProgress />

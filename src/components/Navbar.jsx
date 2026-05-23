@@ -6,6 +6,7 @@ const links = [
   { href: '#about', label: 'about', id: 'about' },
   { href: '#experience', label: 'career', id: 'experience' },
   { href: '#projects', label: 'work', id: 'projects' },
+  { href: '#/writing', label: 'writing', id: 'writing', external: true },
   { href: '#skills', label: 'stack', id: 'skills' },
   { href: '#contact', label: 'contact', id: 'contact' }
 ]
@@ -47,6 +48,11 @@ const Navbar = () => {
   const click = (e, href) => {
     e.preventDefault()
     setOpen(false)
+    if (href.startsWith('#/')) {
+      window.location.hash = href.slice(1)
+      window.scrollTo(0, 0)
+      return
+    }
     const el = document.getElementById(href.substring(1))
     if (el) window.scrollTo({ top: el.offsetTop - 100, behavior: 'smooth' })
   }

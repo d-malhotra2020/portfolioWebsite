@@ -195,10 +195,20 @@ const Experience = () => {
                             <ul>
                               {exp.details.projects.map((p, k) => {
                                 const [head, ...rest] = p.split(':')
+                                const tail = rest.length > 0 ? ':' + rest.join(':') : ''
+                                const isPatchAudit = exp.company === 'Brivo' && /PATCH vulnerability/i.test(p)
                                 return (
                                   <li key={k}>
                                     <strong>{head}</strong>
-                                    {rest.length > 0 ? ':' + rest.join(':') : ''}
+                                    {tail}
+                                    {isPatchAudit && (
+                                      <>
+                                        {' '}
+                                        <a className="case-study-link" href="#/writing/patch-vulnerability">
+                                          Read the case study →
+                                        </a>
+                                      </>
+                                    )}
                                   </li>
                                 )
                               })}

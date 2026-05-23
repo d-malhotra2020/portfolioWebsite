@@ -6,7 +6,8 @@ const principles = [
   {
     n: '01',
     h: 'Reliability over cleverness',
-    p: 'I uncovered a critical PATCH vulnerability that allowed removal of required fields in production. Fix shipped same-day. Boring code that fails loudly beats elegant code that fails silently.'
+    p: 'I uncovered a critical PATCH vulnerability that allowed removal of required fields in production. Fix shipped same-day. Boring code that fails loudly beats elegant code that fails silently.',
+    link: { href: '#/writing/patch-vulnerability', label: 'Read the case study →' }
   },
   {
     n: '02',
@@ -98,6 +99,11 @@ const About = () => {
                   <div>
                     <h4>{p.h}</h4>
                     <p>{p.p}</p>
+                    {p.link && (
+                      <a className="principle-link" href={p.link.href}>
+                        {p.link.label}
+                      </a>
+                    )}
                   </div>
                 </motion.div>
               ))}
