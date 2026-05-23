@@ -1,389 +1,242 @@
-# Portfolio Roadmap
+# Roadmap: drewmalhotra.com
 
-**Site:** [drewmalhotra.com](https://drewmalhotra.com)
-**Owner:** Dhruv (Drew) Malhotra
-**Optimization target:** *appeal to potential employers (SDE / SDET / AI-ML / cloud architecture roles).*
+## Overview
 
-This document drives `/gsd-autonomous` and similar workflows. Phases are
-designed to be executable in single sessions (≤2 hours of focused work).
-Earlier phases have higher employer-impression ROI per hour invested.
+Twelve focused phases that take the operator-console portfolio from "live
+and accurate" to "demonstrably the strongest engineering portfolio in
+Drew's hiring pool." Earlier phases have higher employer-impression ROI
+per hour invested. Phases are sized for single sessions (≤2 hours).
 
----
+## Milestones
 
-## Status legend
-
-| Symbol | Meaning |
-|---|---|
-| ⬜ | not started |
-| 🔄 | in progress |
-| ✅ | completed |
-| 🟡 | blocked / awaiting external (cert, recommendation, third-party action) |
-| 🚫 | descoped |
-
----
-
-## Current state (baseline)
-
-What already ships on `drewmalhotra.com` as of 2026-05-23:
-
-- Operator-console aesthetic (dark, Geist Sans + JetBrains Mono, cyan/amber)
-- Hero with terminal `whoami.sh` panel + 4-stat strip
-- Live status board pinging 6 deployed Railway projects (auto-refresh 2m)
-- Live GitHub commit feed (events API + per-repo fallback)
-- About / career / projects / stack / contact sections
-- AI agent dock backed by Cloudflare Worker → Claude Haiku
-- GH Actions deploy on push to `main`; CORS-locked Worker
-- Formspree contact form, accurate resume PDF, custom domain + HTTPS
-
-**What hiring managers *don't* see yet:** longform writing showing how I
-think, per-project deep-dives, social proof, polished mobile, ironclad a11y,
-sticky conversion (newsletter / "ping me" CTA), formal cost guardrails.
-
----
-
-## Now playing
-
-→ **P01 — First technical writeup: the PATCH vulnerability case study**
-
-That single piece of writing is the highest-impact thing the site is
-currently missing. A hiring manager who reads "I uncovered a critical PATCH
-vulnerability" wants the story. Tell the story.
-
----
+- ✅ **v0 — Foundation** (Phase 0) — shipped 2026-05-23
+- 🚧 **v1 — Recruiter funnel** (Phases 1–12) — in progress
 
 ## Phases
 
-### P01 — First technical writeup (PATCH vulnerability case study) ⬜
-
-**Goal:** Add a `/writing` index + the first longform post: how I found
-the PATCH vulnerability at Brivo, why nobody else did, what I did about it.
-
-**Deliverables**
-- `/writing` route with index of posts (renders MDX or plain markdown)
-- One published post: ~1500 words, with code/JSON snippets, redacted/safe
-- Cross-link from the About principles ("Reliability over cleverness")
-- Cross-link from the relevant project card / career row
-- OG image for social shares
-
-**Success criteria**
-- Reads coherent and concrete to a non-Brivo engineer
-- All technical claims survive a re-read 24h later
-- No proprietary detail that violates Brivo NDA
-- Lighthouse perf score on the post page ≥ 90
-
-**Effort:** ~2 sessions (draft + polish + technical wiring)
-
----
-
-### P01b — LLM-tooling visibility pass ✅
-
-**Goal:** Surface Drew's enthusiasm for LLM dev tooling (Claude Code, Codex,
-Gemini) prominently — not just as a buried bullet but as a real signal.
-Differentiator vs. typical SDET candidates.
-
-**Deliverables**
-- Dedicated paragraph in `About` calling out daily use of Claude Code, Codex,
-  Gemini and framing LLMs as a force multiplier (not a curiosity).
-- Skills `AI · ML · LLMs` block lists the tools by name (Claude Code, Codex,
-  Gemini, Anthropic API, LLM-augmented QA).
-- Agent system prompt has an explicit "LLM tooling — Drew is enthusiastic and
-  hands-on" section so recruiters asking the agent get the same signal.
-- The chat dock itself stays as the strongest demo — explicitly references it
-  in About copy.
-
-**Success criteria**
-- Anyone reading About knows Drew uses LLM tooling daily within 30 seconds.
-- Anyone asking the agent about AI/LLM dev workflow gets a confident,
-  specific answer.
-
-**Effort:** shipped 2026-05-23 alongside resume-parity reconciliation.
-
----
-
-### P02 — Per-project deep-dive pages ⬜
-
-**Goal:** Each "selected work" card becomes a route. The card stays as a
-preview; clicking opens a richer page with screenshots, architecture
-diagram, key decisions, lessons.
-
-**Deliverables**
-- `/work/[slug]` routes for the 6 current projects
-- Per-project: screenshot or short video, architecture sketch (mermaid or
-  hand-drawn SVG), one paragraph on *the hard part*, links
-- Update project cards on the home page to link to deep-dives (live link
-  still goes to the Railway deployment)
-
-**Success criteria**
-- Clicking through any project answers "what makes you good at this?"
-  without bouncing to GitHub
-- Each page loads in <1.5s on a fresh visit
-
-**Effort:** ~3 sessions (1 per 2 projects)
-
----
-
-### P03 — Agent leveling-up ⬜
-
-**Goal:** Make the agent meaningfully better, not just functional.
-
-**Deliverables**
-- Rate-limiting: ~20 messages/hour per IP via Cloudflare KV
-- Hot-lead detection: if conversation mentions specific signals (company
-  name, "looking to hire", "salary"), Worker pings Drew via Slack/email
-  webhook
-- Conversation summary on the visitor side: at session end, the agent
-  offers to email Drew a recap of what was discussed
-- Cost telemetry: log per-conversation token count to Cloudflare Analytics
-
-**Success criteria**
-- Rate limit triggers cleanly with a helpful message (not a 500)
-- Drew has received at least one hot-lead notification from a recruiter
-- Per-conversation cost visible in Cloudflare dashboard
-
-**Effort:** ~2 sessions
-
----
-
-### P04 — A11y + perf audit pass ⬜
-
-**Goal:** Lighthouse ≥ 95 across the board on the main page. WCAG AA
-compliant. Real screen-reader tested.
-
-**Deliverables**
-- Run Lighthouse on every route; record baseline
-- Fix any failing a11y rules (alt text, contrast, focus rings, ARIA)
-- Code-split if main bundle > 250KB gzipped (currently 96KB — likely fine)
-- Add prefers-reduced-motion handling to all Framer Motion animations
-- Test with VoiceOver on macOS for one full visitor flow
-
-**Success criteria**
-- Lighthouse: perf ≥ 95, a11y = 100, best practices ≥ 95, SEO = 100
-- Site is fully usable via keyboard alone (Tab through every interactive)
-- VoiceOver reads the page in a sensible order
-
-**Effort:** ~1 session
-
----
-
-### P05 — SEO + discoverability ⬜
-
-**Goal:** When a recruiter searches "Drew Malhotra SDET Austin," this site
-is first hit, with a rich preview.
-
-**Deliverables**
-- `robots.txt` allowing all, with sitemap reference
-- Generated `sitemap.xml` (build step)
-- Expanded schema.org JSON-LD: `Person` + `WebSite` + per-project
-  `SoftwareApplication`, per-job `WorkExperience`
-- Per-route `<meta>` (title, description, OG image)
-- Submit to Google Search Console; verify ownership
-
-**Success criteria**
-- `site:drewmalhotra.com` returns indexed pages within 14 days
-- LinkedIn / Slack share preview is on-brand (not blank)
-- Google rich-result tester passes on the home page
-
-**Effort:** ~1 session
-
----
-
-### P06 — Trust + social proof section ⬜
-
-**Goal:** Add a thin section the site doesn't currently have: voices that
-aren't mine.
-
-**Deliverables**
-- Pull 3–5 LinkedIn recommendations (with permission) onto the site
-- If you've spoken at a meetup / had a manager quote you in a review:
-  surface it
-- Certifications (AWS, security, anything Brivo-issued) with badges
-- Press / mentions if any
-
-**Success criteria**
-- At least 3 third-party quotes attributed and live on the page
-- One verifiable credential (cert, talk, publication) rendered
-
-**Effort:** ~1 session (gated on collecting recommendations — see 🟡 below)
-
-> 🟡 **Blocker note:** Some of this requires LinkedIn-message asks to former
-> colleagues. Phase can run with whatever signed-off content exists at start.
-
----
-
-### P07 — Refresh side-project deployments ⬜
-
-**Goal:** Make sure every Railway-deployed project on the status board
-actually does something useful when clicked. Kill or fix anything dead.
-
-**Deliverables**
-- For each of the 6 side projects: load the Railway URL, confirm it's
-  functional (not just 200-ing), test the headline feature
-- If broken or stale: either fix the deployment or remove from the site
-- Add a one-line description visible on the deployment landing page
-  explaining what it is + linking back to drewmalhotra.com
-
-**Success criteria**
-- Every linked project either works for its stated headline feature, or
-  is removed from the site
-- Status board shows accurate green for all remaining projects
-
-**Effort:** ~2 sessions
-
----
-
-### P08 — Analytics maturity ⬜
-
-**Goal:** Replace "I have GA4 installed" with actually-useful data.
-
-**Deliverables**
-- GA4 events: resume download, agent conversation start, agent message
-  sent, contact-form submission, deep-dive page view
-- Custom dashboard in GA4 with the funnel: land → engage agent → ask N+
-  questions → take an action
-- Cloudflare Worker Analytics dashboard for agent: requests, p95 latency,
-  error rate, daily token cost
-
-**Success criteria**
-- Drew can answer "how many recruiters used the agent last week" in <30s
-- Drew can answer "what's costing me money on Anthropic" in <30s
-
-**Effort:** ~1 session
-
----
-
-### P09 — Signature easter eggs / craft signals ⬜
-
-**Goal:** Subtle details that hiring managers notice and remember. Not
-required, but lifts the site from "very good" to "I want to talk to this
-person."
-
-**Candidate deliverables** *(pick 2–3, not all):*
-- `/whoami` route that renders a terminal-style CV; can be `curl`-ed
-  cleanly and returns Drew's resume as plain text/JSON
-- Konami code triggers something on-brand (matrix rain? a Brivo-style
-  alert?)
-- Subtle keyboard shortcuts: `g a` → about, `g w` → work, `?` → help
-- Animated favicon during agent typing
-- Agent dock that remembers history if you open it again same session
-
-**Success criteria**
-- The chosen detail is discoverable but not in the way
-- Friends + a handful of recruiters notice it unprompted
-
-**Effort:** ~1 session
-
----
-
-### P10 — Cost guardrails ⬜
-
-**Goal:** Cap the worst case. The site should be cheap to run even if it
-gets abused or goes viral.
-
-**Deliverables**
-- Set Anthropic monthly budget cap in the Anthropic dashboard ($25? $50?
-  TBD — see Q below)
-- Worker logic: if daily token-cost estimate > threshold, return a
-  friendly "agent's resting" message instead of calling Anthropic
-- Document the cost model in `workers/agent/README.md` so future-Drew
-  remembers how it works
-
-**Success criteria**
-- A bad day can't cost more than the configured budget
-- Drew gets an alert (email from Anthropic) before hitting cap
-
-**Effort:** ~1 session
-
-> ❓ **Open question for Drew:** What's an acceptable monthly ceiling? My
-> default suggestion is $25/mo — well below any reasonable usage at Haiku
-> pricing, but firm enough that you'd notice if abused.
-
----
-
-### P11 — Mobile UX deep-pass ⬜
-
-**Goal:** Test every interaction on a real device, fix what's broken.
-
-**Deliverables**
-- Manual pass on iOS Safari + Android Chrome on a real phone
-- Fix touch-target sizes (≥44px) on the agent dock, status refresh
-  button, nav links
-- Ensure agent panel doesn't break scroll-lock or trap focus weirdly
-- Test landscape orientation
-
-**Success criteria**
-- Every interactive element is comfortably tappable on a 5.5" phone
-- Agent panel opens / closes / sends without iOS keyboard breaking layout
-
-**Effort:** ~1 session
-
----
-
-### P12 — Recurring maintenance scaffolding ⬜
-
-**Goal:** Make sure this roadmap doesn't get stale; make the recurring
-items below actually happen.
-
-**Deliverables**
-- A `Maintenance` section in this file (see below)
-- A `STATE.md` sibling that the autonomous workflow updates after each
-  phase
-- A GitHub issue template for "monthly check-in" with the maintenance
-  checklist pre-populated
-
-**Success criteria**
-- The maintenance checklist gets run once per month for at least 3 months
-- This ROADMAP.md has been edited (phases re-prioritized) at least once
-  based on what was actually shipped
-
-**Effort:** ~0.5 session
-
----
-
-## Recurring maintenance
-
-| Cadence | Task |
-|---|---|
-| Weekly | Eyeball the live status board; if anything red >24h, fix or remove. |
-| Weekly | Skim agent transcripts via Cloudflare logs; spot-check any wild answers. |
-| Monthly | Bump dependencies (`npm outdated`); update wrangler; re-run a Lighthouse audit. |
-| Monthly | Update the "Currently at Brivo" copy if your project there has shifted. |
-| Monthly | Refresh resume PDF if any new role / impact / metric landed. |
-| Monthly | Review Anthropic spend; revisit budget if scale changed. |
-| Quarterly | Ship one new project or one new technical writeup. |
-| Quarterly | Re-prioritize this roadmap based on what actually drove inbound interest. |
-| Quarterly | **Résumé-parity audit** — diff `public/Dhruv_malhotra_resume.pdf` against the site Experience / Skills / About *and* the Worker system prompt; correct any drift. Numeric claims (env counts, user counts, test counts) get stale fastest. |
-| Annually | Re-audit a11y + perf with fresh eyes; refresh OG images; rotate Anthropic API key. |
-
----
-
-## Out of scope (intentionally not doing)
-
-- **Theme toggle / multiple themes.** A single intentional aesthetic
-  outperforms "5 themes" every time. The previous version of this site
-  had 5 themes; the new one has one. That's correct.
-- **Animated particle backgrounds.** Same reason as above — distraction
-  cosplays as polish.
-- **Reverse-chronological blog.** "Writing" is for evergreen case
-  studies, not weekly posts. Frequency would be a treadmill.
-- **i18n.** The hiring market this site targets reads English.
-- **Comments / community features.** Not a publication.
-
----
-
-## Glossary
-
-- **Hot lead** — agent conversation that mentions hiring, a specific
-  company, salary, or "let's talk." Worth a real-time notification.
-- **Deep-dive** — a per-project page that answers "show me how you
-  thought about this" without forcing the reader into GitHub.
-- **Operator-console** — the aesthetic direction the site is committed
-  to: dark + monospace chrome + live signals + restrained motion.
-
----
-
-## Change log
-
-| Date | Change | By |
-|---|---|---|
-| 2026-05-23 | Initial roadmap authored. | Drew + Claude |
-| 2026-05-23 | Added P01b (LLM-tooling visibility); résumé-parity reconciliation shipped — 24→26 envs, 10K→100K users, ACC degree added, Skills inventory expanded, security clearance surfaced, agent system prompt synced. | Drew + Claude |
+**Phase Numbering:**
+- Integer phases (1, 2, 3): Planned milestone work
+- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+
+- [ ] **Phase 1: Technical Writeup — PATCH Vulnerability Case Study** - Publish a 1500-word case study at `/writing/patch-vulnerability`
+- [ ] **Phase 2: Per-Project Deep-Dive Pages** - Each "selected work" card opens to a richer page (screenshots, architecture, lessons)
+- [ ] **Phase 3: Agent Leveling-Up** - Rate-limiting, hot-lead notification, cost telemetry on the Cloudflare Worker
+- [ ] **Phase 4: A11y + Perf Audit Pass** - Lighthouse ≥ 95 everywhere, WCAG AA, real screen-reader tested
+- [ ] **Phase 5: SEO + Discoverability** - robots.txt, sitemap, expanded schema.org, per-route metadata
+- [ ] **Phase 6: Trust + Social Proof** - LinkedIn recommendations + certifications surfaced on the site
+- [ ] **Phase 7: Refresh Side-Project Deployments** - Audit and fix or remove every linked Railway project
+- [ ] **Phase 8: Analytics Maturity** - GA4 events on agent / resume / form / deep-dive plus Worker telemetry
+- [ ] **Phase 9: Signature Easter Eggs** - `/whoami`, Konami code, keyboard shortcuts, animated favicon
+- [ ] **Phase 10: Cost Guardrails** - Anthropic monthly budget cap + Worker daily-cost circuit breaker
+- [ ] **Phase 11: Mobile UX Deep-Pass** - Real-device test pass on iOS + Android; fix what's broken
+- [ ] **Phase 12: Recurring Maintenance Scaffolding** - Monthly check-in GH issue template + résumé-parity reminder
+
+## Phase Details
+
+### Phase 1: Technical Writeup — PATCH Vulnerability Case Study
+**Goal**: Publish a longform case study at `/writing/patch-vulnerability` describing the Brivo PATCH-endpoint vulnerability Drew found, how he found it, and what changed afterward.
+**Depends on**: Nothing
+**Requirements**: REQ-01
+**Success Criteria** (what must be TRUE):
+  1. A `/writing` index page exists and lists at least one published post
+  2. A `/writing/patch-vulnerability` post exists with ~1500 words, code/JSON snippets, and an OG image
+  3. The post is reachable from About ("Reliability over cleverness" principle) and from the Brivo career card
+  4. Lighthouse perf score on the post page is ≥ 90
+  5. No content in the post violates Brivo NDA or names specific internal systems unsafely
+**Plans**: 4 plans
+
+Plans:
+- [ ] 01-01: Add MDX or markdown loader + `/writing` route + index page
+- [ ] 01-02: Draft the case study (story arc: audit → discovery → analysis → remediation → lesson)
+- [ ] 01-03: Cross-link from About principles and Brivo career card; add OG image generation for the post
+- [ ] 01-04: Polish + ship — verify NDA safety, run Lighthouse, deploy
+
+### Phase 2: Per-Project Deep-Dive Pages
+**Goal**: Each project card on the homepage links to a richer per-project page showing screenshot, architecture, decisions, and lessons.
+**Depends on**: Phase 1
+**Requirements**: REQ-02
+**Success Criteria** (what must be TRUE):
+  1. Routes exist at `/work/[slug]` for all 6 current selected projects
+  2. Each deep-dive page has: a screenshot or short video, an architecture sketch (mermaid or hand-drawn SVG), a "the hard part" paragraph, and links to source + live
+  3. Homepage project cards link to the deep-dive (live button still goes to the Railway deployment)
+  4. Each deep-dive page loads in <1.5s on a cold visit (Lighthouse perf ≥ 90)
+**Plans**: 3 plans
+
+Plans:
+- [ ] 02-01: Add `/work/[slug]` routing + shared layout for deep-dive pages
+- [ ] 02-02: Write content for projects 1–3 (video-analytics, traffic-optimization, donation-platform)
+- [ ] 02-03: Write content for projects 4–6 (financial-analysis, smart-home, portfolio itself)
+
+### Phase 3: Agent Leveling-Up
+**Goal**: The Cloudflare Worker agent gets rate-limiting, hot-lead notification, and cost telemetry so it's defensively engineered and lead-generating.
+**Depends on**: Phase 1
+**Requirements**: REQ-03
+**Success Criteria** (what must be TRUE):
+  1. A single IP making > 20 messages/hour gets a friendly "agent's resting" message instead of more API calls
+  2. When a visitor's message contains hot-lead signals (company name, "looking to hire", "salary"), Drew receives a Slack or email notification within 60s
+  3. Per-conversation token count and cost are logged to Cloudflare Workers Analytics
+  4. Existing functionality (streaming, CORS, message history cap) still works
+**Plans**: 3 plans
+
+Plans:
+- [ ] 03-01: Add Cloudflare KV namespace + per-IP rate limit (sliding window) to the Worker
+- [ ] 03-02: Hot-lead detection regex + Slack/email webhook notification
+- [ ] 03-03: Cost telemetry — log token counts and estimated USD per conversation to Workers Analytics Engine
+
+### Phase 4: A11y + Perf Audit Pass
+**Goal**: The site scores Lighthouse ≥ 95 across perf / a11y / best practices / SEO and is WCAG AA compliant.
+**Depends on**: Phase 2
+**Requirements**: REQ-05
+**Success Criteria** (what must be TRUE):
+  1. Lighthouse on the homepage: perf ≥ 95, a11y = 100, best practices ≥ 95, SEO = 100
+  2. Site is fully usable via keyboard alone (Tab through every interactive element in sensible order)
+  3. VoiceOver on macOS reads the homepage in a sensible order with no "unlabeled button" or "image" announcements
+  4. Framer Motion animations respect `prefers-reduced-motion`
+**Plans**: 3 plans
+
+Plans:
+- [ ] 04-01: Run baseline Lighthouse + axe-core audit; record findings
+- [ ] 04-02: Fix a11y issues (alt text, ARIA labels, focus rings, color contrast)
+- [ ] 04-03: Add `prefers-reduced-motion` handling; verify keyboard + VoiceOver flow
+
+### Phase 5: SEO + Discoverability
+**Goal**: Recruiters searching Drew's name or skills find drewmalhotra.com on page 1 with a rich preview.
+**Depends on**: Phase 1
+**Requirements**: REQ-04
+**Success Criteria** (what must be TRUE):
+  1. `robots.txt` and generated `sitemap.xml` exist and are referenced
+  2. Per-route `<meta>` tags (title, description, OG image) render correctly when scraped
+  3. Schema.org JSON-LD is expanded beyond just `Person` to include `WebSite`, per-project `SoftwareApplication`, per-role `WorkExperience`
+  4. Google Search Console verifies ownership and reports the sitemap as crawled
+  5. LinkedIn / Slack preview of any shared link looks on-brand (not blank)
+**Plans**: 3 plans
+
+Plans:
+- [ ] 05-01: Author robots.txt + sitemap generation; per-route meta tags
+- [ ] 05-02: Expand schema.org JSON-LD (Person, WebSite, SoftwareApplication, WorkExperience)
+- [ ] 05-03: Submit sitemap to Google Search Console; verify rich-result preview
+
+### Phase 6: Trust + Social Proof
+**Goal**: Add third-party voices to the site — LinkedIn recommendations, certifications, talks.
+**Depends on**: Phase 1
+**Requirements**: REQ-06
+**Success Criteria** (what must be TRUE):
+  1. At least 3 third-party quotes (attributed) live on the site
+  2. At least one verifiable credential (cert badge, talk video link, publication) rendered
+  3. The section reads as supplementing — not replacing — Drew's own metrics
+**Plans**: 2 plans
+
+Plans:
+- [ ] 06-01: Collect recommendations from 3–5 former colleagues via LinkedIn (blocker for downstream work)
+- [ ] 06-02: Build trust section component + integrate recs / certs into homepage
+
+### Phase 7: Refresh Side-Project Deployments
+**Goal**: Every linked Railway deployment actually does what it claims, or is removed from the site.
+**Depends on**: Nothing
+**Requirements**: REQ-08
+**Success Criteria** (what must be TRUE):
+  1. Each of the 6 side projects on the site has been opened and the headline feature tested in the last 30 days
+  2. Anything broken or stale is either fixed or removed from the homepage selected-work grid
+  3. Each remaining Railway-deployed project has a landing page that explains what it is + links back to drewmalhotra.com
+  4. Status board on the homepage shows green for all remaining linked projects
+**Plans**: 2 plans
+
+Plans:
+- [ ] 07-01: Audit and triage — list each project, mark working/broken/removed
+- [ ] 07-02: Fix broken / add landing-page intros / update site project list
+
+### Phase 8: Analytics Maturity
+**Goal**: Drew can answer "did the site get me a lead this week" with data, not feel.
+**Depends on**: Phase 3
+**Requirements**: REQ-04
+**Success Criteria** (what must be TRUE):
+  1. GA4 has custom events for: resume download, agent conversation start, agent message sent, contact-form submission, deep-dive page view
+  2. A GA4 custom dashboard shows the funnel: land → engage agent → ask N+ questions → action
+  3. Cloudflare Worker analytics dashboard shows: request volume, P95 latency, error rate, daily token cost
+  4. Drew can answer "how many recruiters used the agent last week" in <30 seconds
+**Plans**: 2 plans
+
+Plans:
+- [ ] 08-01: Instrument GA4 events on the frontend (resume, agent, contact, deep-dives)
+- [ ] 08-02: Build GA4 funnel dashboard + Cloudflare Workers Analytics dashboard
+
+### Phase 9: Signature Easter Eggs
+**Goal**: Two or three small craft details that visitors notice and remember.
+**Depends on**: Nothing
+**Requirements**: REQ-02
+**Success Criteria** (what must be TRUE):
+  1. A `/whoami` route returns Drew's profile rendered as a terminal-style view; `curl drewmalhotra.com/whoami` returns clean text/JSON
+  2. Keyboard shortcuts `g a`/`g w`/`g c`/`?` work for navigation + help
+  3. Agent dock remembers conversation history within the same browser session
+  4. At least one detail elicits a "oh nice" from a tested visitor
+**Plans**: 3 plans
+
+Plans:
+- [ ] 09-01: `/whoami` route (HTML for browsers, plain text/JSON for `curl`)
+- [ ] 09-02: Keyboard-shortcut layer for navigation
+- [ ] 09-03: Agent dock session persistence (sessionStorage)
+
+### Phase 10: Cost Guardrails
+**Goal**: A viral day cannot cost more than Drew's configured monthly ceiling.
+**Depends on**: Phase 3
+**Requirements**: REQ-07
+**Success Criteria** (what must be TRUE):
+  1. Anthropic dashboard has a monthly spend cap configured (Drew sets the value)
+  2. Worker tracks daily token-cost estimate; above threshold it short-circuits with a "agent's resting" message
+  3. `workers/agent/README.md` documents the cost model and threshold for future-Drew
+  4. Drew receives an Anthropic email alert before hitting the cap
+**Plans**: 2 plans
+
+Plans:
+- [ ] 10-01: Configure Anthropic budget cap + alert email (Drew action — provide screenshot)
+- [ ] 10-02: Implement Worker daily-cost circuit breaker + documentation
+
+### Phase 11: Mobile UX Deep-Pass
+**Goal**: Every interaction works comfortably on iOS Safari and Android Chrome on a real device.
+**Depends on**: Phase 4
+**Requirements**: REQ-05
+**Success Criteria** (what must be TRUE):
+  1. Drew has manually tested all interactive elements on at least one iPhone and one Android device
+  2. Every touch target ≥ 44×44 px (agent dock, status refresh, nav links)
+  3. Opening the agent panel + typing does not break iOS Safari keyboard layout or scroll-lock
+  4. Landscape orientation works without visual breakage
+**Plans**: 2 plans
+
+Plans:
+- [ ] 11-01: Real-device audit on iOS + Android; record findings
+- [ ] 11-02: Fix touch targets + agent panel iOS keyboard interaction; verify
+
+### Phase 12: Recurring Maintenance Scaffolding
+**Goal**: This roadmap and the site stay current after Phase 11 ships.
+**Depends on**: Phase 7
+**Requirements**: REQ-08
+**Success Criteria** (what must be TRUE):
+  1. A GitHub issue template exists for "monthly check-in" with the recurring maintenance checklist pre-populated
+  2. The maintenance checklist has been run at least once after this scaffolding lands
+  3. ROADMAP.md has been re-prioritized at least once based on what actually drove inbound interest
+**Plans**: 2 plans
+
+Plans:
+- [ ] 12-01: Author GitHub issue template + maintenance checklist
+- [ ] 12-02: Run the first maintenance check-in + reprioritize roadmap
+
+## Progress
+
+**Execution Order:**
+Phases execute in numeric order. Some phases (3, 4, 7, 9, 11) can run in parallel after dependencies clear if Drew chooses; the suggested order optimizes for employer-impression ROI per hour.
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 0. Foundation (operator-console rebuild + agent + résumé parity) | 8/8 | Complete | 2026-05-23 |
+| 1. Technical Writeup — PATCH Case Study | 0/4 | Not started | - |
+| 2. Per-Project Deep-Dive Pages | 0/3 | Not started | - |
+| 3. Agent Leveling-Up | 0/3 | Not started | - |
+| 4. A11y + Perf Audit Pass | 0/3 | Not started | - |
+| 5. SEO + Discoverability | 0/3 | Not started | - |
+| 6. Trust + Social Proof | 0/2 | Not started | - |
+| 7. Refresh Side-Project Deployments | 0/2 | Not started | - |
+| 8. Analytics Maturity | 0/2 | Not started | - |
+| 9. Signature Easter Eggs | 0/3 | Not started | - |
+| 10. Cost Guardrails | 0/2 | Not started | - |
+| 11. Mobile UX Deep-Pass | 0/2 | Not started | - |
+| 12. Recurring Maintenance Scaffolding | 0/2 | Not started | - |
