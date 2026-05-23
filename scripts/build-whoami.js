@@ -121,25 +121,10 @@ function escapeHtml(s) {
 
 // --- HTML template + inline animation script (kept as separate constants) ---
 
+// Inline style kept on a single line so the <pre> opens within the first ~10
+// lines of the document. Keeps `curl /whoami | head` readable.
 const HTML_HEAD = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex">
-<title>drew malhotra · /whoami</title>
-<style>
-body{margin:0;background:#0a0a0a;color:#d4d4d4;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;line-height:1.55;padding:24px}
-pre{white-space:pre-wrap;margin:0}
-a{color:#7dd3fc;text-decoration:none}
-a:hover{text-decoration:underline}
-.cursor{display:inline-block;width:0.6em;background:#d4d4d4;animation:blink 1s steps(2) infinite;vertical-align:-2px}
-@keyframes blink{50%{background:transparent}}
-@media (prefers-reduced-motion:reduce){.cursor{animation:none}}
-footer{margin-top:24px;opacity:0.6;font-size:12px}
-kbd{font-family:inherit;background:#1a1a1a;padding:1px 6px;border-radius:3px;border:1px solid #2a2a2a}
-</style>
-</head>`
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>drew malhotra · /whoami</title><style>body{margin:0;background:#0a0a0a;color:#d4d4d4;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;line-height:1.55;padding:24px}pre{white-space:pre-wrap;margin:0}a{color:#7dd3fc;text-decoration:none}a:hover{text-decoration:underline}.cursor{display:inline-block;width:0.6em;background:#d4d4d4;animation:blink 1s steps(2) infinite;vertical-align:-2px}@keyframes blink{50%{background:transparent}}@media (prefers-reduced-motion:reduce){.cursor{animation:none}}footer{margin-top:24px;opacity:0.6;font-size:12px}kbd{font-family:inherit;background:#1a1a1a;padding:1px 6px;border-radius:3px;border:1px solid #2a2a2a}</style></head>`
 
 // Inline script: <80 lines, no external deps. Honors prefers-reduced-motion.
 // Reads the existing <pre> text content, wipes it, then types it back in.
