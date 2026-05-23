@@ -5,72 +5,60 @@
 See: .planning/PROJECT.md (updated 2026-05-23)
 
 **Core value:** A hiring manager who lands on the site walks away with a concrete, résumé-accurate read on Drew's engineering depth — and a frictionless path to start a conversation.
-**Current focus:** Phase 5 — SEO + Discoverability
+**Current focus:** Phase 9 — Signature Easter Eggs (next session)
 
 ## Current Position
 
-Phase: 5 of 12 (SEO + Discoverability)
+Phase: 9 of 12 (Signature Easter Eggs) — paused, fresh-session resume
 Plan: 0 of 3 in current phase
-Status: Ready to discuss
-Last activity: 2026-05-23 — Phase 4 shipped (axe-core: 0 violations across 4 routes; prefers-reduced-motion handled; stretched-link pattern for clickable cards).
+Status: Awaiting fresh-session resume (conversation hit context limit after Phase 7)
+Last activity: 2026-05-23 — Shipped Phases 5 and 7. Stopped at conversation context limit.
 
-Progress: [████░░░░░░] 42% (Phases 0, 1, 2, 3, 4 complete of 12)
+Progress: [██████░░░░] 58% (Phases 0, 1, 2, 3, 4, 5, 7 complete of 12)
 
-## Performance Metrics
+## Phases shipped today
 
-**Velocity:**
-- Total plans completed: 20 (Phase 0: 8, Phase 1: 4, Phase 2: 3, Phase 3: 3 [hot-lead descoped], Phase 4: 3)
-- Average duration: ~18 min/plan
-- Total execution time: ~6.2 hours (today's session)
+1. ✅ Phase 0 — Foundation (operator-console rebuild, agent dock, CF Worker, résumé reconciliation, LLM-tooling visibility)
+2. ✅ Phase 1 — PATCH Vulnerability Case Study (longform writing infrastructure + first post)
+3. ✅ Phase 2 — Per-project Deep-Dive Pages (4 of 6 projects, stretched-link card pattern)
+4. ✅ Phase 3 — Agent Leveling-Up (KV rate limit + cost telemetry code-ready; hot-lead descoped)
+5. ✅ Phase 4 — A11y Pass (axe-core: 0 violations, prefers-reduced-motion handled)
+6. ✅ Phase 5 — SEO + Discoverability (robots.txt + sitemap + 6-entity JSON-LD @graph + meta rewrite)
+7. ✅ Phase 7 — Refresh Side-Project Deployments (donation-platform 404 removed from site)
 
-**By Phase:**
+## Phases remaining
 
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 0. Foundation | 8 | ~3.5h | ~26 min |
-| 1. PATCH Case Study | 4 | ~45m | ~11 min |
-| 2. Deep-Dive Pages | 3 | ~50m | ~17 min |
-| 3. Agent Leveling-Up | 3 | ~35m | ~12 min |
-| 4. A11y + Perf | 3 | ~40m | ~13 min |
+| Phase | Status | Blocker |
+|---|---|---|
+| 6. Trust + Social Proof | 🟡 | LinkedIn recs from former colleagues |
+| 8. Analytics Maturity | 🟡 | GA4 dashboard access |
+| 9. Signature Easter Eggs | ⬜ | None — autonomous, next when resumed |
+| 10. Cost Guardrails | 🟡 | Drew's budget number |
+| 11. Mobile UX Deep-Pass | 🟡 | Real iOS + Android devices |
+| 12. Recurring Maintenance Scaffolding | ⬜ | None — autonomous |
 
-**Recent Trend:**
-- Infrastructure investments (markdown renderer, hash router, audit script, stretched-link pattern) compound across phases.
-- Trend: Improving.
+## Drew actions waiting
 
-## Accumulated Context
+- **Read 5 longform posts on the live site** (PATCH case study + 4 deep-dives) — flag anything off-voice. Source files at `src/writing/*.md` and `src/work/*.md`.
+- **Submit sitemap to Google Search Console** — see Phase 5 SUMMARY.
+- **Enable Cloudflare Workers Analytics Engine** in CF dashboard (one click) — then uncomment the `[[analytics_engine_datasets]]` block in `workers/agent/wrangler.toml` and `npx wrangler deploy`. Cost telemetry starts flowing.
+- **Optional:** revive donation-platform Railway deployment if you want the live demo link back.
 
-### Decisions
+## Deferred items (full list)
 
-- [Phase 4]: Stretched-link pattern over `role="button"` for clickable cards — keeps inner anchors independently interactive without nested-interactive violations.
-- [Phase 4]: axe-core via Playwright over Lighthouse CLI / PSI API — local tooling blocked by Apple Silicon Node arch mismatch and PSI quota.
-- [Phase 3]: KV-backed rate limit over `[[unsafe.bindings]]` ratelimit form — the latter registered as metadata-only on wrangler 3.x without runtime enforcement.
-- [Phase 3]: Analytics Engine binding code-ready, gated on Drew enabling AE on the CF dashboard.
-
-### Pending Todos
-
-- Drew should read all 5 long-form posts (PATCH case study + 4 deep-dives) on the live site and flag anything off-voice.
-- Drew may want to enable Cloudflare Workers Analytics Engine for cost telemetry.
-- Drew may want to provision a PSI API key OR install arm64 Node so full Lighthouse perf/BP/SEO scoring works locally.
-
-### Blockers/Concerns
-
-- [Phase 6]: Trust section gated on LinkedIn recs.
-- [Phase 8]: GA4 dashboard access needed.
-- [Phase 10]: Drew's monthly budget number.
-- [Phase 11]: Real phone for mobile audit.
-
-## Deferred Items
-
-| Category | Item | Status | Deferred At |
-|----------|------|--------|-------------|
-| OG images | Per-post + per-work social previews — needs prerender or runtime OG worker | Open | Phase 1 |
-| Full Lighthouse | Perf / BP / SEO scoring — local tooling blocked | Open | Phase 4 |
-| VoiceOver | Manual screen-reader pass | Open | Phase 4 |
-| Voice review | Drew should read all longform posts | Open | Phase 1 + 2 |
-| Hot-lead alerts | Agent notification when recruiter starts a chat | Descoped | Phase 3 |
+| Category | Item | Open since |
+|---|---|---|
+| OG images | Per-post + per-work social previews — needs prerender or runtime OG worker | Phase 1 |
+| Full Lighthouse | Perf / BP / SEO scoring — local tooling blocked | Phase 4 |
+| VoiceOver | Manual screen-reader pass | Phase 4 |
+| Voice review | Drew reads all longform posts | Phase 1 + 2 |
+| Hot-lead alerts | Agent notification when recruiter starts a chat | Phase 3 (descoped) |
+| GSC | Submit sitemap, verify rich-result preview | Phase 5 |
+| Landing-page intros | Per-deployment "what is this" page | Phase 7 |
 
 ## Session Continuity
 
-Last session: 2026-05-23 17:50
-Stopped at: Phase 4 shipped + verified (0 a11y violations live). Ready for Phase 5 (SEO + Discoverability).
+Last session: 2026-05-23 (long single session, ~7 hours wall-clock)
+Stopped at: 7/12 phases complete. Phase 9 is the next autonomous candidate (no blockers).
 Resume file: None
+Next session prompt: `/gsd-autonomous --from 9`

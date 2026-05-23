@@ -51,7 +51,6 @@ const projects = [
     ],
     stack: ['Python', 'PyTorch', 'React', 'Mobile'],
     github: 'https://github.com/d-malhotra2020/donation-platform',
-    live: 'https://donation-platform-production.up.railway.app',
     deepDive: 'donation-platform'
   },
   {

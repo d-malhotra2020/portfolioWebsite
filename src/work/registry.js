@@ -12,7 +12,6 @@ export const workPosts = [
     year: '2023',
     stack: ['Python', 'PyTorch', 'React', 'Mobile'],
     github: 'https://github.com/d-malhotra2020/donation-platform',
-    live: 'https://donation-platform-production.up.railway.app',
     body: donationPlatform
   },
   {

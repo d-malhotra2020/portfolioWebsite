@@ -8,7 +8,6 @@ const services = [
   { id: 'portfolio', name: 'drewmalhotra.com', kind: 'self', url: 'https://drewmalhotra.com', note: 'this site' },
   { id: 'video', name: 'video-analytics', kind: 'self', url: 'https://video-analytics-production.up.railway.app', note: 'cloud · ai' },
   { id: 'traffic', name: 'traffic-optimization', kind: 'self', url: 'https://web-production-39d8d.up.railway.app', note: 'ai/ml · infra' },
-  { id: 'donation', name: 'donation-platform', kind: 'self', url: 'https://donation-platform-production.up.railway.app', note: 'mobile · ml' },
   { id: 'finance', name: 'financial-analysis-tool', kind: 'self', url: 'https://financial-analysis-tool-production.up.railway.app', note: 'data · ml' },
   { id: 'home', name: 'smart-home-automation', kind: 'self', url: 'https://smart-home-automation-production.up.railway.app', note: 'iot · edge' }
 ]

@@ -22,9 +22,9 @@ per hour invested. Phases are sized for single sessions (≤2 hours).
 - [x] **Phase 2: Per-Project Deep-Dive Pages** - Each "selected work" card opens to a richer page (screenshots, architecture, lessons) ✅ 2026-05-23
 - [x] **Phase 3: Agent Leveling-Up** - Rate-limiting + cost telemetry shipped (hot-lead descoped). ✅ 2026-05-23
 - [x] **Phase 4: A11y + Perf Audit Pass** - axe-core: 0 violations across 4 routes; prefers-reduced-motion handled. Full Lighthouse scoring deferred (local tooling blocked). ✅ 2026-05-23
-- [ ] **Phase 5: SEO + Discoverability** - robots.txt, sitemap, expanded schema.org, per-route metadata
+- [x] **Phase 5: SEO + Discoverability** - robots.txt + sitemap + 6-entity JSON-LD @graph + rewritten meta tags. ✅ 2026-05-23 (GSC submission = Drew action)
 - [ ] **Phase 6: Trust + Social Proof** - LinkedIn recommendations + certifications surfaced on the site
-- [ ] **Phase 7: Refresh Side-Project Deployments** - Audit and fix or remove every linked Railway project
+- [x] **Phase 7: Refresh Side-Project Deployments** - Audited 5 Railway URLs; donation-platform (404) removed from cards/work-registry/status-board. 4 of 4 remaining = green. ✅ 2026-05-23
 - [ ] **Phase 8: Analytics Maturity** - GA4 events on agent / resume / form / deep-dive plus Worker telemetry
 - [ ] **Phase 9: Signature Easter Eggs** - `/whoami`, Konami code, keyboard shortcuts, animated favicon
 - [ ] **Phase 10: Cost Guardrails** - Anthropic monthly budget cap + Worker daily-cost circuit breaker
@@ -232,9 +232,9 @@ Phases execute in numeric order. Some phases (3, 4, 7, 9, 11) can run in paralle
 | 2. Per-Project Deep-Dive Pages (4 of 6 projects) | 3/3 | Complete | 2026-05-23 |
 | 3. Agent Leveling-Up (hot-lead descoped) | 2/3 | Complete | 2026-05-23 |
 | 4. A11y + Perf Audit Pass (a11y done; perf scoring deferred) | 3/3 | Complete | 2026-05-23 |
-| 5. SEO + Discoverability | 0/3 | Not started | - |
+| 5. SEO + Discoverability (GSC submission = Drew action) | 3/3 | Complete | 2026-05-23 |
 | 6. Trust + Social Proof | 0/2 | Not started | - |
-| 7. Refresh Side-Project Deployments | 0/2 | Not started | - |
+| 7. Refresh Side-Project Deployments (landing-page intros deferred) | 1.5/2 | Complete | 2026-05-23 |
 | 8. Analytics Maturity | 0/2 | Not started | - |
 | 9. Signature Easter Eggs | 0/3 | Not started | - |
 | 10. Cost Guardrails | 0/2 | Not started | - |
