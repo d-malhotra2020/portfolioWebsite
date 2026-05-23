@@ -1,259 +1,158 @@
 import React from 'react'
-import { motion } from 'framer-motion'
-import { Download, Github, Linkedin, Mail } from 'lucide-react'
-import TypeWriter from './TypeWriter'
+import { Download, ArrowUpRight } from 'lucide-react'
+
+const stats = [
+  { num: '1.5', tail: 'M+', label: 'Users served\nat Givelify scale' },
+  { num: '99.9', tail: '%', label: 'Delivery reliability\npost-migration' },
+  { num: '3,000', tail: '+', label: 'Intersections simulated\nfor Yunex load tests' },
+  { num: '1,300', tail: '+', label: 'Tests authored\nacross prod stacks' }
+]
 
 const Hero = () => {
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
-    })
+  const scrollTo = (id) => {
+    const el = document.getElementById(id)
+    if (el) window.scrollTo({ top: el.offsetTop - 100, behavior: 'smooth' })
   }
 
   return (
-    <section id="home" className="section">
-      <motion.div 
-        style={{
-          width: '100%',
-          textAlign: 'left',
-          maxWidth: '800px'
-        }}
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-      >
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '2rem'
-        }}>
-          <motion.div 
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '2rem',
-              flexWrap: 'wrap'
-            }}
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-          >
-            <motion.img 
-              src="/ImageFiles/profilePhoto.jpeg" 
-              alt="Dhruv (Drew) Malhotra" 
-              style={{
-                width: '120px',
-                height: '120px',
-                borderRadius: '1rem',
-                objectFit: 'cover',
-                border: '1px solid rgba(255, 255, 255, 0.06)',
-                background: 'rgba(24, 24, 27, 0.8)'
-              }}
-              whileHover={{
-                scale: 1.05
-              }}
-              transition={{ duration: 0.3 }}
-            />
-            
-            <div>
-              <motion.h1
-                style={{
-                  fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-                  fontWeight: '800',
-                  color: '#f4f4f5',
-                  marginBottom: '0.5rem',
-                  lineHeight: '1.1'
-                }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.6 }}
+    <section id="home" className="hero">
+      <div className="shell">
+        <div className="hero-card">
+          {/* LEFT */}
+          <div className="hero-l">
+            <span className="hero-badge fade-up" style={{ animationDelay: '0.05s' }}>
+              <span className="pip" /> Open to senior SDE / SDET roles · 2026
+            </span>
+
+            <h1 className="hero-title line-rise">
+              <span className="line">
+                <span style={{ animationDelay: '0.1s' }}>Engineer</span>
+              </span>
+              <span className="line">
+                <span style={{ animationDelay: '0.25s' }} className="grad">
+                  shipping cloud-scale
+                </span>
+              </span>
+              <span className="line">
+                <span style={{ animationDelay: '0.4s' }}>
+                  systems<span className="caret" />
+                </span>
+              </span>
+            </h1>
+
+            <p className="hero-lede fade-up" style={{ animationDelay: '0.6s' }}>
+              I'm <strong>Dhruv (Drew) Malhotra</strong> — currently testing notification
+              pipelines across <span className="accent">24 production environments</span> at
+              Brivo (fmr. Eagle Eye Networks). Before that I shipped a PyTorch recommender to
+              <strong> 1.5M users</strong> at Givelify, and ran load tests across
+              <strong> 3,000+ intersections</strong> for Yunex Traffic.
+            </p>
+
+            <div className="hero-ctas fade-up" style={{ animationDelay: '0.75s' }}>
+              <button className="btn btn-primary" onClick={() => scrollTo('contact')}>
+                Get in touch
+                <ArrowUpRight size={14} className="arrow" />
+              </button>
+              <a
+                className="btn"
+                href="/Dhruv_malhotra_resume.pdf"
+                download="Dhruv_malhotra_resume.pdf"
               >
-                Hi, I'm Dhruv (Drew)
-              </motion.h1>
-              
-              <motion.div 
-                style={{
-                  fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
-                  color: '#a1a1aa',
-                  minHeight: '2rem',
-                  display: 'flex',
-                  alignItems: 'center'
-                }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.6 }}
-              >
-                <TypeWriter 
-                  phrases={[
-                    'Full-Stack Developer',
-                    'AI/ML Engineer',
-                    'Cloud Architect',
-                    'System Optimizer',
-                    'Problem Solver'
-                  ]}
-                />
-              </motion.div>
+                <Download size={14} />
+                Download résumé
+              </a>
             </div>
-          </motion.div>
 
-          <motion.div 
-            style={{
-              display: 'flex',
-              gap: '1rem',
-              flexWrap: 'wrap'
-            }}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.6 }}
-          >
-            <motion.button
-              style={{
-                background: '#3b82f6',
-                color: '#ffffff',
-                border: 'none',
-                padding: '0.75rem 2rem',
-                borderRadius: '0.75rem',
-                fontSize: '1rem',
-                fontWeight: '600',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                transition: 'all 0.3s ease'
-              }}
-              whileHover={{
-                scale: 1.02,
-                backgroundColor: '#2563eb'
-              }}
-              whileTap={{ scale: 0.98 }}
-              onClick={scrollToContact}
-            >
-              <Mail size={18} />
-              Get in Touch
-            </motion.button>
+            <div className="hero-quicklinks fade-up" style={{ animationDelay: '0.9s' }}>
+              <a
+                href="https://github.com/d-malhotra2020"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                github ↗
+              </a>
+              <a
+                href="https://www.linkedin.com/in/drewmalhotra/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                linkedin ↗
+              </a>
+              <a href="mailto:dhruvmalhotra2026@gmail.com">mail ↗</a>
+            </div>
+          </div>
 
-            <motion.a
-              href="/Dhruv_malhotra_resume.pdf"
-              download="Dhruv_malhotra_resume.pdf"
-              style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                color: '#f4f4f5',
-                textDecoration: 'none',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                padding: '0.75rem 2rem',
-                borderRadius: '0.75rem',
-                fontSize: '1rem',
-                fontWeight: '600',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                transition: 'all 0.3s ease'
-              }}
-              whileHover={{
-                scale: 1.02,
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                borderColor: 'rgba(255, 255, 255, 0.2)'
-              }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Download size={18} />
-              Resume
-            </motion.a>
-          </motion.div>
-
-          <motion.div 
-            style={{
-              display: 'flex',
-              gap: '1rem',
-              marginTop: '1rem'
-            }}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.6 }}
-          >
-            <motion.a
-              href="https://github.com/d-malhotra2020" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              style={{
-                color: '#a1a1aa',
-                padding: '0.75rem',
-                borderRadius: '0.5rem',
-                border: '1px solid rgba(255, 255, 255, 0.06)',
-                background: 'rgba(255, 255, 255, 0.02)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.3s ease',
-                textDecoration: 'none'
-              }}
-              whileHover={{
-                color: '#f4f4f5',
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                borderColor: 'rgba(255, 255, 255, 0.1)',
-                scale: 1.05
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Github size={20} />
-            </motion.a>
-
-            <motion.a
-              href="https://www.linkedin.com/in/drewmalhotra/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              style={{
-                color: '#a1a1aa',
-                padding: '0.75rem',
-                borderRadius: '0.5rem',
-                border: '1px solid rgba(255, 255, 255, 0.06)',
-                background: 'rgba(255, 255, 255, 0.02)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.3s ease',
-                textDecoration: 'none'
-              }}
-              whileHover={{
-                color: '#f4f4f5',
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                borderColor: 'rgba(255, 255, 255, 0.1)',
-                scale: 1.05
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Linkedin size={20} />
-            </motion.a>
-
-            <motion.a
-              href="mailto:drewmalhotra@outlook.com"
-              style={{
-                color: '#a1a1aa',
-                padding: '0.75rem',
-                borderRadius: '0.5rem',
-                border: '1px solid rgba(255, 255, 255, 0.06)',
-                background: 'rgba(255, 255, 255, 0.02)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.3s ease',
-                textDecoration: 'none'
-              }}
-              whileHover={{
-                color: '#f4f4f5',
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                borderColor: 'rgba(255, 255, 255, 0.1)',
-                scale: 1.05
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Mail size={20} />
-            </motion.a>
-          </motion.div>
+          {/* RIGHT — Terminal panel */}
+          <div className="hero-r fade-up" style={{ animationDelay: '0.5s' }}>
+            <div className="term-bar">
+              <div className="dots">
+                <span /><span /><span />
+              </div>
+              <span>~ /drew/whoami.sh</span>
+              <span>zsh</span>
+            </div>
+            <div className="term-body">
+              <div className="term-line">
+                <span className="term-prompt">$</span>
+                <span className="term-cmd">cat profile.json</span>
+              </div>
+              <div className="term-line"><span className="term-key">{'{'}</span></div>
+              <div className="term-line" style={{ paddingLeft: '1.25rem' }}>
+                <span className="term-key">"name":</span>
+                <span className="term-string">"Dhruv (Drew) Malhotra"</span>,
+              </div>
+              <div className="term-line" style={{ paddingLeft: '1.25rem' }}>
+                <span className="term-key">"role":</span>
+                <span className="term-string">"Software Engineer in Test"</span>,
+              </div>
+              <div className="term-line" style={{ paddingLeft: '1.25rem' }}>
+                <span className="term-key">"company":</span>
+                <span className="term-string">"Brivo (fmr. Eagle Eye Networks)"</span>,
+              </div>
+              <div className="term-line" style={{ paddingLeft: '1.25rem' }}>
+                <span className="term-key">"location":</span>
+                <span className="term-string">"Austin, TX"</span>,
+              </div>
+              <div className="term-line" style={{ paddingLeft: '1.25rem' }}>
+                <span className="term-key">"stack":</span>
+                <span className="term-val">[python, flask, aiohttp, aws, k8s, react]</span>,
+              </div>
+              <div className="term-line" style={{ paddingLeft: '1.25rem' }}>
+                <span className="term-key">"focus":</span>
+                <span className="term-string">"distributed test infra · synthetic monitoring · AI/ML"</span>,
+              </div>
+              <div className="term-line" style={{ paddingLeft: '1.25rem' }}>
+                <span className="term-key">"available":</span>
+                <span className="term-val" style={{ color: 'var(--ok)' }}>true</span>
+              </div>
+              <div className="term-line"><span className="term-key">{'}'}</span></div>
+              <div className="term-divider" />
+              <div className="term-line">
+                <span className="term-prompt">$</span>
+                <span className="term-cmd term-cursor">ready_for_interview</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </motion.div>
+
+        {/* Stats strip */}
+        <div className="stats-strip">
+          {stats.map((s, i) => (
+            <div
+              className="stat fade-up"
+              key={i}
+              style={{ animationDelay: `${0.8 + i * 0.08}s` }}
+            >
+              <div className="stat-num">
+                {s.num}<em>{s.tail}</em>
+              </div>
+              <div className="stat-label" style={{ whiteSpace: 'pre-line' }}>
+                {s.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   )
 }

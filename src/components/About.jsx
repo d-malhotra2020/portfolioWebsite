@@ -1,339 +1,101 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { Puzzle, Users, BookOpen, Github, ExternalLink } from 'lucide-react'
+
+const principles = [
+  {
+    n: '01',
+    h: 'Reliability over cleverness',
+    p: 'I uncovered a critical PATCH vulnerability that allowed removal of required fields in production. Fix shipped same-day. Boring code that fails loudly beats elegant code that fails silently.'
+  },
+  {
+    n: '02',
+    h: 'Measure the system',
+    p: 'P95/P99 latency baselines, 3,100+ alerts analyzed, 10,100+ notifications correlated. If you can\'t observe it, you can\'t improve it. Everything I ship is instrumented.'
+  },
+  {
+    n: '03',
+    h: 'Test in adversarial mode',
+    p: 'I write 1,000+ unit tests not to feel safe — but to break the system. Concurrency, retries, cooloff, webhook race conditions. The interesting failures live there.'
+  }
+]
 
 const About = () => {
-  const [ref, inView] = useInView({
-    threshold: 0.2,
-    triggerOnce: true
-  })
+  const [ref, inView] = useInView({ threshold: 0.15, triggerOnce: true })
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: 'easeOut' }
-    }
-  }
-
-  const highlights = [
-    {
-      icon: <Puzzle size={24} />,
-      title: 'Problem Solver',
-      description: 'I thrive on breaking down complex challenges into manageable solutions.'
-    },
-    {
-      icon: <Users size={24} />,
-      title: 'Team Player',
-      description: 'Collaborative development and knowledge sharing drive better outcomes.'
-    },
-    {
-      icon: <BookOpen size={24} />,
-      title: 'Continuous Learner',
-      description: 'Always exploring new technologies and best practices in development.'
-    }
-  ]
-
-  const sectionStyle = {
-    minHeight: '100vh',
-    paddingTop: '6rem',
-    paddingBottom: '6rem',
-    backgroundColor: '#09090b'
-  }
-
-  const containerStyle = {
-    maxWidth: '64rem',
-    margin: '0 auto',
-    padding: '0 2rem'
-  }
-
-  const headingStyle = {
-    fontSize: '3rem',
-    fontWeight: '700',
-    color: '#f4f4f5',
-    marginBottom: '3rem',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '1rem'
-  }
-
-  const accentBarStyle = {
-    width: '3px',
-    height: '2rem',
-    backgroundColor: '#3b82f6',
-    borderRadius: '2px'
-  }
-
-  const introStyle = {
-    fontSize: '1.125rem',
-    lineHeight: '1.75',
-    color: '#e4e4e7',
-    marginBottom: '3rem',
-    maxWidth: '48rem'
-  }
-
-  const highlightsGridStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-    gap: '1.5rem',
-    marginBottom: '3rem'
-  }
-
-  const highlightCardStyle = {
-    background: 'rgba(255, 255, 255, 0.03)',
-    border: '1px solid rgba(255, 255, 255, 0.06)',
-    borderRadius: '1rem',
-    padding: '2rem',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem'
-  }
-
-  const highlightIconStyle = {
-    color: '#3b82f6',
-    marginBottom: '0.5rem'
-  }
-
-  const highlightTitleStyle = {
-    fontSize: '1.25rem',
-    fontWeight: '600',
-    color: '#f4f4f5',
-    marginBottom: '0.5rem'
-  }
-
-  const highlightDescStyle = {
-    color: '#a1a1aa',
-    lineHeight: '1.6'
-  }
-
-  const githubSectionStyle = {
-    marginTop: '4rem'
-  }
-
-  const githubTitleStyle = {
-    fontSize: '1.5rem',
-    fontWeight: '600',
-    color: '#f4f4f5',
-    marginBottom: '1rem',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem'
-  }
-
-  const githubSubtitleStyle = {
-    color: '#a1a1aa',
-    marginBottom: '2rem'
-  }
-
-  const statsGridStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-    gap: '1.5rem',
-    marginBottom: '2rem'
-  }
-
-  const statCardStyle = {
-    background: 'rgba(255, 255, 255, 0.03)',
-    border: '1px solid rgba(255, 255, 255, 0.06)',
-    borderRadius: '1rem',
-    padding: '1.5rem',
-    textAlign: 'center'
-  }
-
-  const statCardTitleStyle = {
-    fontSize: '1rem',
-    fontWeight: '600',
-    color: '#f4f4f5',
-    marginBottom: '1rem'
-  }
-
-  const githubImageStyle = {
-    width: '100%',
-    borderRadius: '0.5rem'
-  }
-
-  const githubLinkStyle = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '0.5rem',
-    color: '#3b82f6',
-    textDecoration: 'none',
-    fontWeight: '500',
-    padding: '0.75rem 1.5rem',
-    background: 'rgba(59, 130, 246, 0.1)',
-    borderRadius: '0.5rem',
-    border: '1px solid rgba(59, 130, 246, 0.2)',
-    transition: 'all 0.2s ease'
+  const stagger = { visible: { transition: { staggerChildren: 0.08 } } }
+  const item = {
+    hidden: { opacity: 0, y: 18 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.2, 0.65, 0.3, 1] } }
   }
 
   return (
-    <section id="about" style={sectionStyle}>
-      <motion.div 
-        style={containerStyle}
-        ref={ref}
-        variants={containerVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-      >
-        <motion.div variants={itemVariants} style={headingStyle}>
-          <div style={accentBarStyle}></div>
-          About Me
-        </motion.div>
+    <section id="about" className="section">
+      <div className="shell">
+        <div className="section-marker">
+          <span className="tag"><span className="dot" /> // 01 · about()</span>
+          <h2>Engineer first. <span className="em">Generalist</span> by training.</h2>
+        </div>
 
-        <motion.div variants={itemVariants} style={introStyle}>
-          <p style={{ marginBottom: '1.5rem' }}>
-            Hello! I'm Dhruv (you can call me Drew if that's easier to pronounce), a passionate 
-            software developer who loves creating innovative solutions and tackling complex problems. 
-            I enjoy working with cutting-edge technologies and continuously learning new skills.
-          </p>
-          <p>
-            Currently, I'm focused on building full-stack applications and exploring the latest trends 
-            in software development. I believe in writing clean, efficient code and creating user 
-            experiences that make a difference.
-          </p>
-        </motion.div>
-
-        <motion.div 
-          style={highlightsGridStyle}
-          variants={containerVariants}
+        <motion.div
+          ref={ref}
+          className="about-card"
+          variants={stagger}
+          initial="hidden"
+          animate={inView ? 'visible' : 'hidden'}
         >
-          {highlights.map((highlight, index) => (
-            <motion.div 
-              key={index}
-              style={highlightCardStyle}
-              variants={itemVariants}
-              whileHover={{ y: -5, scale: 1.02 }}
-            >
-              <div style={highlightIconStyle}>{highlight.icon}</div>
-              <h3 style={highlightTitleStyle}>{highlight.title}</h3>
-              <p style={highlightDescStyle}>{highlight.description}</p>
-            </motion.div>
-          ))}
-        </motion.div>
+          <motion.div className="about-l" variants={item}>
+            <img
+              className="about-portrait"
+              src="/ImageFiles/profilePhoto.jpeg"
+              alt="Dhruv Malhotra"
+            />
+            <div className="about-meta">
+              <div className="row"><span className="k">role</span><span className="v">SDET</span></div>
+              <div className="row"><span className="k">company</span><span className="v">Brivo</span></div>
+              <div className="row"><span className="k">years exp</span><span className="v">6+</span></div>
+              <div className="row"><span className="k">location</span><span className="v">Austin, TX</span></div>
+              <div className="row"><span className="k">timezone</span><span className="v">UTC −6</span></div>
+              <div className="row"><span className="k">prior</span><span className="v">USN Corpsman</span></div>
+            </div>
+          </motion.div>
 
-        <motion.div 
-          style={githubSectionStyle}
-          variants={itemVariants}
-        >
-          <h3 style={githubTitleStyle}>
-            Developer Activity
-          </h3>
-          <p style={githubSubtitleStyle}>
-            Here's a snapshot of my recent coding activity and GitHub contributions:
-          </p>
-          
-          <div style={statsGridStyle}>
-            <motion.div 
-              style={statCardStyle}
-              variants={itemVariants}
-              whileHover={{ y: -5 }}
-            >
-              <h4 style={statCardTitleStyle}>Contribution Heatmap</h4>
-              <div>
-                <img 
-                  src="https://ghchart.rshah.org/216e39/d-malhotra2020" 
-                  alt="GitHub Contribution Heatmap" 
-                  style={githubImageStyle}
-                  onError={(e) => {
-                    e.target.parentElement.innerHTML = `
-                      <div style="display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.5rem; padding: 2rem;">
-                        <div style="font-size: 2rem;">📊</div>
-                        <div style="text-align: center;">
-                          <h5 style="color: #f4f4f5; margin: 0 0 0.5rem 0;">GitHub Activity</h5>
-                          <p style="color: #a1a1aa; margin: 0;">Visit my <a href="https://github.com/d-malhotra2020" target="_blank" style="color: #3b82f6;">GitHub profile</a> to see my contribution history</p>
-                        </div>
-                      </div>
-                    `
-                  }}
-                />
-              </div>
+          <motion.div className="about-r" variants={item}>
+            <h3 className="about-lede">
+              I started in the Navy keeping <em>4,500 servicemembers alive</em> and graduated
+              into building the systems that keep millions of users transacting safely.
+            </h3>
+            <p>
+              Today I'm a <strong>Software Engineer in Test at Brivo</strong> (formerly Eagle
+              Eye Networks), where I built a multi-cluster Python/Flask synthetic monitoring
+              platform validating notification pipelines across <strong>24 production
+              environments in 6 global regions</strong>.
+            </p>
+            <p>
+              Before that — four years at Givelify shipping a PyTorch recommender to
+              <strong> 1.5M users</strong>, and 15 months at Yunex Traffic simulating
+              <strong> 3,000+ intersections</strong> to validate signal coordination at city
+              scale.
+            </p>
+            <p>
+              The throughline: I find the failure modes nobody else does, document them, and
+              leave systems measurably more resilient than I found them.
+            </p>
+
+            <motion.div className="principle-list" variants={stagger}>
+              {principles.map((p) => (
+                <motion.div className="principle" key={p.n} variants={item}>
+                  <div className="num">{p.n}/</div>
+                  <div>
+                    <h4>{p.h}</h4>
+                    <p>{p.p}</p>
+                  </div>
+                </motion.div>
+              ))}
             </motion.div>
-            
-            <motion.div 
-              style={statCardStyle}
-              variants={itemVariants}
-              whileHover={{ y: -5 }}
-            >
-              <h4 style={statCardTitleStyle}>Coding Streak</h4>
-              <div>
-                <img 
-                  src="https://streak-stats.demolab.com/?user=d-malhotra2020&theme=dark&background=0d1117&stroke=4CAF50&ring=4CAF50&fire=4CAF50&currStreakLabel=ffffff&sideLabels=ffffff&currStreakNum=4CAF50&sideNums=4CAF50&dates=cccccc" 
-                  alt="GitHub Streak" 
-                  style={githubImageStyle}
-                  onError={(e) => {
-                    e.target.parentElement.innerHTML = `
-                      <div style="display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.5rem; padding: 2rem;">
-                        <div style="font-size: 2rem;">🔥</div>
-                        <div style="text-align: center;">
-                          <h5 style="color: #f4f4f5; margin: 0 0 0.5rem 0;">Coding Consistency</h5>
-                          <p style="color: #a1a1aa; margin: 0;">Regular contributor maintaining consistent development activity</p>
-                        </div>
-                      </div>
-                    `
-                  }}
-                />
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              style={statCardStyle}
-              variants={itemVariants}
-              whileHover={{ y: -5 }}
-            >
-              <h4 style={statCardTitleStyle}>Most Used Languages</h4>
-              <div>
-                <img 
-                  src="https://github-readme-stats.vercel.app/api/top-langs/?username=d-malhotra2020&layout=compact&theme=dark&hide_border=false&bg_color=0d1117&text_color=ffffff&title_color=4CAF50&border_color=4CAF50&cache_seconds=86400" 
-                  alt="Most Used Languages" 
-                  style={githubImageStyle}
-                  onError={(e) => {
-                    e.target.parentElement.innerHTML = `
-                      <div style="display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.5rem; padding: 2rem;">
-                        <div style="font-size: 2rem;">💻</div>
-                        <div style="text-align: center;">
-                          <h5 style="color: #f4f4f5; margin: 0 0 1rem 0;">Programming Languages</h5>
-                          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;">
-                            <span style="background: rgba(59, 130, 246, 0.1); color: #60a5fa; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem;">Python</span>
-                            <span style="background: rgba(59, 130, 246, 0.1); color: #60a5fa; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem;">JavaScript</span>
-                            <span style="background: rgba(59, 130, 246, 0.1); color: #60a5fa; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem;">HTML/CSS</span>
-                            <span style="background: rgba(59, 130, 246, 0.1); color: #60a5fa; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem;">Java</span>
-                          </div>
-                        </div>
-                      </div>
-                    `
-                  }}
-                />
-              </div>
-            </motion.div>
-          </div>
-          
-          <div style={{ textAlign: 'center' }}>
-            <motion.a 
-              href="https://github.com/d-malhotra2020" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              style={githubLinkStyle}
-              whileHover={{ y: -2, scale: 1.05 }}
-            >
-              <Github size={20} />
-              View Full GitHub Profile
-              <ExternalLink size={16} />
-            </motion.a>
-          </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   )
 }

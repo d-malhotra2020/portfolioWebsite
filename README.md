@@ -1,165 +1,148 @@
-# Drew Malhotra's Portfolio - React Version
+# drewmalhotra.com
 
-A modern, responsive portfolio website built with React, showcasing my software engineering journey and projects.
+Personal portfolio for **Dhruv (Drew) Malhotra** — Software Engineer · SDET.
+Live at **[drewmalhotra.com](https://drewmalhotra.com)**.
 
-## 🚀 Features
-
-- **Modern React Architecture**: Built with React 18, Vite, and Framer Motion
-- **Multi-Theme Support**: 5 code editor themes (Dracula, Monokai, GitHub, VS Code, Sublime)
-- **Interactive Animations**: Smooth scrolling, typing effects, and particle systems
-- **Responsive Design**: Optimized for all devices and screen sizes
-- **Performance Optimized**: Lazy loading, intersection observers, and efficient rendering
-- **GitHub Integration**: Live GitHub stats and contribution charts
-- **Contact Form**: Integrated with Formspree for contact functionality
-
-## 🛠️ Tech Stack
-
-- **Frontend**: React 18, JavaScript ES6+
-- **Build Tool**: Vite
-- **Animations**: Framer Motion
-- **Icons**: Lucide React
-- **Styling**: CSS3 with CSS Variables for theming
-- **Deployment**: GitHub Pages
-- **Forms**: Formspree integration
-
-## 🏃‍♂️ Quick Start
-
-### Prerequisites
-- Node.js (version 16 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/d-malhotra2020/portfolioWebsite.git
-cd portfolioWebsite
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Start the development server:
-```bash
-npm run dev
-```
-
-4. Open [http://localhost:3000/portfolioWebsite/](http://localhost:3000/portfolioWebsite/) in your browser.
-
-## 📜 Available Scripts
-
-- `npm run dev` - Start the development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview the production build
-- `npm run lint` - Run ESLint
-- `npm run deploy` - Deploy to GitHub Pages
-
-## 🎨 Customization
-
-### Themes
-The website includes 5 built-in themes. You can switch between them using the theme selector in the navigation or by modifying the CSS variables in `src/styles/App.css`.
-
-### Content
-Update your personal information in the React components:
-- **Hero Section**: `src/components/Hero.jsx`
-- **About**: `src/components/About.jsx`
-- **Experience**: `src/components/Experience.jsx`
-- **Projects**: `src/components/Projects.jsx`
-- **Skills**: `src/components/Skills.jsx`
-- **Contact**: `src/components/Contact.jsx`
-
-### Assets
-- Profile image: `public/ImageFiles/profilePhoto.jpeg`
-- Background videos: `public/VideoFiles/`
-- Resume: `public/Documents/Dhruv_malhotra_resume.pdf`
-
-## 🚀 Deployment
-
-The site is automatically deployed to GitHub Pages using GitHub Actions when you push to the main branch.
-
-Manual deployment:
-```bash
-npm run build
-npm run deploy
-```
-
-## 🔧 Project Structure
-
-```
-src/
-├── components/           # React components
-│   ├── Hero.jsx         # Hero section
-│   ├── About.jsx        # About section
-│   ├── Experience.jsx   # Work experience timeline
-│   ├── Projects.jsx     # Featured projects
-│   ├── Skills.jsx       # Skills and technologies
-│   ├── Contact.jsx      # Contact form and info
-│   ├── Navbar.jsx       # Navigation component
-│   ├── LoadingScreen.jsx # Loading animation
-│   ├── VideoBackground.jsx # Video background
-│   ├── ParticleSystem.jsx # Particle animations
-│   └── FloatingCode.jsx # Floating code snippets
-├── hooks/               # Custom React hooks
-│   ├── useTheme.js      # Theme management
-│   └── useVisitorTracking.js # Visitor statistics
-├── styles/              # CSS files
-│   └── App.css         # Main stylesheet
-├── App.jsx             # Main app component
-└── main.jsx            # App entry point
-```
-
-## 🎯 Features in Detail
-
-### Theme System
-- **5 Themes**: Dracula, Monokai, GitHub (light), VS Code, Sublime
-- **Persistent Storage**: Theme preference saved in localStorage
-- **Dynamic Colors**: CSS variables update based on selected theme
-- **Smooth Transitions**: Animated theme switching
-
-### Performance Optimizations
-- **Intersection Observer**: Lazy loading for animations
-- **Framer Motion**: Hardware-accelerated animations
-- **Code Splitting**: Efficient bundle loading
-- **Image Optimization**: Proper image loading and fallbacks
-
-### Interactive Elements
-- **Typing Animation**: Dynamic text effects in hero section
-- **Particle System**: Canvas-based particle animations
-- **Floating Code**: Animated code snippets background
-- **Parallax Effects**: Smooth scrolling video background
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **Development server won't start**
-   - Ensure Node.js version 16+ is installed
-   - Delete `node_modules` and `package-lock.json`, then run `npm install`
-
-2. **Build fails**
-   - Check for TypeScript/JavaScript errors in the console
-   - Ensure all imports are correct and files exist
-
-3. **GitHub Pages deployment issues**
-   - Verify the `base` path in `vite.config.js` matches your repository name
-   - Check GitHub Pages settings in repository settings
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 🤝 Contributing
-
-While this is a personal portfolio, I welcome feedback and suggestions! Feel free to open an issue or submit a pull request.
-
-## 📞 Contact
-
-- **Email**: dhruvmalhotra2026@gmail.com
-- **LinkedIn**: [linkedin.com/in/drewmalhotra](https://www.linkedin.com/in/drewmalhotra/)
-- **GitHub**: [github.com/d-malhotra2020](https://github.com/d-malhotra2020)
+A static React site with a few live-signal pieces wired in: a status board
+that pings every project I've deployed, a commit feed pulled straight from
+GitHub, and an AI agent that fields questions from recruiters in my voice
+(backed by a Cloudflare Worker proxying the Claude API).
 
 ---
 
-Built with ❤️ using React and modern web technologies.
+## What's in here
+
+```
+.
+├── src/                       # React app (Vite + Framer Motion)
+│   ├── App.jsx
+│   ├── main.jsx
+│   ├── components/
+│   │   ├── Navbar.jsx         # Status bar + nav lockup
+│   │   ├── Hero.jsx           # Masthead + terminal whoami panel
+│   │   ├── StatusBoard.jsx    # Live uptime pings + commit feed wrapper
+│   │   ├── CommitFeed.jsx     # GitHub events / per-repo commits
+│   │   ├── About.jsx          # Bio + principles
+│   │   ├── Experience.jsx     # Career timeline (collapsible cards)
+│   │   ├── Projects.jsx       # Selected work grid with metric strips
+│   │   ├── Skills.jsx         # Inventory grid (6 blocks)
+│   │   ├── Contact.jsx        # Channels + Formspree memo form
+│   │   ├── ScrollProgress.jsx # Cyan/amber scroll indicator
+│   │   └── AgentDock.jsx      # Floating chat dock → Claude via Worker
+│   └── styles/App.css         # Single design-system stylesheet
+├── workers/
+│   └── agent/                 # Cloudflare Worker that proxies the agent
+│       ├── src/index.js       # SSE proxy + system prompt
+│       ├── wrangler.toml
+│       └── README.md          # Worker-specific setup
+├── public/                    # Static assets (CNAME, resume PDF, photo)
+├── projects/                  # Source for the side projects deployed to Railway
+├── index.html
+├── vite.config.js
+└── package.json
+```
+
+---
+
+## Stack
+
+- **React 18** + **Vite** + **Framer Motion** + **Lucide React** for the SPA
+- **Geist Sans** + **JetBrains Mono** for typography (operator-console aesthetic)
+- **Cloudflare Workers** for the agent backend (SSE proxy → Anthropic API)
+- **Claude Haiku 4.5** for the agent itself
+- **GitHub Pages** for static hosting (custom domain via `CNAME`)
+- **Formspree** for the contact form
+
+No CSS framework, no UI library, no theme system, no analytics SDK beyond GA4.
+
+---
+
+## Running locally
+
+```bash
+npm install
+npm run dev
+```
+
+Opens [http://localhost:3000](http://localhost:3000).
+
+### Wiring up the AI agent for local dev
+
+The chat dock falls back gracefully if no Worker endpoint is configured — but
+to actually stream responses locally, create `.env.local` in the repo root:
+
+```
+VITE_AGENT_ENDPOINT=https://drew-agent.drewmalhotra.workers.dev
+```
+
+…and restart `npm run dev`. The endpoint is also locked down by CORS, so it
+only accepts requests from the production origins and `localhost:3000`.
+
+See [`workers/agent/README.md`](./workers/agent/README.md) for instructions on
+deploying or modifying the Worker itself.
+
+---
+
+## Scripts
+
+| Command | What it does |
+|---|---|
+| `npm run dev` | Vite dev server with HMR on port 3000 |
+| `npm run build` | Production build to `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | ESLint with React rules |
+| `npm run deploy` | Build, then push `dist/` to the `gh-pages` branch |
+
+---
+
+## Deployment
+
+### Portfolio (GitHub Pages)
+
+```bash
+npm run deploy
+```
+
+This runs `vite build` then `gh-pages -d dist`. The `public/CNAME` file ships
+into the build so the custom domain stays mapped. GitHub Pages typically
+reflects the change within 1–10 minutes (CDN cache lag is normal).
+
+### Agent Worker (Cloudflare)
+
+```bash
+cd workers/agent
+npx wrangler deploy
+```
+
+Secrets and origin allowlist are documented in
+[`workers/agent/README.md`](./workers/agent/README.md). The Anthropic API key
+lives only as a Cloudflare Worker secret — never in the repo or the browser
+bundle.
+
+---
+
+## Live signals
+
+A few details that don't look like much from the outside but earn the
+"operator console" framing:
+
+- **Status board** pings every Railway deployment from the browser using
+  `no-cors` fetches and auto-refreshes every 2 minutes. A red pip means
+  reachable-but-erroring; green means responding. Brivo is marked
+  `proprietary · brivo internal` since the work is real but not public.
+- **Commit feed** first hits the GitHub events API; if that's empty or
+  rate-limited, it fans out to the canonical side-project repos and grabs the
+  most recent commit per repo. Sorted by timestamp, six rows deep.
+- **Agent dock** streams Anthropic SSE chunks straight through the Worker
+  and renders them with a tiny inline markdown shim (handles `**bold**`,
+  `` `code` ``, and bullet lists). Conversation history is capped at 12 turns
+  and 1000 chars per turn server-side.
+
+---
+
+## Contact
+
+- **Email**: [dhruvmalhotra2026@gmail.com](mailto:dhruvmalhotra2026@gmail.com)
+- **LinkedIn**: [/in/drewmalhotra](https://www.linkedin.com/in/drewmalhotra/)
+- **GitHub**: [@d-malhotra2020](https://github.com/d-malhotra2020)
+- Or just open the site and ask the agent.

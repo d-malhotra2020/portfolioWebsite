@@ -10,9 +10,9 @@ const ScrollProgress = () => {
   })
 
   return (
-    <motion.div 
-      className="scroll-progress"
-      style={{ scaleX, transformOrigin: "0%" }}
+    <motion.div
+      className="scroll-bar"
+      style={{ scaleX, transformOrigin: '0%', width: '100%' }}
     />
   )
 }

@@ -1,0 +1,22 @@
+name = "drew-agent"
+main = "src/index.js"
+compatibility_date = "2026-05-01"
+
+# Optional: pin a specific Worker route once you've mapped a custom domain.
+# After running `wrangler deploy`, you can:
+#   1. Map api.drewmalhotra.com to this Worker via the Cloudflare dashboard
+#      (Workers & Pages → drew-agent → Triggers → Custom Domains).
+#   2. Or use the worker's default *.workers.dev URL — just paste it into the
+#      frontend's VITE_AGENT_ENDPOINT env var.
+
+[vars]
+# Comma-separated origin allowlist. Browsers from other origins are blocked by CORS.
+# Production: drewmalhotra.com (custom domain) + d-malhotra2020.github.io (gh-pages mirror)
+# Dev: localhost:3000 for `npm run dev`
+ALLOWED_ORIGIN = "https://drewmalhotra.com,https://d-malhotra2020.github.io,http://localhost:3000"
+
+# Optional model override. Defaults to claude-haiku-4-5 for speed + low cost.
+# MODEL = "claude-sonnet-4-6"
+
+# Secrets (set via CLI, NOT here):
+#   wrangler secret put ANTHROPIC_API_KEY

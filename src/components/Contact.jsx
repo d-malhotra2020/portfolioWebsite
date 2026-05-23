@@ -1,680 +1,176 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { Mail, Linkedin, Github, MapPin, Send, CheckCircle } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
+
+const channels = [
+  {
+    label: 'email',
+    value: 'dhruvmalhotra2026@gmail.com',
+    href: 'mailto:dhruvmalhotra2026@gmail.com'
+  },
+  {
+    label: 'linkedin',
+    value: '/in/drewmalhotra',
+    href: 'https://www.linkedin.com/in/drewmalhotra/'
+  },
+  {
+    label: 'github',
+    value: '@d-malhotra2020',
+    href: 'https://github.com/d-malhotra2020'
+  },
+  {
+    label: 'location',
+    value: 'Austin, TX — open to relocate'
+  }
+]
 
 const Contact = () => {
-  const [ref, inView] = useInView({
-    threshold: 0.2,
-    triggerOnce: true
-  })
+  const [ref, inView] = useInView({ threshold: 0.15, triggerOnce: true })
+  const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [status, setStatus] = useState(null)
+  const [sending, setSending] = useState(false)
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const handleSubmit = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
-    setIsSubmitting(true)
-    
+    setSending(true)
+    setStatus(null)
     try {
-      const response = await fetch('https://formspree.io/f/xwprrpkv', {
+      const res = await fetch('https://formspree.io/f/xwprrpkv', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(formData)
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(form)
       })
-      
-      if (response.ok) {
-        setIsSubmitted(true)
-        setFormData({ name: '', email: '', message: '' })
-        
-        setTimeout(() => {
-          setIsSubmitted(false)
-        }, 5000)
+      if (res.ok) {
+        setStatus("Sent. I'll reply within 24 hours.")
+        setForm({ name: '', email: '', message: '' })
+      } else {
+        setStatus('Send failed. Email me directly?')
       }
-    } catch (error) {
-      console.error('Error submitting form:', error)
+    } catch {
+      setStatus('Send failed. Email me directly?')
     } finally {
-      setIsSubmitting(false)
+      setSending(false)
     }
-  }
-
-  const contactInfo = [
-    {
-      icon: <Mail size={20} />,
-      label: 'Email',
-      value: 'dhruvmalhotra2026@gmail.com',
-      link: 'mailto:dhruvmalhotra2026@gmail.com'
-    },
-    {
-      icon: <Linkedin size={20} />,
-      label: 'LinkedIn',
-      value: '/in/drewmalhotra',
-      link: 'https://www.linkedin.com/in/drewmalhotra/'
-    },
-    {
-      icon: <Github size={20} />,
-      label: 'GitHub',
-      value: 'd-malhotra2020',
-      link: 'https://github.com/d-malhotra2020'
-    },
-    {
-      icon: <MapPin size={20} />,
-      label: 'Location',
-      value: 'Austin, TX'
-    }
-  ]
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 }
-    }
-  }
-
-  const inputStyle = {
-    width: '100%',
-    padding: '16px 20px',
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
-    border: '1px solid rgba(255, 255, 255, 0.06)',
-    borderRadius: '12px',
-    color: '#F4F4F5',
-    fontSize: '16px',
-    fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
-    outline: 'none',
-    transition: 'all 0.2s ease'
-  }
-
-  const inputFocusStyle = {
-    border: '1px solid #3B82F6',
-    boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.1)'
   }
 
   return (
-    <section id="contact" style={{
-      padding: '120px 0',
-      backgroundColor: '#09090b',
-      minHeight: '100vh'
-    }}>
-      <motion.div 
-        style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          padding: '0 24px'
-        }}
-        ref={ref}
-        variants={containerVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-      >
-        <motion.div 
-          variants={itemVariants}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '16px',
-            marginBottom: '32px'
-          }}
-        >
-          <div style={{
-            width: '4px',
-            height: '32px',
-            backgroundColor: '#3B82F6',
-            borderRadius: '2px'
-          }} />
-          <h2 style={{
-            fontSize: '48px',
-            fontWeight: 'bold',
-            color: '#F4F4F5',
-            margin: 0,
-            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-          }}>
-            Get In Touch
-          </h2>
-        </motion.div>
-        
-        <motion.div 
-          variants={itemVariants}
-          style={{ marginBottom: '64px' }}
-        >
-          <p style={{
-            fontSize: '20px',
-            color: '#A1A1AA',
-            lineHeight: '1.6',
-            margin: 0,
-            textAlign: 'center',
-            maxWidth: '600px',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-          }}>
-            I'm always interested in hearing about new opportunities, interesting projects, 
-            or just connecting with fellow developers. Feel free to reach out!
-          </p>
-        </motion.div>
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '64px',
-          '@media (max-width: 768px)': {
-            gridTemplateColumns: '1fr',
-            gap: '48px'
-          }
-        }}>
-          <motion.div 
-            variants={itemVariants}
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.06)',
-              borderRadius: '24px',
-              padding: '32px'
-            }}
-          >
-            {!isSubmitted ? (
-              <>
-                <h3 style={{
-                  fontSize: '24px',
-                  fontWeight: 'bold',
-                  color: '#F4F4F5',
-                  margin: '0 0 24px 0',
-                  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-                }}>
-                  Send me a message
-                </h3>
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                  <div>
-                    <label htmlFor="name" style={{
-                      display: 'block',
-                      fontSize: '14px',
-                      fontWeight: '500',
-                      color: '#E4E4E7',
-                      marginBottom: '8px',
-                      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-                    }}>
-                      Name *
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
-                      placeholder="Your full name"
-                      style={{
-                        ...inputStyle,
-                        '::placeholder': { color: '#71717A' }
-                      }}
-                      onFocus={(e) => Object.assign(e.target.style, inputFocusStyle)}
-                      onBlur={(e) => Object.assign(e.target.style, inputStyle)}
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="email" style={{
-                      display: 'block',
-                      fontSize: '14px',
-                      fontWeight: '500',
-                      color: '#E4E4E7',
-                      marginBottom: '8px',
-                      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-                    }}>
-                      Email *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      placeholder="your.email@example.com"
-                      style={{
-                        ...inputStyle,
-                        '::placeholder': { color: '#71717A' }
-                      }}
-                      onFocus={(e) => Object.assign(e.target.style, inputFocusStyle)}
-                      onBlur={(e) => Object.assign(e.target.style, inputStyle)}
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="message" style={{
-                      display: 'block',
-                      fontSize: '14px',
-                      fontWeight: '500',
-                      color: '#E4E4E7',
-                      marginBottom: '8px',
-                      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-                    }}>
-                      Message *
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      required
-                      rows="5"
-                      placeholder="Tell me about your project, opportunity, or just say hello!"
-                      style={{
-                        ...inputStyle,
-                        minHeight: '120px',
-                        resize: 'vertical'
-                      }}
-                      onFocus={(e) => Object.assign(e.target.style, inputFocusStyle)}
-                      onBlur={(e) => Object.assign(e.target.style, inputStyle)}
-                    />
-                  </div>
-                  
-                  <motion.button
-                    type="submit"
-                    disabled={isSubmitting}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '8px',
-                      width: '100%',
-                      padding: '16px 24px',
-                      backgroundColor: '#3B82F6',
-                      color: '#ffffff',
-                      border: 'none',
-                      borderRadius: '12px',
-                      fontSize: '16px',
-                      fontWeight: '600',
-                      cursor: isSubmitting ? 'not-allowed' : 'pointer',
-                      opacity: isSubmitting ? 0.7 : 1,
-                      transition: 'all 0.2s ease',
-                      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-                    }}
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                          style={{ width: '18px', height: '18px' }}
-                        >
-                          <div style={{
-                            width: '18px',
-                            height: '18px',
-                            border: '2px solid rgba(255, 255, 255, 0.3)',
-                            borderTop: '2px solid #ffffff',
-                            borderRadius: '50%'
-                          }} />
-                        </motion.div>
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        <Send size={18} />
-                        Send Message
-                      </>
-                    )}
-                  </motion.button>
-                </form>
-              </>
-            ) : (
-              <motion.div 
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                style={{
-                  textAlign: 'center',
-                  padding: '40px 0'
-                }}
-              >
-                <CheckCircle size={64} style={{ color: '#10B981', marginBottom: '16px' }} />
-                <h3 style={{
-                  fontSize: '24px',
-                  fontWeight: 'bold',
-                  color: '#F4F4F5',
-                  margin: '0 0 12px 0',
-                  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-                }}>
-                  Message Sent Successfully!
-                </h3>
-                <p style={{
-                  color: '#A1A1AA',
-                  fontSize: '16px',
-                  margin: 0,
-                  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-                }}>
-                  Thank you for reaching out. I'll get back to you as soon as possible!
-                </p>
-              </motion.div>
-            )}
-          </motion.div>
-
-          <motion.div 
-            variants={itemVariants}
-            style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}
-          >
-            <div style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.06)',
-              borderRadius: '16px',
-              padding: '24px'
-            }}>
-              <h3 style={{
-                fontSize: '18px',
-                fontWeight: 'bold',
-                color: '#F4F4F5',
-                margin: '0 0 12px 0',
-                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-              }}>
-                Let's connect!
-              </h3>
-              <p style={{
-                color: '#A1A1AA',
-                fontSize: '14px',
-                lineHeight: '1.5',
-                margin: 0,
-                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-              }}>
-                I typically respond within 24 hours. Whether you're looking to collaborate, 
-                have questions about my work, or just want to chat about technology, I'd love to hear from you.
-              </p>
-            </div>
-
-            <div style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.06)',
-              borderRadius: '16px',
-              padding: '24px'
-            }}>
-              <h3 style={{
-                fontSize: '18px',
-                fontWeight: 'bold',
-                color: '#F4F4F5',
-                margin: '0 0 16px 0',
-                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-              }}>
-                Contact Information
-              </h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {contactInfo.map((info, index) => (
-                  <motion.div
-                    key={index}
-                    whileHover={{ x: 4 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    {info.link ? (
-                      <a
-                        href={info.link}
-                        target={info.link.startsWith('mailto:') ? '_self' : '_blank'}
-                        rel="noopener noreferrer"
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '12px',
-                          padding: '12px',
-                          backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                          borderRadius: '8px',
-                          textDecoration: 'none',
-                          color: 'inherit',
-                          transition: 'all 0.2s ease'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)'
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.02)'
-                        }}
-                      >
-                        <div style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: '40px',
-                          height: '40px',
-                          backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                          borderRadius: '8px',
-                          color: '#3B82F6'
-                        }}>
-                          {info.icon}
-                        </div>
-                        <div>
-                          <div style={{
-                            fontSize: '12px',
-                            fontWeight: '500',
-                            color: '#71717A',
-                            marginBottom: '2px'
-                          }}>
-                            {info.label}
-                          </div>
-                          <div style={{
-                            fontSize: '14px',
-                            fontWeight: '600',
-                            color: '#E4E4E7'
-                          }}>
-                            {info.value}
-                          </div>
-                        </div>
-                      </a>
-                    ) : (
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '12px',
-                        padding: '12px',
-                        backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                        borderRadius: '8px'
-                      }}>
-                        <div style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: '40px',
-                          height: '40px',
-                          backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                          borderRadius: '8px',
-                          color: '#3B82F6'
-                        }}>
-                          {info.icon}
-                        </div>
-                        <div>
-                          <div style={{
-                            fontSize: '12px',
-                            fontWeight: '500',
-                            color: '#71717A',
-                            marginBottom: '2px'
-                          }}>
-                            {info.label}
-                          </div>
-                          <div style={{
-                            fontSize: '14px',
-                            fontWeight: '600',
-                            color: '#E4E4E7'
-                          }}>
-                            {info.value}
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            <div style={{
-              backgroundColor: 'rgba(16, 185, 129, 0.05)',
-              border: '1px solid rgba(16, 185, 129, 0.2)',
-              borderRadius: '16px',
-              padding: '24px'
-            }}>
-              <h3 style={{
-                fontSize: '18px',
-                fontWeight: 'bold',
-                color: '#10B981',
-                margin: '0 0 12px 0',
-                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-              }}>
-                Open to opportunities
-              </h3>
-              <p style={{
-                color: '#A1A1AA',
-                fontSize: '14px',
-                lineHeight: '1.5',
-                margin: '0 0 16px 0',
-                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-              }}>
-                Currently open to full-time software engineering positions, freelance projects, 
-                and consulting opportunities. Particularly interested in:
-              </p>
-              <ul style={{
-                margin: 0,
-                paddingLeft: '20px',
-                color: '#A1A1AA',
-                fontSize: '14px'
-              }}>
-                <li style={{ marginBottom: '6px' }}>Full-stack development roles</li>
-                <li style={{ marginBottom: '6px' }}>AI/ML engineering positions</li>
-                <li style={{ marginBottom: '6px' }}>Cloud architecture projects</li>
-                <li>Performance optimization challenges</li>
-              </ul>
-            </div>
-          </motion.div>
+    <section id="contact" className="section" style={{ paddingBottom: '3rem' }}>
+      <div className="shell">
+        <div className="section-marker">
+          <span className="tag"><span className="dot" /> // 05 · ./connect</span>
+          <h2>Let's <span className="em">build something.</span></h2>
         </div>
 
-        <motion.footer 
-          variants={itemVariants}
-          style={{
-            marginTop: '120px',
-            paddingTop: '48px',
-            borderTop: '1px solid rgba(255, 255, 255, 0.06)',
-            textAlign: 'center'
-          }}
+        <motion.div
+          ref={ref}
+          className="contact-grid"
+          initial={{ opacity: 0, y: 18 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: [0.2, 0.65, 0.3, 1] }}
         >
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '24px',
-            marginBottom: '24px'
-          }}>
-            <a
-              href="https://github.com/d-malhotra2020"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '48px',
-                height: '48px',
-                backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.06)',
-                borderRadius: '12px',
-                color: '#A1A1AA',
-                textDecoration: 'none',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.06)'
-                e.currentTarget.style.color = '#F4F4F5'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)'
-                e.currentTarget.style.color = '#A1A1AA'
-              }}
-            >
-              <Github size={20} />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/drewmalhotra/"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '48px',
-                height: '48px',
-                backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.06)',
-                borderRadius: '12px',
-                color: '#A1A1AA',
-                textDecoration: 'none',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.06)'
-                e.currentTarget.style.color = '#F4F4F5'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)'
-                e.currentTarget.style.color = '#A1A1AA'
-              }}
-            >
-              <Linkedin size={20} />
-            </a>
-            <a
-              href="mailto:dhruvmalhotra2026@gmail.com"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '48px',
-                height: '48px',
-                backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.06)',
-                borderRadius: '12px',
-                color: '#A1A1AA',
-                textDecoration: 'none',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.06)'
-                e.currentTarget.style.color = '#F4F4F5'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)'
-                e.currentTarget.style.color = '#A1A1AA'
-              }}
-            >
-              <Mail size={20} />
-            </a>
+          <div>
+            <h3 className="contact-headline">
+              Currently <span className="grad">open</span> to senior engineering roles.
+            </h3>
+            <p className="contact-blurb">
+              Full-time SDE / SDET, AI/ML, or cloud architecture. Particularly interested in
+              teams shipping high-throughput infrastructure where correctness matters. I reply
+              within 24 hours.
+            </p>
+
+            <div className="channels">
+              {channels.map((c, i) =>
+                c.href ? (
+                  <a
+                    key={i}
+                    className="channel"
+                    href={c.href}
+                    target={c.href.startsWith('http') ? '_blank' : undefined}
+                    rel="noopener noreferrer"
+                  >
+                    <span className="lbl">{c.label}</span>
+                    <span className="val">{c.value}</span>
+                    <span className="arrow"><ArrowUpRight size={14} /></span>
+                  </a>
+                ) : (
+                  <div key={i} className="channel">
+                    <span className="lbl">{c.label}</span>
+                    <span className="val">{c.value}</span>
+                    <span />
+                  </div>
+                )
+              )}
+            </div>
           </div>
-          <p style={{
-            color: '#71717A',
-            fontSize: '14px',
-            margin: 0,
-            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-          }}>
-            © 2026 Dhruv Malhotra. Built with React and lots of coffee.
-          </p>
-        </motion.footer>
-      </motion.div>
+
+          <form className="contact-form" onSubmit={onSubmit}>
+            <div className="form-head">
+              <span>~ /contact/new_message.sh</span>
+              <span className="ok">ready</span>
+            </div>
+
+            <label className="field">
+              <span className="field-label">
+                name <span className="req">*</span>
+              </span>
+              <input
+                type="text"
+                name="name"
+                required
+                value={form.name}
+                onChange={onChange}
+                placeholder="your full name"
+              />
+            </label>
+
+            <label className="field">
+              <span className="field-label">
+                email <span className="req">*</span>
+              </span>
+              <input
+                type="email"
+                name="email"
+                required
+                value={form.email}
+                onChange={onChange}
+                placeholder="you@company.com"
+              />
+            </label>
+
+            <label className="field">
+              <span className="field-label">
+                message <span className="req">*</span>
+              </span>
+              <textarea
+                name="message"
+                required
+                value={form.message}
+                onChange={onChange}
+                placeholder="What are you working on?"
+                rows={4}
+              />
+            </label>
+
+            <button type="submit" className="btn btn-primary" disabled={sending} style={{ width: '100%', justifyContent: 'center' }}>
+              <span>{sending ? 'sending…' : 'send message'}</span>
+              {!sending && <ArrowUpRight size={14} className="arrow" />}
+            </button>
+
+            {status && <div className="form-status">→ {status}</div>}
+          </form>
+        </motion.div>
+
+        <footer className="foot">
+          <div>© 2026 · Dhruv (Drew) Malhotra</div>
+          <div className="build">
+            <span className="ok">build · ok</span> · v3.0.0 · set in Geist &amp; JetBrains Mono
+          </div>
+          <div>austin · tx</div>
+        </footer>
+      </div>
     </section>
   )
 }

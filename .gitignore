@@ -40,6 +40,11 @@ out/
 .parcel-cache
 .eslintcache
 
+# Test / browser-automation artifacts
+.playwright-mcp/
+playwright-report/
+test-results/
+
 # Coverage directory used by tools like istanbul
 coverage/
 *.lcov
