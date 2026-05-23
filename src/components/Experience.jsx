@@ -158,14 +158,14 @@ const Experience = () => {
                 <button className="career-head" onClick={() => toggle(i)}>
                   <span className="date">{exp.date}</span>
                   <span className="stack">
-                    <span className="title">
+                    <h3 className="title">
                       {exp.title}
                       {exp.current && (
                         <span className="current-pill">
                           <span className="pip" /> CURRENT
                         </span>
                       )}
-                    </span>
+                    </h3>
                     <span className="company">
                       {exp.company}
                       {exp.sub && <span className="loc"> · {exp.sub}</span>}

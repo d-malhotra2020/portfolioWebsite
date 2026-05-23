@@ -127,18 +127,7 @@ const Projects = () => {
         >
           {projects.map((p, i) => {
             const clickable = !!p.deepDive
-            const onCardOpen = clickable
-              ? () => navigateTo(`/work/${p.deepDive}`)
-              : undefined
-            const onCardKey = clickable
-              ? (e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault()
-                    navigateTo(`/work/${p.deepDive}`)
-                  }
-                }
-              : undefined
-            const stop = (e) => e.stopPropagation()
+            const deepHref = clickable ? `#/work/${p.deepDive}` : null
 
             return (
               <motion.article
@@ -148,11 +137,6 @@ const Projects = () => {
                   hidden: { opacity: 0, y: 18 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.2, 0.65, 0.3, 1] } }
                 }}
-                onClick={onCardOpen}
-                onKeyDown={onCardKey}
-                tabIndex={clickable ? 0 : undefined}
-                role={clickable ? 'button' : undefined}
-                aria-label={clickable ? `Read about ${p.title}` : undefined}
               >
                 <div className="work-row1">
                   <span className="id">{p.id}</span>
@@ -163,7 +147,15 @@ const Projects = () => {
                   </span>
                 </div>
 
-                <h3>{p.title}</h3>
+                <h3>
+                  {clickable ? (
+                    <a className="work-card-stretch" href={deepHref}>
+                      {p.title}
+                    </a>
+                  ) : (
+                    p.title
+                  )}
+                </h3>
                 <p className="work-summary">{p.summary}</p>
 
                 <div className="work-stats">
@@ -192,7 +184,7 @@ const Projects = () => {
                       href={p.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={stop}
+                      className="work-link-above"
                     >
                       <Github size={14} /> source
                     </a>
@@ -202,8 +194,7 @@ const Projects = () => {
                       href={p.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="live"
-                      onClick={stop}
+                      className="live work-link-above"
                     >
                       live <ArrowUpRight size={14} />
                     </a>

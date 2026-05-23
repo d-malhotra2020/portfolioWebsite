@@ -111,8 +111,7 @@ export const Markdown = ({ source }) => {
           className="md-code"
           data-lang={lang || 'text'}
           tabIndex={0}
-          role="region"
-          aria-label={`Code block (${lang || 'text'})`}
+          aria-label={`code block (${lang || 'text'})`}
         >
           <code>{codeLines.join('\n')}</code>
         </pre>

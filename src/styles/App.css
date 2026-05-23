@@ -978,6 +978,8 @@ button {
   align-items: center;
   gap: 0.7rem;
   flex-wrap: wrap;
+  margin: 0;
+  line-height: 1.25;
 }
 
 .career-head .current-pill {
@@ -2860,4 +2862,53 @@ button {
   body::before {
     animation: none !important;
   }
+}
+
+/* Stretched-link pattern for clickable project cards.
+   The card itself stays a plain <article> — no role, no nested-interactive
+   problem. The title's <a> uses ::before to cover the entire card; source /
+   live anchors get z-index above so they remain independently clickable. */
+.work-card-clickable {
+  cursor: pointer;
+  position: relative;
+}
+
+.work-card-stretch {
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+  /* Carry the same hover transition the title used to get. */
+  transition: color 0.25s ease;
+}
+
+.work-card-stretch::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* Negative offsets make the hit-target span the entire card padding. */
+  margin: -1.75rem;
+  z-index: 1;
+}
+
+.work-card-clickable:hover .work-card-stretch,
+.work-card-stretch:focus-visible {
+  color: var(--cyan);
+}
+
+.work-card-stretch:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 4px;
+}
+
+/* Source / live anchors sit above the stretched overlay so they're
+   independently clickable without nested-interactive violations. */
+.work-link-above {
+  position: relative;
+  z-index: 2;
+}
+
+.work-deepdive-hint {
+  position: relative;
+  z-index: 0;
+  pointer-events: none;
 }
