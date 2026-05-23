@@ -2765,3 +2765,77 @@ button {
 .case-study-link:hover {
   opacity: 0.8;
 }
+
+/* Clickable project cards (Phase 2 deep-dives) */
+.work-card-clickable {
+  cursor: pointer;
+}
+
+.work-card-clickable:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 4px;
+}
+
+.work-deepdive-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 1;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--cyan);
+  letter-spacing: 0.02em;
+  transition: transform 0.25s ease;
+}
+
+.work-card-clickable:hover .work-deepdive-hint {
+  transform: translateX(3px);
+}
+
+.work-post-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 2rem 0 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.work-post-links {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.work-post-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.9rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  border-radius: 10px;
+  border: 1px solid var(--rule);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  letter-spacing: 0.02em;
+}
+
+.work-post-links a:hover {
+  color: var(--ink);
+  border-color: var(--rule-strong);
+  background: var(--surface-hi);
+}
+
+.work-post-links a.live {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.work-post-links a.live:hover {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: var(--bg);
+}

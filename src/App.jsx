@@ -11,6 +11,7 @@ import ScrollProgress from './components/ScrollProgress'
 import AgentDock from './components/AgentDock'
 import WritingIndex from './components/WritingIndex'
 import WritingPost from './components/WritingPost'
+import WorkPost from './components/WorkPost'
 import { useHashRoute, matchRoute } from './lib/router'
 import './styles/App.css'
 
@@ -33,6 +34,16 @@ function App() {
       <div className="app">
         <ScrollProgress />
         <WritingPost slug={route.slug} />
+        <AgentDock />
+      </div>
+    )
+  }
+
+  if (route.kind === 'work-post') {
+    return (
+      <div className="app">
+        <ScrollProgress />
+        <WorkPost slug={route.slug} />
         <AgentDock />
       </div>
     )

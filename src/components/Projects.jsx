@@ -2,6 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { Github, ArrowUpRight } from 'lucide-react'
+import { navigateTo } from '../lib/router'
 
 const projects = [
   {
@@ -50,7 +51,8 @@ const projects = [
     ],
     stack: ['Python', 'PyTorch', 'React', 'Mobile'],
     github: 'https://github.com/d-malhotra2020/donation-platform',
-    live: 'https://donation-platform-production.up.railway.app'
+    live: 'https://donation-platform-production.up.railway.app',
+    deepDive: 'donation-platform'
   },
   {
     id: '#004',
@@ -66,7 +68,8 @@ const projects = [
     ],
     stack: ['Python', 'Pandas', 'sklearn', 'Postgres', 'FastAPI'],
     github: 'https://github.com/d-malhotra2020/financial-analysis-tool',
-    live: 'https://financial-analysis-tool-production.up.railway.app'
+    live: 'https://financial-analysis-tool-production.up.railway.app',
+    deepDive: 'financial-analysis'
   },
   {
     id: '#005',
@@ -82,7 +85,8 @@ const projects = [
     ],
     stack: ['Python', 'Raspberry Pi', 'MQTT', 'Flask'],
     github: 'https://github.com/d-malhotra2020/smart-home-automation',
-    live: 'https://smart-home-automation-production.up.railway.app'
+    live: 'https://smart-home-automation-production.up.railway.app',
+    deepDive: 'smart-home'
   },
   {
     id: '#006',
@@ -98,7 +102,8 @@ const projects = [
     ],
     stack: ['React', 'Vite', 'Framer Motion'],
     github: 'https://github.com/d-malhotra2020/portfolioWebsite',
-    live: 'https://drewmalhotra.com'
+    live: 'https://drewmalhotra.com',
+    deepDive: 'this-portfolio'
   }
 ]
 
@@ -120,56 +125,93 @@ const Projects = () => {
           animate={inView ? 'visible' : 'hidden'}
           variants={{ visible: { transition: { staggerChildren: 0.06 } } }}
         >
-          {projects.map((p, i) => (
-            <motion.article
-              key={i}
-              className="work-card"
-              variants={{
-                hidden: { opacity: 0, y: 18 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.2, 0.65, 0.3, 1] } }
-              }}
-            >
-              <div className="work-row1">
-                <span className="id">{p.id}</span>
-                <span className="meta">
-                  <span>{p.year}</span>
-                  <span style={{ color: 'var(--ink-faint)' }}>·</span>
-                  <span>{p.category}</span>
-                </span>
-              </div>
+          {projects.map((p, i) => {
+            const clickable = !!p.deepDive
+            const onCardOpen = clickable
+              ? () => navigateTo(`/work/${p.deepDive}`)
+              : undefined
+            const onCardKey = clickable
+              ? (e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    navigateTo(`/work/${p.deepDive}`)
+                  }
+                }
+              : undefined
+            const stop = (e) => e.stopPropagation()
 
-              <h3>{p.title}</h3>
-              <p className="work-summary">{p.summary}</p>
+            return (
+              <motion.article
+                key={i}
+                className={`work-card${clickable ? ' work-card-clickable' : ''}`}
+                variants={{
+                  hidden: { opacity: 0, y: 18 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.2, 0.65, 0.3, 1] } }
+                }}
+                onClick={onCardOpen}
+                onKeyDown={onCardKey}
+                tabIndex={clickable ? 0 : undefined}
+                role={clickable ? 'link' : undefined}
+                aria-label={clickable ? `Read about ${p.title}` : undefined}
+              >
+                <div className="work-row1">
+                  <span className="id">{p.id}</span>
+                  <span className="meta">
+                    <span>{p.year}</span>
+                    <span style={{ color: 'var(--ink-faint)' }}>·</span>
+                    <span>{p.category}</span>
+                  </span>
+                </div>
 
-              <div className="work-stats">
-                {p.stats.map((s, j) => (
-                  <div className="s" key={j}>
-                    <div className="lbl">{s.lbl}</div>
-                    <div className="val">{s.val}</div>
-                  </div>
-                ))}
-              </div>
+                <h3>{p.title}</h3>
+                <p className="work-summary">{p.summary}</p>
 
-              <div className="work-stack">
-                {p.stack.map((s, j) => (
-                  <span className="pill" key={j}>{s}</span>
-                ))}
-              </div>
+                <div className="work-stats">
+                  {p.stats.map((s, j) => (
+                    <div className="s" key={j}>
+                      <div className="lbl">{s.lbl}</div>
+                      <div className="val">{s.val}</div>
+                    </div>
+                  ))}
+                </div>
 
-              <div className="work-links">
-                {p.github && (
-                  <a href={p.github} target="_blank" rel="noopener noreferrer">
-                    <Github size={14} /> source
-                  </a>
-                )}
-                {p.live && (
-                  <a href={p.live} target="_blank" rel="noopener noreferrer" className="live">
-                    live <ArrowUpRight size={14} />
-                  </a>
-                )}
-              </div>
-            </motion.article>
-          ))}
+                <div className="work-stack">
+                  {p.stack.map((s, j) => (
+                    <span className="pill" key={j}>{s}</span>
+                  ))}
+                </div>
+
+                <div className="work-links">
+                  {clickable && (
+                    <span className="work-deepdive-hint">
+                      read the deep-dive <ArrowUpRight size={14} />
+                    </span>
+                  )}
+                  {p.github && (
+                    <a
+                      href={p.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={stop}
+                    >
+                      <Github size={14} /> source
+                    </a>
+                  )}
+                  {p.live && (
+                    <a
+                      href={p.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="live"
+                      onClick={stop}
+                    >
+                      live <ArrowUpRight size={14} />
+                    </a>
+                  )}
+                </div>
+              </motion.article>
+            )
+          })}
         </motion.div>
       </div>
     </section>

@@ -1,0 +1,50 @@
+// Per-project deep-dive registry. Add a project here to give it a /work/<slug> page.
+import donationPlatform from './donation-platform.md?raw'
+import financialAnalysis from './financial-analysis.md?raw'
+import smartHome from './smart-home.md?raw'
+import thisPortfolio from './this-portfolio.md?raw'
+
+export const workPosts = [
+  {
+    slug: 'donation-platform',
+    title: 'Donation Platform Recommender',
+    category: 'MOBILE · ML',
+    year: '2023',
+    stack: ['Python', 'PyTorch', 'React', 'Mobile'],
+    github: 'https://github.com/d-malhotra2020/donation-platform',
+    live: 'https://donation-platform-production.up.railway.app',
+    body: donationPlatform
+  },
+  {
+    slug: 'financial-analysis',
+    title: 'Financial Analysis Engine',
+    category: 'DATA · ML',
+    year: '2024',
+    stack: ['Python', 'Pandas', 'sklearn', 'PostgreSQL', 'FastAPI'],
+    github: 'https://github.com/d-malhotra2020/financial-analysis-tool',
+    live: 'https://financial-analysis-tool-production.up.railway.app',
+    body: financialAnalysis
+  },
+  {
+    slug: 'smart-home',
+    title: 'Smart Home Automation',
+    category: 'IOT · EDGE',
+    year: '2024',
+    stack: ['Python', 'Raspberry Pi', 'MQTT', 'Flask'],
+    github: 'https://github.com/d-malhotra2020/smart-home-automation',
+    live: 'https://smart-home-automation-production.up.railway.app',
+    body: smartHome
+  },
+  {
+    slug: 'this-portfolio',
+    title: 'This Portfolio',
+    category: 'WEB · DESIGN',
+    year: '2025',
+    stack: ['React', 'Vite', 'Framer Motion', 'Cloudflare Workers'],
+    github: 'https://github.com/d-malhotra2020/portfolioWebsite',
+    live: 'https://drewmalhotra.com',
+    body: thisPortfolio
+  }
+]
+
+export const findWork = (slug) => workPosts.find((p) => p.slug === slug)
