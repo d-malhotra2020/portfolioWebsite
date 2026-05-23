@@ -19,7 +19,7 @@ per hour invested. Phases are sized for single sessions (≤2 hours).
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
 - [x] **Phase 1: Technical Writeup — PATCH Vulnerability Case Study** - Publish a 1500-word case study at `/writing/patch-vulnerability` ✅ 2026-05-23
-- [ ] **Phase 2: Per-Project Deep-Dive Pages** - Each "selected work" card opens to a richer page (screenshots, architecture, lessons)
+- [x] **Phase 2: Per-Project Deep-Dive Pages** - Each "selected work" card opens to a richer page (screenshots, architecture, lessons) ✅ 2026-05-23
 - [ ] **Phase 3: Agent Leveling-Up** - Rate-limiting, hot-lead notification, cost telemetry on the Cloudflare Worker
 - [ ] **Phase 4: A11y + Perf Audit Pass** - Lighthouse ≥ 95 everywhere, WCAG AA, real screen-reader tested
 - [ ] **Phase 5: SEO + Discoverability** - robots.txt, sitemap, expanded schema.org, per-route metadata
@@ -60,12 +60,12 @@ Plans:
   2. Each deep-dive page has: a screenshot or short video, an architecture sketch (mermaid or hand-drawn SVG), a "the hard part" paragraph, and links to source + live
   3. Homepage project cards link to the deep-dive (live button still goes to the Railway deployment)
   4. Each deep-dive page loads in <1.5s on a cold visit (Lighthouse perf ≥ 90)
-**Plans**: 3 plans
+**Plans**: 3 plans (scope tightened to 4 of 6 projects during discuss-phase — #001 and #002 NDA-adjacent)
 
 Plans:
-- [ ] 02-01: Add `/work/[slug]` routing + shared layout for deep-dive pages
-- [ ] 02-02: Write content for projects 1–3 (video-analytics, traffic-optimization, donation-platform)
-- [ ] 02-03: Write content for projects 4–6 (financial-analysis, smart-home, portfolio itself)
+- [x] 02-01: `/work/[slug]` routing + WorkPost component + work registry
+- [x] 02-02: Draft 4 architecture+decisions deep-dives (donation-platform, financial-analysis, smart-home, this-portfolio)
+- [x] 02-03: Cards clickable + inline source/live anchors + ship via GH Actions
 
 ### Phase 3: Agent Leveling-Up
 **Goal**: The Cloudflare Worker agent gets rate-limiting, hot-lead notification, and cost telemetry so it's defensively engineered and lead-generating.
@@ -229,7 +229,7 @@ Phases execute in numeric order. Some phases (3, 4, 7, 9, 11) can run in paralle
 |-------|----------------|--------|-----------|
 | 0. Foundation (operator-console rebuild + agent + résumé parity) | 8/8 | Complete | 2026-05-23 |
 | 1. Technical Writeup — PATCH Case Study | 4/4 | Complete | 2026-05-23 |
-| 2. Per-Project Deep-Dive Pages | 0/3 | Not started | - |
+| 2. Per-Project Deep-Dive Pages (4 of 6 projects) | 3/3 | Complete | 2026-05-23 |
 | 3. Agent Leveling-Up | 0/3 | Not started | - |
 | 4. A11y + Perf Audit Pass | 0/3 | Not started | - |
 | 5. SEO + Discoverability | 0/3 | Not started | - |

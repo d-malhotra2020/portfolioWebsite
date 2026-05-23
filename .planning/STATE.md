@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-05-23)
 
 **Core value:** A hiring manager who lands on the site walks away with a concrete, résumé-accurate read on Drew's engineering depth — and a frictionless path to start a conversation.
-**Current focus:** Phase 2 — Per-Project Deep-Dive Pages
+**Current focus:** Phase 3 — Agent Leveling-Up (rate-limiting, hot-lead notification, cost telemetry)
 
 ## Current Position
 
-Phase: 2 of 12 (Per-Project Deep-Dive Pages)
+Phase: 3 of 12 (Agent Leveling-Up)
 Plan: 0 of 3 in current phase
 Status: Ready to discuss
-Last activity: 2026-05-23 — Shipped Phase 1 (PATCH case study live at drewmalhotra.com/#/writing/patch-vulnerability) via GH Actions deploy.
+Last activity: 2026-05-23 — Shipped Phase 2 (4 per-project deep-dives + clickable cards) via GH Actions deploy.
 
-Progress: [██░░░░░░░░] 17% (Phase 0 + Phase 1 complete of 12)
+Progress: [██░░░░░░░░] 25% (Phases 0, 1, 2 complete of 12)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12 (Phase 0: 8, Phase 1: 4)
-- Average duration: ~22 min/plan
-- Total execution time: ~4.3 hours (today's session)
+- Total plans completed: 15 (Phase 0: 8, Phase 1: 4, Phase 2: 3)
+- Average duration: ~20 min/plan
+- Total execution time: ~5.2 hours (today's session)
 
 **By Phase:**
 
@@ -29,41 +29,44 @@ Progress: [██░░░░░░░░] 17% (Phase 0 + Phase 1 complete of 12
 |-------|-------|-------|----------|
 | 0. Foundation | 8 | ~3.5h | ~26 min |
 | 1. PATCH Case Study | 4 | ~45m | ~11 min |
+| 2. Deep-Dive Pages | 3 | ~50m | ~17 min |
 
 **Recent Trend:**
-- Last 5 plans: writing infrastructure, post draft, cross-links + nav, deploy, state close-out
-- Trend: Improving (infrastructure built once accelerates content phases)
+- Infrastructure reuse is paying off: Phase 2 leveraged the markdown renderer + hash router from Phase 1, no new libraries.
+- Trend: Improving. Each phase consumes less unique infrastructure work.
 
 ## Accumulated Context
 
 ### Decisions
 
-Recent decisions affecting current work:
-
-- [Phase 1]: Hash routing over a router library (no new deps, GH Pages compatible)
-- [Phase 1]: Own the markdown renderer (~150 lines) over `marked`/`remark` (no security surface from third-party plugins)
-- [Phase 1]: Per-post OG images deferred until prerender / runtime OG worker exists
-- [Phase 0]: Operator-console aesthetic, Cloudflare Worker for agent, GH Actions deploy flow
+- [Phase 2]: Scope tightened from 6 → 4 deep-dives during discuss-phase (#001 / #002 NDA-adjacent).
+- [Phase 2]: Card clickability via div + role="link" (not nested `<a>`) to keep source/live as inline anchors valid.
+- [Phase 2]: ASCII diagrams over generated images — keeps content authorable in markdown, sidesteps OG image / SPA prerender problem.
+- [Phase 1]: Hash routing over a router library.
+- [Phase 1]: Own the markdown renderer.
 
 ### Pending Todos
 
-- Drew should read the live PATCH case study and revise anything that doesn't sound like his voice. Source at `src/writing/patch-vulnerability.md`.
+- Drew should read all 4 deep-dive posts on the live site and flag anything off-voice. Source files at `src/work/*.md`.
+- Drew should read the PATCH case study (carried from Phase 1).
 
 ### Blockers/Concerns
 
-- [Phase 6]: Trust section gated on Drew collecting 3–5 LinkedIn recommendations.
-- [Phase 10]: Drew needs to set a monthly Anthropic spend ceiling. Default recommendation: $25/mo.
-- [Phase 11]: Real-device test pass needs Drew's iOS + Android.
+- [Phase 3]: Hot-lead notification needs a Slack webhook URL or an email service. Soft blocker — feature can ship without it; would need a follow-up to wire.
+- [Phase 6]: Trust section gated on LinkedIn recs.
+- [Phase 10]: Drew needs to set a monthly Anthropic spend ceiling.
+- [Phase 11]: Real-device test pass needs Drew's phone.
 
 ## Deferred Items
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
-| OG images | Per-post social previews — needs prerender or runtime OG worker | Open | 2026-05-23 (Phase 1) |
-| Lighthouse | Perf score on the post page — not measured, deferred to Phase 4 | Open | 2026-05-23 (Phase 1) |
+| OG images | Per-post + per-work social previews — needs prerender or runtime OG worker | Open | 2026-05-23 (Phase 1) |
+| Lighthouse | Perf score on post + work pages — Phase 4 will measure | Open | 2026-05-23 (Phase 1, Phase 2) |
+| Voice review | Drew should read all writing/work posts and flag off-voice phrasing | Open | 2026-05-23 |
 
 ## Session Continuity
 
-Last session: 2026-05-23 15:25
-Stopped at: Phase 1 shipped + verified live. Ready to advance to Phase 2 (Per-Project Deep-Dive Pages).
+Last session: 2026-05-23 16:20
+Stopped at: Phase 2 shipped + verified live. Ready to advance to Phase 3 (Agent Leveling-Up).
 Resume file: None
