@@ -21,11 +21,11 @@ Carrying forward from Phase 3:
 
 ## Decisions locked
 
-### Monthly ceiling — $5 / month
+### Monthly ceiling — $10 / month
 
-Daily threshold = $5 / 30 ≈ $0.166. Stored as **`DAILY_COST_LIMIT_MICRO_USD = 166000`** (166,000 µUSD = $0.166). Configurable via wrangler `[vars]` so future-Drew can raise it without code changes.
+Daily threshold = $10 / 30 ≈ $0.333. Stored as **`DAILY_COST_LIMIT_MICRO_USD = 333000`** (333,000 µUSD = $0.333). Configurable via wrangler `[vars]` so future-Drew can raise it without code changes.
 
-Rationale: matches the Cloudflare free-tier discipline already in place. At Haiku 4.5 pricing ($1 / MTok input, $5 / MTok output) and typical chat usage (~500 input + ~150 output tokens per turn = ~$0.001 / turn), $0.166/day = ~166 chat turns before the breaker fires. A normal day stays well under it; a coordinated abuse run trips it.
+Rationale: matches the Cloudflare free-tier discipline already in place. At Haiku 4.5 pricing ($1 / MTok input, $5 / MTok output) and typical chat usage (~500 input + ~150 output tokens per turn = ~$0.001 / turn), $0.333/day = ~166 chat turns before the breaker fires. A normal day stays well under it; a coordinated abuse run trips it.
 
 ### Circuit breaker — global daily counter in KV
 
@@ -59,7 +59,7 @@ Add `cost_capped` to the outcomes enum alongside `ok`, `rate_limited`, `bad_requ
 
 ### Anthropic dashboard cap — Drew action
 
-Drew sets the cap at https://console.anthropic.com/settings/billing → Spend limits → Monthly spend cap = **$5** with email alerts at 50% and 90%. This is the hard wall; the Worker breaker is the early-warning that keeps the dashboard cap unreached.
+Drew sets the cap at https://console.anthropic.com/settings/billing → Spend limits → Monthly spend cap = **$10** with email alerts at 50% ($5) and 90% ($9). This is the hard wall; the Worker breaker is the early-warning that keeps the dashboard cap unreached.
 
 The plan ships:
 - A SUMMARY note describing exactly where in the Anthropic console to set the cap.
@@ -69,7 +69,7 @@ The plan ships:
 
 `workers/agent/README.md` gets a new "Cost guardrails" section that documents:
 - Per-turn cost math (with the Haiku 4.5 pricing).
-- Daily threshold ($0.166) and how to change it (wrangler var).
+- Daily threshold ($0.333) and how to change it (wrangler var).
 - KV key shape and how to manually reset the counter (`wrangler kv:key delete --binding=RATE_LIMIT "cost:YYYY-MM-DD"`).
 - The two layers: Worker breaker (early warning) + Anthropic dashboard cap (hard wall).
 - How to monitor: Analytics Engine query for `outcome=cost_capped` events.
@@ -122,4 +122,4 @@ No external specs / ADRs referenced.
 
 ---
 
-*Authored: 2026-05-23 during Phase 10 (`--auto`, budget supplied: $5/mo).*
+*Authored: 2026-05-23 during Phase 10 (`--auto`, budget supplied: $10/mo).*
