@@ -168,6 +168,25 @@ function badRequest(message, origin) {
   })
 }
 
+// Short-circuit response when the daily-cost circuit breaker has tripped.
+// Mirrors the 429 rate-limit response shape (JSON `error` + `Retry-After`) so
+// AgentDock's existing error renderer surfaces it without a frontend change.
+function costCapped(origin, retryAfterSec) {
+  return new Response(
+    JSON.stringify({
+      error: "agent's resting — Drew's daily Anthropic budget is spent for today. Try again tomorrow, or email Drew directly at dhruvmalhotra2026@gmail.com."
+    }),
+    {
+      status: 503,
+      headers: {
+        'Content-Type': 'application/json',
+        'Retry-After': String(retryAfterSec),
+        ...corsHeaders(origin)
+      }
+    }
+  )
+}
+
 function sanitizeMessages(raw) {
   if (!Array.isArray(raw)) return null
   const out = []
@@ -226,6 +245,62 @@ async function checkRateLimit(kv, ip) {
   return { allowed: true, count: timestamps.length }
 }
 
+// Daily-cost circuit breaker — shares the RATE_LIMIT KV namespace with the
+// per-IP rate limiter, but uses the `cost:` key prefix so the two don't
+// collide. Key shape: `cost:YYYY-MM-DD` (UTC date). Value: JSON
+// `{ total: <microUSD>, requests: <count> }`. TTL: 48h.
+
+function utcDateKey() {
+  // toISOString returns `YYYY-MM-DDTHH:mm:ss.sssZ` — slice off the date half.
+  return `cost:${new Date().toISOString().slice(0, 10)}`
+}
+
+function secondsUntilUtcMidnight() {
+  const now = new Date()
+  const nextMidnight = Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate() + 1
+  )
+  const secs = Math.floor((nextMidnight - now.getTime()) / 1000)
+  return secs >= 1 ? secs : 1
+}
+
+async function getDailyCost(kv) {
+  if (!kv) return { total: 0, requests: 0 }
+  try {
+    const stored = await kv.get(utcDateKey())
+    if (!stored) return { total: 0, requests: 0 }
+    const parsed = JSON.parse(stored)
+    const total = typeof parsed.total === 'number' ? parsed.total : 0
+    const requests = typeof parsed.requests === 'number' ? parsed.requests : 0
+    return { total, requests }
+  } catch (_) {
+    // Fail-open on any KV / JSON error — never break the agent because of KV.
+    return { total: 0, requests: 0 }
+  }
+}
+
+async function incrementDailyCost(kv, costMicroUsd) {
+  if (!kv) return
+  try {
+    const prev = await getDailyCost(kv)
+    const next = {
+      total: prev.total + (costMicroUsd || 0),
+      requests: prev.requests + 1
+    }
+    await kv.put(utcDateKey(), JSON.stringify(next), {
+      expirationTtl: 60 * 60 * 48
+    })
+  } catch (_) {
+    // KV write failure — best effort. KV is eventually consistent and we
+    // accept rare under-count for this portfolio's traffic level.
+  }
+}
+
+// Telemetry outcomes: 'ok' | 'rate_limited' | 'cost_capped' | 'bad_request'
+// | 'upstream_error' | 'misconfigured'. The function accepts arbitrary
+// outcome strings — adding a new outcome here requires no schema change.
 function writeTelemetry(env, fields) {
   if (!env.TELEMETRY) return
   const { model, outcome, inputTokens, outputTokens, ip } = fields
