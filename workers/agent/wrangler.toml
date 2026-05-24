@@ -18,6 +18,14 @@ ALLOWED_ORIGIN = "https://drewmalhotra.com,https://d-malhotra2020.github.io,http
 # Optional model override. Defaults to claude-haiku-4-5 for speed + low cost.
 # MODEL = "claude-sonnet-4-6"
 
+# Daily-cost circuit breaker — value in micro-USD (USD * 1_000_000). The Worker
+# short-circuits with HTTP 503 once cumulative cost for the current UTC day
+# reaches this number. Default: 333000 = $0.333/day = $10/month ÷ 30.
+# If Drew raises the Anthropic monthly cap (e.g. to $20), raise this to "666000"
+# so the Worker breaker continues to fire before the dashboard cap.
+# See workers/agent/README.md → "Cost guardrails" for the cost math.
+DAILY_COST_LIMIT_MICRO_USD = "333000"
+
 # Secrets (set via CLI, NOT here):
 #   wrangler secret put ANTHROPIC_API_KEY
 

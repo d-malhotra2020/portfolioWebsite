@@ -365,6 +365,9 @@ export default {
     const origin = pickOrigin(request, env)
     const ip = clientIp(request)
     const model = env.MODEL || DEFAULT_MODEL
+    // env is per-request, so read DAILY_COST_LIMIT_MICRO_USD here (not at
+    // module scope). Default 333000 µUSD = $0.333/day = $10/month ÷ 30.
+    const dailyLimit = parseInt(env.DAILY_COST_LIMIT_MICRO_USD || '333000', 10)
 
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: corsHeaders(origin) })
@@ -402,6 +405,14 @@ export default {
           }
         }
       )
+    }
+
+    // Daily-cost circuit breaker — fires before the Anthropic dashboard cap.
+    // Fails open on KV errors (getDailyCost returns {total: 0} on failure).
+    const dailyCost = await getDailyCost(env.RATE_LIMIT)
+    if (dailyCost.total >= dailyLimit) {
+      writeTelemetry(env, { model, outcome: 'cost_capped', ip })
+      return costCapped(origin, secondsUntilUtcMidnight())
     }
 
     let body
@@ -450,7 +461,10 @@ export default {
     const { forClient, usagePromise } = teeWithUsage(upstream.body)
 
     // ctx.waitUntil keeps the Worker alive past the response so the telemetry
-    // write actually fires after the upstream stream completes.
+    // write and the daily-cost increment actually fire after the upstream
+    // stream completes. Only the `ok` path increments — the cost-capped,
+    // rate-limited, bad-request, upstream-error, and misconfigured paths
+    // don't reach this point.
     if (ctx?.waitUntil) {
       ctx.waitUntil(
         usagePromise.then(({ inputTokens, outputTokens }) => {
@@ -461,6 +475,11 @@ export default {
             outputTokens,
             ip
           })
+          const pricing = PRICING_MICRO_USD[model] || { input: 1, output: 5 }
+          const costMicro =
+            (inputTokens || 0) * pricing.input +
+            (outputTokens || 0) * pricing.output
+          return incrementDailyCost(env.RATE_LIMIT, costMicro)
         })
       )
     }
