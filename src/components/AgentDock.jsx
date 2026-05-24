@@ -14,6 +14,43 @@ const SUGGESTIONS = [
 const GREETING =
   "Hey — I'm Drew, or rather, an agent trained on my resume and projects. Ask me anything about my work, my stack, or how to hire me. I'll keep it concrete."
 
+// Phase 9 — per-tab AgentDock persistence.
+// Versioned key so a future schema change can bump to v2 and orphan old data safely.
+const STORAGE_KEY = 'drew-agent-dock:v1'
+const DEFAULT_MESSAGES = [{ role: 'assistant', content: GREETING }]
+
+// Module-scope helpers (defined once, never recreated on render).
+// Both wrap sessionStorage in try/catch so SSR-style environments,
+// Safari private mode, and storage-disabled browsers all degrade silently.
+const loadPersistedMessages = () => {
+  try {
+    if (typeof window === 'undefined' || !window.sessionStorage) return DEFAULT_MESSAGES
+    const raw = window.sessionStorage.getItem(STORAGE_KEY)
+    if (!raw) return DEFAULT_MESSAGES
+    const parsed = JSON.parse(raw)
+    if (!Array.isArray(parsed) || parsed.length === 0) return DEFAULT_MESSAGES
+    const valid = parsed.every(
+      (m) =>
+        m &&
+        typeof m === 'object' &&
+        typeof m.role === 'string' &&
+        typeof m.content === 'string'
+    )
+    if (!valid) return DEFAULT_MESSAGES
+    return parsed
+  } catch {
+    return DEFAULT_MESSAGES
+  }
+}
+
+const persistMessages = (messages) => {
+  try {
+    window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(messages))
+  } catch {
+    // Safari private mode / storage disabled — degrade silently.
+  }
+}
+
 // Lightweight inline renderer: handles **bold**, `code`, and bullet lines.
 // Conservative on purpose — full markdown parser is overkill for chat bubbles.
 const renderMarkdown = (text) => {
@@ -106,10 +143,11 @@ const AgentDock = () => {
   const [open, setOpen] = useState(false)
   const [input, setInput] = useState('')
   const [busy, setBusy] = useState(false)
-  const [messages, setMessages] = useState([
-    { role: 'assistant', content: GREETING }
-  ])
-  const [showSuggest, setShowSuggest] = useState(true)
+  const [messages, setMessages] = useState(loadPersistedMessages)
+  // If the persisted thread has more than one message, the user has already
+  // chatted — skip the suggestion chips on reload. (When messages.length === 1
+  // the render guard hides the chips anyway, but this keeps state truthful.)
+  const [showSuggest, setShowSuggest] = useState(() => messages.length === 1)
   const bodyRef = useRef(null)
   const inputRef = useRef(null)
 
@@ -123,6 +161,25 @@ const AgentDock = () => {
     }
   }, [open])
 
+  // Phase 9 — persist messages on every change. Greeting-only state clears
+  // the key so a freshly cleared dock doesn't leave a non-null entry behind.
+  useEffect(() => {
+    if (
+      messages.length === 1 &&
+      messages[0]?.content === GREETING
+    ) {
+      try {
+        if (typeof window !== 'undefined' && window.sessionStorage) {
+          window.sessionStorage.removeItem(STORAGE_KEY)
+        }
+      } catch {
+        // ignore — Safari private mode degrades silently
+      }
+      return
+    }
+    persistMessages(messages)
+  }, [messages])
+
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === 'Escape' && open) setOpen(false)
@@ -130,6 +187,21 @@ const AgentDock = () => {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
+
+  const clearChat = () => {
+    // Remove the key BEFORE resetting state so the persistence effect's
+    // greeting-only gate keeps storage clean even if React re-runs the
+    // effect synchronously after setMessages.
+    try {
+      if (typeof window !== 'undefined' && window.sessionStorage) {
+        window.sessionStorage.removeItem(STORAGE_KEY)
+      }
+    } catch {
+      // ignore — Safari private mode degrades silently
+    }
+    setMessages(DEFAULT_MESSAGES)
+    setShowSuggest(true)
+  }
 
   const send = async (text) => {
     const userMsg = text.trim()
