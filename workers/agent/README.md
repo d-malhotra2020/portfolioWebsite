@@ -162,3 +162,34 @@ If you want to swap models, set `MODEL = "claude-sonnet-4-6"` in
 
 The system prompt — Drew's resume + voice instructions — lives at the top of
 `src/index.js`. Edit it in place, then redeploy with `npm run deploy`.
+
+---
+
+## Anthropic dashboard configuration
+
+The Anthropic dashboard spend cap is the **hard wall** in this Worker's
+two-layer cost defense. The Worker-side daily-cost circuit breaker
+(documented in **Cost guardrails** below) is the **early warning** that
+ideally trips first and keeps the dashboard cap from ever being reached.
+This is a one-time Drew-action, not a code change. Future-Drew should
+re-run these steps whenever the Anthropic API key is rotated, a new
+Anthropic project is created, or a new month's billing window opens and
+you want to confirm the cap is still attached.
+
+1. Sign in at `https://console.anthropic.com/settings/billing`.
+2. Under "Spend limits", set "Monthly spend cap" = **$10**.
+3. Enable email alerts at **50% ($5)** and **90% ($9)** so you get a
+   heads-up well before the hard cap fires.
+4. Confirm the configured cap by running `npx wrangler tail` (from
+   `workers/agent/`) while sending a real chat from the deployed site,
+   and watch for an `outcome=ok` telemetry event with a non-zero cost —
+   that confirms the API key the Worker is using is the same one the
+   dashboard cap applies to.
+5. Replace the screenshot placeholder below with a screenshot of the
+   configured cap page (drag-and-drop into the README on GitHub, or
+   commit a PNG to `workers/agent/docs/` and link it).
+
+[Anthropic dashboard cap screenshot — Drew adds]
+
+See **Cost guardrails** below for the Worker-side daily breaker that
+fires before this dashboard cap does.
