@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-05-23)
 
 **Core value:** A hiring manager who lands on the site walks away with a concrete, résumé-accurate read on Drew's engineering depth — and a frictionless path to start a conversation.
-**Current focus:** Phase 12 — Recurring Maintenance Scaffolding (autonomous; next)
+**Current focus:** Milestone v1.0 close-out (Phases 6, 8, 11 blocked on external inputs — held for follow-up milestone)
 
 ## Current Position
 
-Phase: 12 of 12 (Recurring Maintenance Scaffolding) — autonomous, no blockers
-Plan: 0 of TBD in current phase
-Status: Phase 10 code + docs shipped (`wrangler deploy` + Anthropic dashboard click = Drew actions). Continuing autonomous run.
-Last activity: 2026-05-23 — Shipped Phase 10 (Worker daily-cost circuit breaker, $0.333/day @ $10/mo budget, KV-backed) + expanded agent training with 12 named Brivo projects from resume-bullets.md.
+Phase: All autonomous-eligible phases shipped (10 of 12). Phases 6, 8, 11 remain in the milestone but each blocks on external inputs Drew controls. Roadmap reprioritized in Phase 12: 6 → 8 → 11 once those blockers clear.
+Plan: —
+Status: Autonomous milestone work complete. Drew-actions pending (deploy, dashboard caps, LinkedIn recs) tracked below.
+Last activity: 2026-05-23 — Shipped Phase 12 (monthly check-in GH issue template + first-run + roadmap reprioritize).
 
-Progress: [█████████░] 75% (Phases 0, 1, 2, 3, 4, 5, 7, 9, 10 complete of 12)
+Progress: [█████████░] 83% (Phases 0, 1, 2, 3, 4, 5, 7, 9, 10, 12 complete of 12; 6, 8, 11 deferred on Drew-actions)
 
 ## Phases shipped today
 
@@ -27,15 +27,15 @@ Progress: [█████████░] 75% (Phases 0, 1, 2, 3, 4, 5, 7, 9, 1
 7. ✅ Phase 7 — Refresh Side-Project Deployments (donation-platform 404 removed from site)
 8. ✅ Phase 9 — Signature Easter Eggs (`/whoami` route + leader-key shortcuts + AgentDock sessionStorage)
 9. ✅ Phase 10 — Cost Guardrails (Worker daily-cost circuit breaker; `wrangler deploy` + Anthropic dashboard click = Drew actions)
+10. ✅ Phase 12 — Recurring Maintenance Scaffolding (`.github/ISSUE_TEMPLATE/monthly-checkin.md` + first-run walkthrough + roadmap reprioritize 6 → 8 → 11)
 
-## Phases remaining
+## Phases remaining (post-Phase-12 reprioritize, order 6 → 8 → 11)
 
 | Phase | Status | Blocker |
 |---|---|---|
-| 6. Trust + Social Proof | 🟡 | LinkedIn recs from former colleagues |
-| 8. Analytics Maturity | 🟡 | GA4 dashboard access |
-| 11. Mobile UX Deep-Pass | 🟡 | Real iOS + Android devices |
-| 12. Recurring Maintenance Scaffolding | ⬜ | None — autonomous, next |
+| 6. Trust + Social Proof | 🟡 | Ask 2-3 former colleagues for LinkedIn recs — highest-leverage unblocker |
+| 8. Analytics Maturity | 🟡 | Enable CF Analytics Engine + GA4 events — meaningful once real traffic flows |
+| 11. Mobile UX Deep-Pass | 🟡 | Real iOS + Android devices (lower priority — desktop/responsive surface already strong) |
 
 ## Drew actions waiting
 

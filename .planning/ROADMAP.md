@@ -29,7 +29,7 @@ per hour invested. Phases are sized for single sessions (≤2 hours).
 - [x] **Phase 9: Signature Easter Eggs** - `/whoami` route (static HTML + `.json` + `.txt`) + leader-key shortcuts (`g a/e/w/s/c/r`, `?` help overlay) + AgentDock sessionStorage persistence. ✅ 2026-05-23 (Drew browser-validated)
 - [x] **Phase 10: Cost Guardrails** - Worker daily-cost circuit breaker ($0.333/day KV-backed, 503 + Retry-After) + Anthropic dashboard runbook + Cost guardrails docs. ✅ 2026-05-23 (deploy + dashboard cap = Drew actions)
 - [ ] **Phase 11: Mobile UX Deep-Pass** - Real-device test pass on iOS + Android; fix what's broken
-- [ ] **Phase 12: Recurring Maintenance Scaffolding** - Monthly check-in GH issue template + résumé-parity reminder
+- [x] **Phase 12: Recurring Maintenance Scaffolding** - Monthly check-in GH issue template (`.github/ISSUE_TEMPLATE/monthly-checkin.md`) + first-run walkthrough + roadmap reprioritized to 6 → 8 → 11. ✅ 2026-05-23
 
 ## Phase Details
 
@@ -217,8 +217,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 12-01: Author GitHub issue template + maintenance checklist
-- [ ] 12-02: Run the first maintenance check-in + reprioritize roadmap
+- [x] 12-01: Author GitHub issue template + maintenance checklist
+- [x] 12-02: Run the first maintenance check-in + reprioritize roadmap
 
 ## Progress
 
