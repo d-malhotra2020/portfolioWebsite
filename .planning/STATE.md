@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-05-23)
 
 **Core value:** A hiring manager who lands on the site walks away with a concrete, résumé-accurate read on Drew's engineering depth — and a frictionless path to start a conversation.
-**Current focus:** Phase 10 — Cost Guardrails (blocked on Drew's budget number)
+**Current focus:** Phase 12 — Recurring Maintenance Scaffolding (autonomous; next)
 
 ## Current Position
 
-Phase: 10 of 12 (Cost Guardrails) — awaiting Drew's monthly Anthropic budget number
+Phase: 12 of 12 (Recurring Maintenance Scaffolding) — autonomous, no blockers
 Plan: 0 of TBD in current phase
-Status: Phase 9 shipped + browser-validated; autonomous run paused pending budget input
-Last activity: 2026-05-23 — Shipped Phase 9 (`/whoami`, leader-key shortcuts, AgentDock sessionStorage persistence). Browser-validated by Drew.
+Status: Phase 10 code + docs shipped (`wrangler deploy` + Anthropic dashboard click = Drew actions). Continuing autonomous run.
+Last activity: 2026-05-23 — Shipped Phase 10 (Worker daily-cost circuit breaker, $0.333/day @ $10/mo budget, KV-backed) + expanded agent training with 12 named Brivo projects from resume-bullets.md.
 
-Progress: [████████░░] 67% (Phases 0, 1, 2, 3, 4, 5, 7, 9 complete of 12)
+Progress: [█████████░] 75% (Phases 0, 1, 2, 3, 4, 5, 7, 9, 10 complete of 12)
 
 ## Phases shipped today
 
@@ -26,6 +26,7 @@ Progress: [████████░░] 67% (Phases 0, 1, 2, 3, 4, 5, 7, 9 co
 6. ✅ Phase 5 — SEO + Discoverability (robots.txt + sitemap + 6-entity JSON-LD @graph + meta rewrite)
 7. ✅ Phase 7 — Refresh Side-Project Deployments (donation-platform 404 removed from site)
 8. ✅ Phase 9 — Signature Easter Eggs (`/whoami` route + leader-key shortcuts + AgentDock sessionStorage)
+9. ✅ Phase 10 — Cost Guardrails (Worker daily-cost circuit breaker; `wrangler deploy` + Anthropic dashboard click = Drew actions)
 
 ## Phases remaining
 
@@ -33,12 +34,13 @@ Progress: [████████░░] 67% (Phases 0, 1, 2, 3, 4, 5, 7, 9 co
 |---|---|---|
 | 6. Trust + Social Proof | 🟡 | LinkedIn recs from former colleagues |
 | 8. Analytics Maturity | 🟡 | GA4 dashboard access |
-| 10. Cost Guardrails | 🟡 | Drew's monthly Anthropic budget number |
 | 11. Mobile UX Deep-Pass | 🟡 | Real iOS + Android devices |
-| 12. Recurring Maintenance Scaffolding | ⬜ | None — autonomous |
+| 12. Recurring Maintenance Scaffolding | ⬜ | None — autonomous, next |
 
 ## Drew actions waiting
 
+- **Deploy Phase 10 Worker** — `cd workers/agent && npx wrangler deploy` to push the daily-cost circuit breaker live.
+- **Set Anthropic dashboard $10/mo spend cap** — console.anthropic.com/settings/billing → spend limits → $10 monthly cap + email alerts at $5 and $9. (Phase 10 SC #1 + #4)
 - **Read 5 longform posts on the live site** (PATCH case study + 4 deep-dives) — flag anything off-voice. Source files at `src/writing/*.md` and `src/work/*.md`.
 - **Submit sitemap to Google Search Console** — see Phase 5 SUMMARY.
 - **Enable Cloudflare Workers Analytics Engine** in CF dashboard (one click) — then uncomment the `[[analytics_engine_datasets]]` block in `workers/agent/wrangler.toml` and `npx wrangler deploy`. Cost telemetry starts flowing.
@@ -58,7 +60,7 @@ Progress: [████████░░] 67% (Phases 0, 1, 2, 3, 4, 5, 7, 9 co
 
 ## Session Continuity
 
-Last session: 2026-05-23 (long single session, ~7 hours wall-clock)
-Stopped at: 7/12 phases complete. Phase 9 is the next autonomous candidate (no blockers).
+Last session: 2026-05-23 (long single session, ~9 hours wall-clock)
+Stopped at: 9/12 phases complete (75%). Phase 12 is the next autonomous candidate (no blockers).
 Resume file: None
-Next session prompt: `/gsd-autonomous --from 9`
+Next session prompt: `/gsd-autonomous --from 12`

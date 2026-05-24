@@ -27,7 +27,7 @@ per hour invested. Phases are sized for single sessions (≤2 hours).
 - [x] **Phase 7: Refresh Side-Project Deployments** - Audited 5 Railway URLs; donation-platform (404) removed from cards/work-registry/status-board. 4 of 4 remaining = green. ✅ 2026-05-23
 - [ ] **Phase 8: Analytics Maturity** - GA4 events on agent / resume / form / deep-dive plus Worker telemetry
 - [x] **Phase 9: Signature Easter Eggs** - `/whoami` route (static HTML + `.json` + `.txt`) + leader-key shortcuts (`g a/e/w/s/c/r`, `?` help overlay) + AgentDock sessionStorage persistence. ✅ 2026-05-23 (Drew browser-validated)
-- [ ] **Phase 10: Cost Guardrails** - Anthropic monthly budget cap + Worker daily-cost circuit breaker
+- [x] **Phase 10: Cost Guardrails** - Worker daily-cost circuit breaker ($0.333/day KV-backed, 503 + Retry-After) + Anthropic dashboard runbook + Cost guardrails docs. ✅ 2026-05-23 (deploy + dashboard cap = Drew actions)
 - [ ] **Phase 11: Mobile UX Deep-Pass** - Real-device test pass on iOS + Android; fix what's broken
 - [ ] **Phase 12: Recurring Maintenance Scaffolding** - Monthly check-in GH issue template + résumé-parity reminder
 
@@ -188,8 +188,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 10-01: Configure Anthropic budget cap + alert email (Drew action — provide screenshot)
-- [ ] 10-02: Implement Worker daily-cost circuit breaker + documentation
+- [x] 10-01: Configure Anthropic budget cap + alert email (Drew action — provide screenshot)
+- [x] 10-02: Implement Worker daily-cost circuit breaker + documentation
 
 ### Phase 11: Mobile UX Deep-Pass
 **Goal**: Every interaction works comfortably on iOS Safari and Android Chrome on a real device.
