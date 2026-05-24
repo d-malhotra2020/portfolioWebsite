@@ -193,3 +193,104 @@ you want to confirm the cap is still attached.
 
 See **Cost guardrails** below for the Worker-side daily breaker that
 fires before this dashboard cap does.
+
+---
+
+## Cost guardrails
+
+Two layers of cost defense protect against a viral day running up an
+unbounded Anthropic bill. The **Anthropic dashboard spend cap** (configured
+in the section above) is the hard wall — once the monthly cap is hit, the
+API itself rejects further requests. The Worker's **daily-cost circuit
+breaker**, documented here, is the early warning that ideally trips first,
+so visitors get a clean "agent's resting" message instead of upstream
+failures, and the dashboard cap stays comfortably out of reach.
+
+### Per-turn cost math
+
+Cost is computed inside `writeTelemetry` from the `PRICING_MICRO_USD` table
+in `src/index.js`. At the default `claude-haiku-4-5-20251001`:
+
+- $1 / MTok input → **1 micro-USD per input token**
+- $5 / MTok output → **5 micro-USD per output token**
+
+A typical interview-agent chat turn lands around **500 input + 150 output
+tokens** ≈ `500 × 1 + 150 × 5 = 1,250 µUSD ≈ $0.00125 per turn`. At the
+default $0.333/day threshold, that's roughly **130–170 chat turns/day**
+before the breaker fires. A normal day stays well under it; a coordinated
+abuse spike trips it.
+
+### Daily threshold + how to change it
+
+The breaker reads `DAILY_COST_LIMIT_MICRO_USD` from the wrangler `[vars]`
+block. Default `"333000"` = $0.333/day = **$10/month ÷ 30**.
+
+To raise or lower it, edit `workers/agent/wrangler.toml`, change the value,
+and run `npx wrangler deploy`. No code change required.
+
+If future-Drew raises the Anthropic monthly cap (e.g. to $20), also raise
+this variable to `"666000"` (= 20 / 30 = $0.666/day) so the Worker breaker
+continues to fire *before* the dashboard cap rather than after it.
+
+### KV key shape + manual reset
+
+The running daily total lives in the `RATE_LIMIT` KV namespace under the
+key `cost:YYYY-MM-DD` (UTC date). The value is JSON
+`{ "total": <microUSD>, "requests": <count> }`. TTL is 48 hours, which
+covers the timezone gray zone and removes the need for explicit eviction.
+
+Inspect today's spend:
+
+```bash
+cd workers/agent
+npx wrangler kv:key get --binding=RATE_LIMIT "cost:$(date -u +%Y-%m-%d)"
+```
+
+Manually reset the counter (e.g. after a false alarm, or to test the
+breaker by pre-seeding a large value with `kv:key put`):
+
+```bash
+cd workers/agent
+npx wrangler kv:key delete --binding=RATE_LIMIT "cost:$(date -u +%Y-%m-%d)"
+```
+
+KV is eventually consistent — counts may briefly under-report under
+concurrent writes. That's acceptable for this portfolio's traffic level,
+documented in `.planning/phases/10-cost-guardrails/10-CONTEXT.md`.
+
+### Short-circuit behavior
+
+When `total >= DAILY_COST_LIMIT_MICRO_USD`, the Worker returns HTTP **503**
+with a `Retry-After` header set to seconds-until-UTC-midnight and a JSON
+body:
+
+```json
+{
+  "error": "agent's resting — Drew's daily Anthropic budget is spent for today. Try again tomorrow, or email Drew directly at dhruvmalhotra2026@gmail.com."
+}
+```
+
+The browser dock (`src/components/AgentDock.jsx`) already renders the
+`error` field as the assistant's response — no frontend code change is
+required. Telemetry records `outcome: 'cost_capped'`.
+
+### Monitoring
+
+Once the `TELEMETRY` binding is uncommented (see the "Cost telemetry"
+section above), query Analytics Engine for cost-cap events:
+
+```sql
+-- Last 7d: cost-cap events per day
+SELECT
+  formatDateTime(timestamp, '%Y-%m-%d') AS day,
+  COUNT() AS cost_capped_events
+FROM drew_agent_events
+WHERE timestamp > NOW() - INTERVAL '7' DAY
+  AND blob2 = 'cost_capped'
+GROUP BY day
+ORDER BY day DESC;
+```
+
+A row showing up here is the signal future-Drew should investigate — it
+means the breaker actually fired, and a real day's traffic (or an abuse
+spike) reached the daily ceiling.
