@@ -60,7 +60,57 @@ Progress: [█████████░] 83% (Phases 0, 1, 2, 3, 4, 5, 7, 9, 1
 
 ## Session Continuity
 
-Last session: 2026-05-23 (long single session, ~9 hours wall-clock)
-Stopped at: 9/12 phases complete (75%). Phase 12 is the next autonomous candidate (no blockers).
-Resume file: None
-Next session prompt: `/gsd-autonomous --from 12`
+Last session: 2026-05-23 (long single session, ~11 hours wall-clock)
+Stopped at: 10/12 milestone phases shipped + extended into side-project work.
+
+### Tonight's full session in one paragraph
+
+Shipped Phase 9 (Signature Easter Eggs: `/whoami` route + leader-key shortcuts +
+AgentDock sessionStorage) and Phase 10 (Worker daily-cost circuit breaker at
+$0.333/day = $10/mo budget, Anthropic dashboard runbook, Cost guardrails docs)
+on drewmalhotra.com. Pushed both to prod + deployed the Worker live. Expanded
+agent training data with 12 named Brivo project bullets from `~/Desktop/resume-bullets.md`
+(the agent now answers "what did you actually build at Brivo?" with specific
+project names like Synthetic Monitoring Framework, GRACE, the 15× P99 SLA
+report, etc.). Closed Phase 12 (monthly check-in GH issue template + first
+roadmap reprioritize). Then extended beyond the portfolio milestone to polish
+two side projects: financial-analysis-tool got a full operator-terminal restyle
+(Geist Sans + JetBrains Mono on `#0a0a0c`, default SPY candlestick chart,
+scrolling ticker tape, status bar with live clock) AND a real backtest harness
+(49.5% honest next-day-direction accuracy on 1,990 predictions over 12 months
+across 10 large caps — replaced the unbacktested "94% accuracy" claim with
+real numbers in the UI and README). Deploy is Dockerfile-based on Railway,
+no more committed build artifacts. Surveyed smart-home-automation and chose
+Option C (full overhaul with real Mosquitto broker) for next session.
+
+### Next-session entry points
+
+- **Portfolio (this repo):** `/gsd-autonomous` will halt cleanly — Phases 6, 8,
+  11 remain in the milestone but all block on external Drew-actions (LinkedIn
+  recs, GA4/AE access, real iOS/Android devices). Resume when any unblocks.
+- **smart-home-automation (next side project):** Open
+  `~/separate-projects/smart-home-automation/NEXT-SESSION.md` — it contains
+  the Option C plan (operator-terminal restyle + UX streamline + real
+  Mosquitto MQTT broker so the work-page manifesto is true). ~3 hours of work,
+  same playbook as financial-analysis-tool.
+- **Other side projects on the queue:** traffic-optimization, video-analytics
+  (both need per-project deep-dive pages here too — Phase 2 leftover), and
+  `qa-webhook-server` (lives only at `~/projects/`, no remote, decision needed
+  on whether to surface or retire).
+
+### Drew-actions waiting (consolidated)
+
+1. **Anthropic dashboard:** set $10/mo monthly cap + email alerts at $5 / $9
+   (Phase 10 SC #1 + #4).
+2. **Google Search Console:** submit `https://drewmalhotra.com/sitemap.xml`
+   (Phase 5 deferred).
+3. **Cloudflare Analytics Engine:** enable in dashboard, then uncomment the
+   `[[analytics_engine_datasets]]` block in `workers/agent/wrangler.toml` and
+   `npx wrangler deploy` from `workers/agent/`. Unblocks Phase 8.
+4. **LinkedIn recs:** ask 2–3 former Brivo / Yunex / Givelify colleagues.
+   Unblocks Phase 6.
+5. **Diverged repos:** `~/projects/<project>/` April Railway variants are
+   still un-pushed. Either retire them or sync into `~/separate-projects/<project>/`.
+
+Resume file: `~/separate-projects/smart-home-automation/NEXT-SESSION.md`
+Next session prompt: `cat ~/separate-projects/smart-home-automation/NEXT-SESSION.md` then resume work directly, or hit the AskUserQuestion lane and pick a project.
