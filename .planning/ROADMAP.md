@@ -26,7 +26,7 @@ per hour invested. Phases are sized for single sessions (≤2 hours).
 - [ ] **Phase 6: Trust + Social Proof** - LinkedIn recommendations + certifications surfaced on the site
 - [x] **Phase 7: Refresh Side-Project Deployments** - Audited 5 Railway URLs; donation-platform (404) removed from cards/work-registry/status-board. 4 of 4 remaining = green. ✅ 2026-05-23
 - [ ] **Phase 8: Analytics Maturity** - GA4 events on agent / resume / form / deep-dive plus Worker telemetry
-- [ ] **Phase 9: Signature Easter Eggs** - `/whoami`, Konami code, keyboard shortcuts, animated favicon
+- [x] **Phase 9: Signature Easter Eggs** - `/whoami` route (static HTML + `.json` + `.txt`) + leader-key shortcuts (`g a/e/w/s/c/r`, `?` help overlay) + AgentDock sessionStorage persistence. ✅ 2026-05-23 (Drew browser-validated)
 - [ ] **Phase 10: Cost Guardrails** - Anthropic monthly budget cap + Worker daily-cost circuit breaker
 - [ ] **Phase 11: Mobile UX Deep-Pass** - Real-device test pass on iOS + Android; fix what's broken
 - [ ] **Phase 12: Recurring Maintenance Scaffolding** - Monthly check-in GH issue template + résumé-parity reminder
@@ -172,9 +172,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 09-01: `/whoami` route (HTML for browsers, plain text/JSON for `curl`)
-- [ ] 09-02: Keyboard-shortcut layer for navigation
-- [ ] 09-03: Agent dock session persistence (sessionStorage)
+- [x] 09-01: `/whoami` route (HTML for browsers, plain text/JSON for `curl`)
+- [x] 09-02: Keyboard-shortcut layer for navigation
+- [x] 09-03: Agent dock session persistence (sessionStorage)
 
 ### Phase 10: Cost Guardrails
 **Goal**: A viral day cannot cost more than Drew's configured monthly ceiling.
