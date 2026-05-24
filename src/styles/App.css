@@ -3018,3 +3018,38 @@ button {
   font-size: 10px;
   padding: 0 4px;
 }
+
+/* --- AgentDock persistence (Phase 9) --- */
+/* Clear-chat button — matches the existing .agent-head .close button visually
+   (30x30 monospace square, border, hover, focus) so the two-button group in
+   the dock header reads as one cohesive control cluster. */
+.agent-head .agent-head-clear {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  border: 1px solid var(--rule);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--ink-mute);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 0.4rem;
+  font-family: var(--mono);
+}
+
+.agent-head .agent-head-clear:hover:not(:disabled) {
+  color: var(--ink);
+  border-color: var(--rule-strong);
+}
+
+.agent-head .agent-head-clear:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.agent-head .agent-head-clear:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}

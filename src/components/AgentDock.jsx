@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { X, ArrowUp } from 'lucide-react'
+import { X, ArrowUp, Trash2 } from 'lucide-react'
 
 const ENDPOINT = import.meta.env.VITE_AGENT_ENDPOINT
 
@@ -325,6 +325,15 @@ const AgentDock = () => {
                 <span className="t1">drew · agent</span>
                 <span className="t2"><span className="pip" /> live · trained on resume + projects</span>
               </span>
+              <button
+                className="agent-head-clear"
+                onClick={clearChat}
+                aria-label="Clear chat"
+                title="Clear chat"
+                disabled={messages.length === 1 && messages[0]?.content === GREETING}
+              >
+                <Trash2 size={14} />
+              </button>
               <button className="close" onClick={() => setOpen(false)} aria-label="Close chat">
                 <X size={14} />
               </button>
