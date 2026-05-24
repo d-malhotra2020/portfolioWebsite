@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import StatusBoard from './components/StatusBoard'
@@ -12,6 +12,8 @@ import AgentDock from './components/AgentDock'
 import WritingIndex from './components/WritingIndex'
 import WritingPost from './components/WritingPost'
 import WorkPost from './components/WorkPost'
+import KeyboardShortcutsOverlay from './components/KeyboardShortcutsOverlay'
+import useKeyboardShortcuts from './hooks/useKeyboardShortcuts'
 import { useHashRoute, matchRoute } from './lib/router'
 import './styles/App.css'
 
@@ -19,12 +21,20 @@ function App() {
   const path = useHashRoute()
   const route = matchRoute(path)
 
+  const [helpOpen, setHelpOpen] = useState(false)
+  useKeyboardShortcuts({
+    onToggleHelp: () => setHelpOpen((o) => !o),
+    isHelpOpen: helpOpen
+  })
+  const closeHelp = () => setHelpOpen(false)
+
   if (route.kind === 'writing-index') {
     return (
       <div className="app">
         <ScrollProgress />
         <WritingIndex />
         <AgentDock />
+        <KeyboardShortcutsOverlay open={helpOpen} onClose={closeHelp} />
       </div>
     )
   }
@@ -35,6 +45,7 @@ function App() {
         <ScrollProgress />
         <WritingPost slug={route.slug} />
         <AgentDock />
+        <KeyboardShortcutsOverlay open={helpOpen} onClose={closeHelp} />
       </div>
     )
   }
@@ -45,6 +56,7 @@ function App() {
         <ScrollProgress />
         <WorkPost slug={route.slug} />
         <AgentDock />
+        <KeyboardShortcutsOverlay open={helpOpen} onClose={closeHelp} />
       </div>
     )
   }
@@ -63,6 +75,7 @@ function App() {
         <Contact />
       </main>
       <AgentDock />
+      <KeyboardShortcutsOverlay open={helpOpen} onClose={closeHelp} />
     </div>
   )
 }
