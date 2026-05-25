@@ -62,3 +62,57 @@ The API gateway is the only thing the mobile client talks to. Each backend servi
 ## Stack
 
 Python (PyTorch, FastAPI), PostgreSQL for transactional data, Redis for embedding cache, FAISS for similarity search, React Native for the mobile client, Docker for deployment, Jenkins for CI/CD, pytest with synthetic user fixtures for the test suite. Offline training in PyTorch; serving via a thin custom wrapper.
+
+## Measured results — the recommender slice (Slice 1)
+
+The architecture above is the design narrative; the [`donation-platform` repo's `bench/`](https://github.com/d-malhotra2020/donation-platform/tree/master/bench) directory is **Slice 1** of an actual rebuild: the recommender + offline eval, separated cleanly from gateway / cache / demo concerns so each can ship on its own cycle.
+
+The benchmark trains and evaluates **six models** on the same chronological train/val/test split:
+
+- `random` (sanity floor)
+- `popularity` (the "lazy" baseline every recsys has to beat)
+- `category-match` (faithful port of the prior repo's logic — score = match-on-user's-top-category + popularity tie-break)
+- `matrix-factorization` (`implicit` library's ALS — the classic non-neural baseline)
+- `two-tower` (centerpiece — PyTorch user/org towers, sampled-softmax with in-batch + popularity-weighted negatives, FAISS top-K retrieval)
+- `two-tower-content-init` (ablation — org tower initialized from `sentence-transformers/all-MiniLM-L6-v2` embeddings of `name | category | location`, then fine-tuned)
+
+### Dataset (synthetic users, real orgs)
+
+- **3,000 orgs** sampled from a 5K-row snapshot of ProPublica's Nonprofit Explorer, balanced across NTEE major categories. Real org names, real EINs, real categories. CSV + the fetch script are in the repo.
+- **8,000 synthetic users** with three profile types (category-locked, multi-interest, eclectic) and a hidden latent affinity vector that gives the two-tower something to learn beyond pure category match.
+- **~113K synthetic donation events**. Chronological split: ~73K train / ~17K val / ~23K test. Reproducible from a single seed.
+
+### Headline numbers (last run)
+
+| Model | NDCG@10 | Recall@10 | Catalog coverage @ K=10 |
+|---|---|---|---|
+| `random` | 0.0021 | 0.0032 | 100% |
+| `popularity` | 0.0064 | 0.0105 | 0.33% |
+| `category-match` | 0.0255 | 0.0392 | 3.33% |
+| `matrix-factorization` | 0.0212 | 0.0310 | 14.93% |
+| `two-tower` | **0.0120** | 0.0193 | **99.13%** |
+| `two-tower-content-init` | 0.0109 | 0.0178 | 97.30% |
+
+The two-tower beats random by **5.7×** and popularity by **1.9×** on NDCG@10. On *catalog coverage* it dominates — 99% of the org corpus appears in at least one user's top-10, vs 3% for category-match and 0.33% for popularity. That coverage gap is the actual story: the simpler models win on the headline retrieval metric because the synthetic dataset is category-driven by construction, but they do so by collapsing to a handful of orgs. The two-tower learns a broader representation.
+
+### Synthetic-user invariant tests
+
+The build gates on three pass/fail tests, modeled on the "synthetic users with known preference profiles" pattern in the original design:
+
+- **category-locked** (✅ 0.999 vs 0.40 threshold) — users whose train donations are 100% in one category get top-10 that's also ~100% in that category. The model learned the dominant signal cleanly.
+- **beats-random** (✅ 3.7× headline NDCG@10) — the two-tower must beat random by >2×.
+- **diversity-floor** (❌ at the strict threshold) — some multi-interest users still get top-10s that are 100% one category. A real and reportable weakness — fix would be MMR-style diversity re-ranking at inference, which isn't in Slice 1.
+
+### Reproducing
+
+```bash
+git clone https://github.com/d-malhotra2020/donation-platform
+cd donation-platform
+make bench
+```
+
+Runs in ~1.5 min on a CPU laptop. No GPU required. Bit-identical metrics across runs given the same git SHA.
+
+### What this isn't
+
+The recommender is trained on synthetic donation events. Real donor behavior — at any production platform, including ones mentioned earlier in this page — is not represented. The metrics measure model quality *on this synthetic giving pattern.* They are not Givelify numbers and not real-production numbers. Full honesty footer in [`bench/README.md`](https://github.com/d-malhotra2020/donation-platform/blob/master/bench/README.md).

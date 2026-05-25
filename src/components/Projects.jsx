@@ -42,14 +42,14 @@ const projects = [
     year: '2023',
     category: 'MOBILE · ML',
     title: 'Donation Platform Recommender',
-    summary: 'Production PyTorch recommender + improved search and donation workflow for the giving platform serving 1.5M users and 70K organizations. Delivered +25% retention.',
+    summary: 'Two-tower PyTorch recommender benchmarked against 4 baselines on 3K real US nonprofits (ProPublica) + synthetic giving patterns. 5.7× random / 1.9× popularity on NDCG@10; `make bench` reproducible locally.',
     stats: [
-      { lbl: 'Users', val: '1.5M+' },
-      { lbl: 'Orgs', val: '70K+' },
-      { lbl: 'Retention', val: '+25%' },
-      { lbl: 'Speed', val: '+35%' }
+      { lbl: 'Orgs', val: '3K real' },
+      { lbl: 'NDCG@10', val: '5.7× rand' },
+      { lbl: 'Models', val: '6 compared' },
+      { lbl: 'Repro', val: 'make bench' }
     ],
-    stack: ['Python', 'PyTorch', 'React', 'Mobile'],
+    stack: ['Python', 'PyTorch', 'FAISS', 'pandas'],
     github: 'https://github.com/d-malhotra2020/donation-platform',
     deepDive: 'donation-platform'
   },
