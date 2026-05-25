@@ -26,16 +26,16 @@ const projects = [
     year: '2024',
     category: 'AI/ML · INFRA',
     title: 'Traffic Flow Optimization',
-    summary: 'Predictive analytics + adaptive signal control. TensorFlow models managing 3,000+ intersections across multi-city deployments. Delivered 15% efficiency gain.',
+    summary: 'Operator console + rule-based adaptive signal control over 664 real OSM signalized intersections in downtown SF. Microsim-measured +18% throughput vs fixed-time baseline at peak load.',
     stats: [
-      { lbl: 'Intersections', val: '3,000+' },
-      { lbl: 'Efficiency', val: '+15%' },
-      { lbl: 'Deployment', val: 'Multi-city' },
-      { lbl: 'Stack', val: 'TF + AWS' }
+      { lbl: 'Intersections', val: '664' },
+      { lbl: 'Throughput Δ', val: '+18%' },
+      { lbl: 'Source', val: 'OSM · DT SF' },
+      { lbl: 'Stack', val: 'FastAPI' }
     ],
-    stack: ['Python', 'TensorFlow', 'AWS', 'Docker', 'K8s'],
+    stack: ['Python', 'FastAPI', 'OpenStreetMap', 'Docker', 'Railway'],
     github: 'https://github.com/d-malhotra2020/traffic-optimization',
-    live: 'https://web-production-39d8d.up.railway.app'
+    live: 'https://traffic-optimization-production.up.railway.app'
   },
   {
     id: '#003',
