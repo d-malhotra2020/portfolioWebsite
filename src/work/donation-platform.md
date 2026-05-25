@@ -95,6 +95,14 @@ The benchmark trains and evaluates **six models** on the same chronological trai
 
 The two-tower beats random by **5.7×** and popularity by **1.9×** on NDCG@10. On *catalog coverage* it dominates — 99% of the org corpus appears in at least one user's top-10, vs 3% for category-match and 0.33% for popularity. That coverage gap is the actual story: the simpler models win on the headline retrieval metric because the synthetic dataset is category-driven by construction, but they do so by collapsing to a handful of orgs. The two-tower learns a broader representation.
 
+![Comparison heatmap of all six models on the maximalist eval bundle](https://raw.githubusercontent.com/d-malhotra2020/donation-platform/master/bench/results/comparison_table.png)
+
+The full machine-readable breakdown is in [`bench/results/metrics.json`](https://github.com/d-malhotra2020/donation-platform/blob/master/bench/results/metrics.json). Two-tower training and calibration plots:
+
+![Two-tower BPR training loss per epoch](https://raw.githubusercontent.com/d-malhotra2020/donation-platform/master/bench/results/training_curves.png)
+
+![Two-tower calibration plot](https://raw.githubusercontent.com/d-malhotra2020/donation-platform/master/bench/results/calibration.png)
+
 ### Synthetic-user invariant tests
 
 The build gates on three pass/fail tests, modeled on the "synthetic users with known preference profiles" pattern in the original design:
@@ -102,6 +110,14 @@ The build gates on three pass/fail tests, modeled on the "synthetic users with k
 - **category-locked** (✅ 0.999 vs 0.40 threshold) — users whose train donations are 100% in one category get top-10 that's also ~100% in that category. The model learned the dominant signal cleanly.
 - **beats-random** (✅ 3.7× headline NDCG@10) — the two-tower must beat random by >2×.
 - **diversity-floor** (❌ at the strict threshold) — some multi-interest users still get top-10s that are 100% one category. A real and reportable weakness — fix would be MMR-style diversity re-ranking at inference, which isn't in Slice 1.
+
+### Try it live
+
+The trained two-tower is wired into a small FastAPI service hosted at [donation-platform-production-c8e0.up.railway.app](https://donation-platform-production-c8e0.up.railway.app). Pick a synthetic user from the left panel, watch the top-10 recommendations populate in real time — each rec shows the org's name, NTEE category, location, and synthesized reason (matches your top category / you've donated here before / ✓ in held-out test set). The comparison table and invariant statuses underneath are the same numbers from `metrics.json` above. No real donor data on that page.
+
+### Static report
+
+A standalone HTML version of the comparison report (no live model required) is published at [d-malhotra2020.github.io/donation-platform](https://d-malhotra2020.github.io/donation-platform/) via GitHub Pages, with the comparison heatmap, training curves, calibration plot, and full honesty footer.
 
 ### Reproducing
 

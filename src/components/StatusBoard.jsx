@@ -9,7 +9,8 @@ const services = [
   { id: 'video', name: 'video-analytics', kind: 'self', url: 'https://video-analytics-production.up.railway.app', note: 'cloud · ai' },
   { id: 'traffic', name: 'traffic-optimization', kind: 'self', url: 'https://traffic-optimization-production.up.railway.app', note: 'osm topology · microsim' },
   { id: 'finance', name: 'financial-analysis-tool', kind: 'self', url: 'https://financial-analysis-tool-production.up.railway.app', note: 'data · ml' },
-  { id: 'home', name: 'smart-home-automation', kind: 'self', url: 'https://smart-home-automation-production.up.railway.app', note: 'iot · edge' }
+  { id: 'home', name: 'smart-home-automation', kind: 'self', url: 'https://smart-home-automation-production.up.railway.app', note: 'iot · edge' },
+  { id: 'donate', name: 'donation-platform', kind: 'self', url: 'https://donation-platform-production-c8e0.up.railway.app', note: 'two-tower · operator console' }
 ]
 
 const STATUS = {
