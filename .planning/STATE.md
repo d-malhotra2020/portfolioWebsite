@@ -11,8 +11,8 @@ See: .planning/PROJECT.md (updated 2026-05-23)
 
 Phase: All autonomous-eligible phases shipped (10 of 12). Phases 6, 8, 11 remain in the milestone but each blocks on external inputs Drew controls. Roadmap reprioritized in Phase 12: 6 → 8 → 11 once those blockers clear.
 Plan: —
-Status: Autonomous milestone work complete. Drew-actions pending (deploy, dashboard caps, LinkedIn recs) tracked below.
-Last activity: 2026-05-23 — Shipped Phase 12 (monthly check-in GH issue template + first-run + roadmap reprioritize).
+Status: Portfolio autonomous work complete. Side-project polish (smart-home + traffic-optimization) shipped this session.
+Last activity: 2026-05-24 — Shipped Option C overhaul of smart-home-automation AND full operator-terminal + real OSM topology + measured microsim overhaul of traffic-optimization; updated portfolio homepage card #002 to match the new honest reality.
 
 Progress: [█████████░] 83% (Phases 0, 1, 2, 3, 4, 5, 7, 9, 10, 12 complete of 12; 6, 8, 11 deferred on Drew-actions)
 
@@ -60,8 +60,28 @@ Progress: [█████████░] 83% (Phases 0, 1, 2, 3, 4, 5, 7, 9, 1
 
 ## Session Continuity
 
-Last session: 2026-05-23 (long single session, ~11 hours wall-clock)
-Stopped at: 10/12 milestone phases shipped + extended into side-project work.
+Last session: 2026-05-24 (continuation — side-project polish night)
+Stopped at: 10/12 milestone phases shipped (portfolio) + smart-home Option C live + traffic-optimization full overhaul live.
+
+### 2026-05-24 session in one paragraph
+
+Shipped Option C on smart-home-automation (operator-terminal restyle of `app/templates/index.html` + real paho-mqtt Mosquitto round-trip + graceful sim-mode degradation + `/api/broker/status` route + `// system reality` footer that flips dynamically; Mosquitto sidecar shipped via `docker-compose.yml` + `mosquitto/Dockerfile` for local; live and verified at smart-home-automation-production.up.railway.app). Then did the same playbook on traffic-optimization, much bigger scope: replaced random 5-city/3000+/94% fabrication with **664 real OSM signalized intersections in downtown SF** (Overpass API one-shot, snapshot at `data/sf_intersections.json`, regenerable via `scripts/fetch_osm.py`), built a Poisson-arrival corridor microsim that measures the rule-based optimizer vs fixed-time baseline (40 trials × 30 min sim, **+18.2% throughput, -10.8% wait**, reproducible seeds, persisted to `data/bench_results.json`), added an arrival-rate sweep showing the optimizer hurts at light load and wins at moderate-to-heavy (honest non-monotonic curve), rendered all 664 OSM dots as an SVG map in the dashboard with bbox/scale-bar/compass, refactored `ml_models/` to admit it's heuristics (was claiming "Ensemble Random Forest + LSTM" with `model_accuracy = 0.94` hardcoded), added 10 pytest tests, GitHub Actions CI. Hit Railway deploy hell along the way — wrong service URL, dead GitHub webhook, `${PORT}` literal-string bug, overly aggressive healthcheck timeout — all diagnosed and fixed; live at traffic-optimization-production.up.railway.app. Finally updated drewmalhotra.com `Projects.jsx` card #002 and `StatusBoard.jsx` to point at the right URL with honest stats.
+
+### Next-session entry points
+
+- **Portfolio (this repo):** `/gsd-autonomous` still halts cleanly on Phases 6, 8, 11 — no new unblockers landed tonight.
+- **traffic-optimization:** Done for now. Latest deploy = commit `63aa9d5` (dropped healthcheckTimeout). Future pushes auto-deploy via the reconnected webhook. Possible follow-ups: cross-link from drewmalhotra.com work page (no deep-dive markdown yet — `src/work/` has 4 of 6 projects only; #002 + #003 were excluded last time as NDA-adjacent / orphaned), or expand sweep to more arrival rates.
+- **smart-home-automation:** Drew-action only — add a Mosquitto sidecar service in Railway dashboard pointing at the `mosquitto/` Dockerfile, enable private networking, set `MQTT_HOST=<internal>.railway.internal` on the Flask service env vars. Broker pip flips green automatically. README has the step-by-step.
+- **Other side projects:** `video-analytics` is next in the playbook queue if you want a hat trick. `qa-webhook-server` orphaned repo still un-decided.
+
+### Drew-actions waiting (consolidated, updated 2026-05-24)
+
+1. **Anthropic dashboard:** $10/mo monthly cap + email alerts at $5 / $9 (Phase 10 SC, still open).
+2. **Google Search Console:** submit `https://drewmalhotra.com/sitemap.xml` (Phase 5, still open).
+3. **Cloudflare Analytics Engine:** enable in dashboard, uncomment `[[analytics_engine_datasets]]` in `workers/agent/wrangler.toml`, deploy (unblocks portfolio Phase 8).
+4. **LinkedIn recs:** 2-3 from ex-colleagues (unblocks portfolio Phase 6).
+5. **smart-home Mosquitto sidecar:** add as a second Railway service from this repo's `mosquitto/` directory; set env vars on the Flask service.
+6. **Diverged repos:** `~/projects/<project>/` April Railway variants still un-pushed.
 
 ### Tonight's full session in one paragraph
 
