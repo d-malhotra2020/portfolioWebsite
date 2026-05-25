@@ -11,8 +11,8 @@ See: .planning/PROJECT.md (updated 2026-05-23)
 
 Phase: All autonomous-eligible phases shipped (10 of 12). Phases 6, 8, 11 remain in the milestone but each blocks on external inputs Drew controls. Roadmap reprioritized in Phase 12: 6 → 8 → 11 once those blockers clear.
 Plan: —
-Status: Portfolio autonomous work complete. Side-project polish (smart-home + traffic-optimization) shipped this session.
-Last activity: 2026-05-24 — Shipped Option C overhaul of smart-home-automation AND full operator-terminal + real OSM topology + measured microsim overhaul of traffic-optimization; updated portfolio homepage card #002 to match the new honest reality.
+Status: Portfolio autonomous work complete. Side-project polish shipped this session (smart-home, traffic-optimization, and now donation-platform recommender Slice 1).
+Last activity: 2026-05-24 — Built and shipped donation-platform recommender Slice 1: real PyTorch two-tower + 5 baselines benchmarked on 3K real ProPublica orgs + 8K synthetic users + 113K events. Replaced fabricated "1.5M users / 70K orgs / +25% retention" stats on portfolio card #003 with measured numbers (NDCG@10 5.7× random, 1.9× popularity; 99% catalog coverage; reproducible via `make bench` in ~1.5 min). Added "Measured results" section to the deep-dive page with full comparison table.
 
 Progress: [█████████░] 83% (Phases 0, 1, 2, 3, 4, 5, 7, 9, 10, 12 complete of 12; 6, 8, 11 deferred on Drew-actions)
 
