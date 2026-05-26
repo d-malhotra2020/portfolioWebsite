@@ -45,6 +45,9 @@ out/
 playwright-report/
 test-results/
 
+# Local MCP-server state (zulipchat duckdb, etc.) — never commit.
+.mcp/
+
 # Coverage directory used by tools like istanbul
 coverage/
 *.lcov
