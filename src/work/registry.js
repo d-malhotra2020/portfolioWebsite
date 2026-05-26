@@ -3,6 +3,7 @@ import donationPlatform from './donation-platform.md?raw'
 import financialAnalysis from './financial-analysis.md?raw'
 import smartHome from './smart-home.md?raw'
 import thisPortfolio from './this-portfolio.md?raw'
+import trafficOptimization from './traffic-optimization.md?raw'
 import videoAnalytics from './video-analytics.md?raw'
 
 export const workPosts = [
@@ -15,6 +16,16 @@ export const workPosts = [
     github: 'https://github.com/d-malhotra2020/video-analytics',
     live: 'https://video-analytics-production.up.railway.app',
     body: videoAnalytics
+  },
+  {
+    slug: 'traffic-optimization',
+    title: 'Traffic Flow Optimization',
+    category: 'AI/ML · INFRA',
+    year: '2024',
+    stack: ['Python', 'FastAPI', 'OpenStreetMap', 'Docker', 'Railway'],
+    github: 'https://github.com/d-malhotra2020/traffic-optimization',
+    live: 'https://traffic-optimization-production.up.railway.app',
+    body: trafficOptimization
   },
   {
     slug: 'donation-platform',
