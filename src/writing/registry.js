@@ -1,5 +1,5 @@
 // Writing index. Add new posts here as they ship.
-import patchVuln from './patch-vulnerability.md?raw'
+import patchVuln from './patch-vulnerability.md?shiki'
 
 export const posts = [
   {

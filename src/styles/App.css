@@ -3367,3 +3367,69 @@ button {
     margin: 0.4in;
   }
 }
+
+/* ===== Shiki syntax-highlighted code blocks ===== */
+/* The vite-plugin-shiki pre-renders fenced ``` blocks as <pre class="shiki"
+   ...> wrapped in <div class="md-code md-code-shiki">. Shiki inlines per-
+   token text colors via style="color:..." spans, but ships its own outer
+   background that doesn't match the site frame. We override the wrapper
+   background + spacing here and let token colors come through unchanged. */
+
+.md-code-shiki {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 0.85rem 1.1rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  position: relative;
+}
+
+.md-code-shiki::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 0.5rem;
+  right: 0.85rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  opacity: 0.55;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Strip Shiki's own background/padding so the wrapper's frame is the only
+   one visible. The inline styles on token spans win because they're more
+   specific than these resets. */
+.md-code-shiki .shiki,
+.md-code-shiki pre.shiki {
+  background: transparent !important;
+  padding: 0;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  line-height: 1.6;
+  border: 0;
+  overflow: visible;
+}
+
+.md-code-shiki code {
+  font-family: inherit;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+/* Shiki output is a <pre> containing a <code> with line <span> wrappers.
+   Keep horizontal scroll on the wrapper, not the inner pre. */
+.md-code-shiki pre {
+  white-space: pre;
+}
+
+/* Subtle improvement: dim the line "// ..." comments slightly more so
+   prose flows past them — pairs with the operator-terminal aesthetic. */
+.md-code-shiki .line:empty::before {
+  content: ' ';
+}

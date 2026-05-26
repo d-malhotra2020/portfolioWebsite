@@ -105,6 +105,26 @@ export const Markdown = ({ source }) => {
         i++
       }
       i++ // skip closing fence
+
+      // Build-time highlighted block: the vite-plugin-shiki has already
+      // run Shiki on the body and rewritten the language tag as
+      // `shiki-<lang>`. The codeLines join is raw HTML; render as-is.
+      if (lang.startsWith('shiki-')) {
+        const realLang = lang.slice(6)
+        blocks.push(
+          <div
+            key={blocks.length}
+            className="md-code md-code-shiki"
+            data-lang={realLang}
+            tabIndex={0}
+            aria-label={`code block (${realLang})`}
+            dangerouslySetInnerHTML={{ __html: codeLines.join('\n') }}
+          />
+        )
+        continue
+      }
+
+      // Unhighlighted fallback (e.g. no language tag, or build ran without shiki).
       blocks.push(
         <pre
           key={blocks.length}

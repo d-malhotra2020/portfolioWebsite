@@ -1,10 +1,10 @@
 // Per-project deep-dive registry. Add a project here to give it a /work/<slug> page.
-import donationPlatform from './donation-platform.md?raw'
-import financialAnalysis from './financial-analysis.md?raw'
-import smartHome from './smart-home.md?raw'
-import thisPortfolio from './this-portfolio.md?raw'
-import trafficOptimization from './traffic-optimization.md?raw'
-import videoAnalytics from './video-analytics.md?raw'
+import donationPlatform from './donation-platform.md?shiki'
+import financialAnalysis from './financial-analysis.md?shiki'
+import smartHome from './smart-home.md?shiki'
+import thisPortfolio from './this-portfolio.md?shiki'
+import trafficOptimization from './traffic-optimization.md?shiki'
+import videoAnalytics from './video-analytics.md?shiki'
 
 export const workPosts = [
   {
