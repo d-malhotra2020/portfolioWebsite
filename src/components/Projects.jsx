@@ -129,7 +129,17 @@ const Projects = () => {
         >
           {projects.map((p, i) => {
             const clickable = !!p.deepDive
-            const deepHref = clickable ? `#/work/${p.deepDive}` : null
+            const deepHref = clickable ? `/work/${p.deepDive}` : null
+            const onDeepClick = clickable
+              ? (e) => {
+                  // Anchor href is the path-form URL so right-click → copy gives
+                  // a per-page-OG-friendly link. Click handler uses pushState so
+                  // we don't trigger a full page load.
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return
+                  e.preventDefault()
+                  navigateTo(deepHref)
+                }
+              : null
 
             return (
               <motion.article
@@ -151,7 +161,7 @@ const Projects = () => {
 
                 <h3>
                   {clickable ? (
-                    <a className="work-card-stretch" href={deepHref}>
+                    <a className="work-card-stretch" href={deepHref} onClick={onDeepClick}>
                       {p.title}
                     </a>
                   ) : (

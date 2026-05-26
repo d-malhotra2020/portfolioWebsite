@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X, ArrowUpRight } from 'lucide-react'
+import { navigateTo } from '../lib/router'
 
 const links = [
   { href: '#about', label: 'about', id: 'about' },
@@ -49,8 +50,9 @@ const Navbar = () => {
     e.preventDefault()
     setOpen(false)
     if (href.startsWith('#/')) {
-      window.location.hash = href.slice(1)
-      window.scrollTo(0, 0)
+      // Route change — use navigateTo so the URL bar shows the path form
+      // (matches the prerendered OG-stub URLs).
+      navigateTo(href.slice(1))
       return
     }
     const el = document.getElementById(href.substring(1))

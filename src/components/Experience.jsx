@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { ChevronDown } from 'lucide-react'
+import { navigateTo } from '../lib/router'
 
 const experiences = [
   {
@@ -204,7 +205,15 @@ const Experience = () => {
                                     {isPatchAudit && (
                                       <>
                                         {' '}
-                                        <a className="case-study-link" href="#/writing/patch-vulnerability">
+                                        <a
+                                          className="case-study-link"
+                                          href="/writing/patch-vulnerability"
+                                          onClick={(e) => {
+                                            if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return
+                                            e.preventDefault()
+                                            navigateTo('/writing/patch-vulnerability')
+                                          }}
+                                        >
                                           Read the case study →
                                         </a>
                                       </>
