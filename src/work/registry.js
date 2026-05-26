@@ -1,6 +1,7 @@
 // Per-project deep-dive registry. Add a project here to give it a /work/<slug> page.
 import donationPlatform from './donation-platform.md?shiki'
 import financialAnalysis from './financial-analysis.md?shiki'
+import interviewAgent from './interview-agent.md?shiki'
 import smartHome from './smart-home.md?shiki'
 import thisPortfolio from './this-portfolio.md?shiki'
 import trafficOptimization from './traffic-optimization.md?shiki'
@@ -65,6 +66,16 @@ export const workPosts = [
     github: 'https://github.com/d-malhotra2020/portfolioWebsite',
     live: 'https://drewmalhotra.com',
     body: thisPortfolio
+  },
+  {
+    slug: 'interview-agent',
+    title: 'Interview Agent · this chatbot',
+    category: 'LLM · EDGE',
+    year: '2026',
+    stack: ['Cloudflare Workers', 'Anthropic API', 'KV', 'SSE'],
+    github: 'https://github.com/d-malhotra2020/portfolioWebsite/tree/main/workers/agent',
+    live: 'https://drewmalhotra.com',
+    body: interviewAgent
   }
 ]
 

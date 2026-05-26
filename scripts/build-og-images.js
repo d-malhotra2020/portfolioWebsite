@@ -47,6 +47,7 @@ const WORK_ROUTES = [
   { slug: 'financial-analysis',   category: 'DATA · ML',      title: 'Financial Analysis Engine', tag: '49.5% real next-day accuracy · 1,990 predictions' },
   { slug: 'smart-home',           category: 'IOT · EDGE',     title: 'Smart Home Automation', tag: 'paho-mqtt · Mosquitto · sim-mode fallback' },
   { slug: 'this-portfolio',       category: 'WEB · DESIGN',   title: 'This Portfolio', tag: 'React · Vite · Framer · LLM-augmented' },
+  { slug: 'interview-agent',      category: 'LLM · EDGE',     title: 'Interview Agent · this chatbot', tag: 'CF Worker · SSE · KV · $10/mo cap' },
 ]
 
 const WRITING_ROUTES = [

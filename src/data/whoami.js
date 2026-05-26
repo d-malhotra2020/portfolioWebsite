@@ -100,6 +100,12 @@ export const whoami = {
       oneliner:
         'operator-console aesthetic. React + Vite, custom CSS design system, Framer Motion choreography, Cloudflare Worker proxying Claude for an in-page interview agent.',
       url: 'https://drewmalhotra.com/work/this-portfolio'
+    },
+    {
+      title: 'interview agent (the chat dock on this site)',
+      oneliner:
+        'cloudflare worker proxying the anthropic messages api. SSE streaming, KV-backed sliding-window rate limit (20 req/min/IP), daily-cost circuit breaker at $0.333/day = $10/mo before the dashboard cap.',
+      url: 'https://drewmalhotra.com/work/interview-agent'
     }
   ],
   links: {

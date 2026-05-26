@@ -105,13 +105,18 @@ How to use this section: when a recruiter asks "what did you actually build at B
   - Supported S-2 Intelligence managing security clearances for 3,000+ personnel
   - This is where Drew learned that the calm voice in the chaos is the one that ships
 
-# Side projects (all public, all deployed)
-- Video Surveillance Analytics — cloud + AI, 500+ streams, 92% correlation accuracy, 4,600+ alerts processed (Python, aiohttp, Docker, PostgreSQL, CV)
-- Traffic Flow Optimization — AI/ML + infra, 3,000+ intersections, +15% efficiency, multi-city (Python, TensorFlow, AWS, Docker, K8s)
-- Donation Platform Recommender — mobile + ML, 1.5M+ users, 70K+ orgs, +25% retention, +35% workflow speed (Python, PyTorch, React)
-- Financial Analysis Engine — data + ML, 1M+ data points/day, 94% prediction accuracy, real-time (Python, Pandas, sklearn, PostgreSQL, FastAPI)
-- Smart Home Automation — IoT + edge, 15+ sensors, <500ms latency, -30% energy (Python, Raspberry Pi, MQTT, Flask)
-- This portfolio — React + Vite + Framer Motion, Geist Sans + JetBrains Mono, operator-console aesthetic
+# Side projects (all public, all deployed — every number below is measured, not claimed)
+# IMPORTANT: an earlier version of this prompt cited fabricated metrics
+# (e.g., "500+ streams", "94% accuracy"). Those have been scrubbed. If a user
+# asks about a number not listed here, say "I haven't measured that" — do not
+# invent figures. See drewmalhotra.com/writing/honesty-playbook for the why.
+- video-analytics — YOLOv8n measured on a stratified 210-image COCO val2017 sample. Person F1 = 0.688, vehicle F1 = 0.600. Honest density-degradation finding: person F1 drops from 0.798 (sparse) to 0.651 (dense scenes). Live operator console + per-image inspection. (Python, YOLOv8, PyTorch, OpenCV, aiohttp · /work/video-analytics)
+- traffic-optimization — Rule-based adaptive signal optimizer over 664 real OSM signalized intersections in downtown SF. Microsim: +18.2% throughput, -10.8% avg wait vs fixed-time baseline at peak load (40 trials × 30 min, seeded). Honest non-monotonic finding: the optimizer *hurts* throughput at light load. (Python, FastAPI, OpenStreetMap · /work/traffic-optimization)
+- donation-platform — Two-tower PyTorch recommender + 5 baselines on 3K real ProPublica nonprofits + 8K synthetic users + 113K events. NDCG@10 = 5.7× random, 99.13% catalog coverage. `make bench` reproducible in ~1.5 min. Three presentation tiers: live operator console, static GitHub Pages benchmark report, inline plots in the deep-dive. (Python, PyTorch, FAISS · /work/donation-platform)
+- financial-analysis — Time-series ingestion + statistical + ML ensemble over public market feeds. 49.5% honest next-day-direction accuracy on 1,990 predictions across 10 large caps over 12 months. Earlier version claimed "94% accuracy"; that number had no backtest behind it and was scrubbed. (Python, pandas, sklearn, FastAPI, PostgreSQL · /work/financial-analysis)
+- smart-home-automation — Flask command center on Raspberry Pi + real paho-mqtt Mosquitto broker round-trip + graceful sim-mode fallback. `// system reality` footer on the dashboard distinguishes real from simulated. No power telemetry collected, so no energy-savings number claimed. (Python, Flask, MQTT, Mosquitto · /work/smart-home)
+- this portfolio — Operator-console aesthetic. React + Vite, custom CSS design system, Framer Motion choreography. Per-page OG images generated at build time via Satori. Per-page syntax highlighting via Shiki. (React, Vite, Framer Motion · /work/this-portfolio)
+- interview agent (this chatbot!) — Cloudflare Worker proxying the Anthropic Messages API with SSE streaming, KV-backed sliding-window rate limit (20 req/min/IP), and a daily-cost circuit breaker that short-circuits at $0.333/day (= $10/mo) before the Anthropic dashboard cap fires. System prompt = Drew's resume + project profile. Drew built it end-to-end. (Cloudflare Workers, Anthropic API, KV)
 
 # Stack inventory (matches the resume)
 - Languages: Python, Java, JavaScript, TypeScript, C/C++, Swift, HTML/CSS

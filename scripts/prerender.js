@@ -68,6 +68,12 @@ const WORK_ROUTES = [
     description:
       'Operator-console aesthetic. React + Vite, custom CSS design system, Framer Motion choreography. LLM-augmented build, with my voice on top. Deployed via GitHub Pages.',
   },
+  {
+    slug: 'interview-agent',
+    title: 'Interview Agent · the chat dock on this site',
+    description:
+      'Cloudflare Worker proxying the Anthropic Messages API with SSE streaming, KV-backed sliding-window rate limit (20 req/min/IP), and a daily-cost circuit breaker that fires at $0.333/day before the dashboard cap. Drew built it end-to-end.',
+  },
 ]
 
 const WRITING_ROUTES = [

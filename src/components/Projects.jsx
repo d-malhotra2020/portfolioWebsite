@@ -106,6 +106,23 @@ const projects = [
     github: 'https://github.com/d-malhotra2020/portfolioWebsite',
     live: 'https://drewmalhotra.com',
     deepDive: 'this-portfolio'
+  },
+  {
+    id: '#007',
+    year: '2026',
+    category: 'LLM · EDGE',
+    title: 'Interview Agent · this chatbot',
+    summary: 'The chat dock on this site — a Cloudflare Worker proxying the Anthropic Messages API with SSE streaming, sliding-window rate limit (20 req/min/IP via KV), and a daily-cost circuit breaker that short-circuits at $0.333/day before the dashboard cap fires. Resume + project profile baked in as the system prompt.',
+    stats: [
+      { lbl: 'Model', val: 'Haiku 4.5' },
+      { lbl: 'Stream', val: 'SSE' },
+      { lbl: 'Cost cap', val: '$10/mo' },
+      { lbl: 'Edge', val: 'Cloudflare' }
+    ],
+    stack: ['Cloudflare Workers', 'Anthropic API', 'KV', 'SSE'],
+    github: 'https://github.com/d-malhotra2020/portfolioWebsite/tree/main/workers/agent',
+    live: 'https://drewmalhotra.com',
+    deepDive: 'interview-agent'
   }
 ]
 
