@@ -79,6 +79,17 @@ const WRITING_ROUTES = [
   },
 ]
 
+const STANDALONE_ROUTES = [
+  {
+    slug: 'resume',
+    title: 'Drew Malhotra — Résumé',
+    description:
+      'Software Engineer · SDET in Austin, TX. 6+ years across enterprise test automation, API validation, AI/ML systems. Currently SDET at Brivo. Open to senior engineering roles.',
+    ogImage: DEFAULT_OG,
+    urlPath: '/resume',
+  },
+]
+
 /** Escape attribute value safely for HTML. */
 const attr = (s) =>
   String(s)
@@ -91,10 +102,10 @@ const attr = (s) =>
  * Swap the meta tags in the existing built index.html for route-specific ones,
  * and prepend a hash-redirect script so the SPA boots at the right route.
  */
-function rewriteForRoute(html, { kind, slug, title, description }) {
-  const url = `${SITE}/${kind}/${slug}`
-  const ogImage = `${SITE}/og/${kind}/${slug}.png`
-  const ogType = kind === 'writing' ? 'article' : 'article' // both treated as articles
+function rewriteForRoute(html, { kind, slug, title, description, ogImage: customOg, urlPath }) {
+  const url = urlPath ? `${SITE}${urlPath}` : `${SITE}/${kind}/${slug}`
+  const ogImage = customOg || `${SITE}/og/${kind}/${slug}.png`
+  const ogType = 'article'
 
   // 1. Title — surgical replacement of the existing <title>...</title>.
   let out = html.replace(
@@ -205,8 +216,17 @@ async function main() {
     const html = rewriteForRoute(indexHtml, { kind: 'writing', ...r })
     await emit(fallbackOGImage(html), { kind: 'writing', slug: r.slug })
   }
+  for (const r of STANDALONE_ROUTES) {
+    const html = rewriteForRoute(indexHtml, { kind: r.slug, ...r })
+    // Standalone routes live at /<slug>/ (e.g., /resume/), so we emit
+    // dist/<slug>/index.html — no kind/ subdirectory.
+    const dir = resolve(dist, r.slug)
+    await mkdir(dir, { recursive: true })
+    await writeFile(resolve(dir, 'index.html'), html, 'utf8')
+    console.log(`  /${r.slug}/`)
+  }
   console.log(
-    `[done] ${WORK_ROUTES.length + WRITING_ROUTES.length} stubs written.`
+    `[done] ${WORK_ROUTES.length + WRITING_ROUTES.length + STANDALONE_ROUTES.length} stubs written.`
   )
 }
 

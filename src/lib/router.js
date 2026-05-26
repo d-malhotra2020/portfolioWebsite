@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 // In-app navigation prefers the path form via the History API so when a
 // user copies the URL bar after navigating, the share preview works.
 
-const KNOWN_ROUTE_RE = /^\/(work|writing)\/[a-z0-9-]+\/?$/
+const KNOWN_ROUTE_RE = /^\/(work|writing)\/[a-z0-9-]+\/?$|^\/resume\/?$/
 
 const readRoute = () => {
   // Hash takes precedence (legacy + the prerendered shim writes it).
@@ -26,6 +26,7 @@ const readRoute = () => {
   if (KNOWN_ROUTE_RE.test(pathname) || pathname === '/writing' || pathname === '/writing/') {
     return pathname.replace(/\/$/, '') || '/'
   }
+  if (pathname === '/resume' || pathname === '/resume/') return '/resume'
   return '/'
 }
 
@@ -46,6 +47,7 @@ export const useHashRoute = () => {
 export const matchRoute = (path) => {
   if (path === '/' || path === '') return { kind: 'home' }
   if (path === '/writing' || path === '/writing/') return { kind: 'writing-index' }
+  if (path === '/resume' || path === '/resume/') return { kind: 'resume' }
   const writing = path.match(/^\/writing\/([a-z0-9-]+)\/?$/)
   if (writing) return { kind: 'writing-post', slug: writing[1] }
   const work = path.match(/^\/work\/([a-z0-9-]+)\/?$/)

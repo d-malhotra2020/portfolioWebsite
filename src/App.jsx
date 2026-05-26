@@ -12,6 +12,7 @@ import AgentDock from './components/AgentDock'
 import WritingIndex from './components/WritingIndex'
 import WritingPost from './components/WritingPost'
 import WorkPost from './components/WorkPost'
+import Resume from './components/Resume'
 import KeyboardShortcutsOverlay from './components/KeyboardShortcutsOverlay'
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts'
 import { useHashRoute, matchRoute } from './lib/router'
@@ -56,6 +57,15 @@ function App() {
         <ScrollProgress />
         <WorkPost slug={route.slug} />
         <AgentDock />
+        <KeyboardShortcutsOverlay open={helpOpen} onClose={closeHelp} />
+      </div>
+    )
+  }
+
+  if (route.kind === 'resume') {
+    return (
+      <div className="app resume-app">
+        <Resume />
         <KeyboardShortcutsOverlay open={helpOpen} onClose={closeHelp} />
       </div>
     )

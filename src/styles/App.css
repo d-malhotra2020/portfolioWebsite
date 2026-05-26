@@ -3053,3 +3053,317 @@ button {
   opacity: 0.35;
   cursor: not-allowed;
 }
+
+/* ===== /resume page ===== */
+
+.resume-app {
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+.resume-screen-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 880px;
+  margin: 2rem auto 1rem;
+  padding: 0 1.5rem;
+  gap: 1rem;
+}
+
+.resume-screen-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.resume-print-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid var(--rule-strong);
+  padding: 0.5rem 0.9rem;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+
+.resume-print-btn:hover {
+  color: var(--cyan);
+  border-color: var(--cyan);
+}
+
+.resume-sheet {
+  max-width: 880px;
+  margin: 0 auto 4rem;
+  padding: 3rem 3.25rem;
+  background: var(--bg-1);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  color: var(--ink);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.resume-head h1 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+  letter-spacing: -0.02em;
+}
+
+.resume-role {
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  margin: 0 0 0.75rem;
+}
+
+.resume-contact {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-mute);
+  margin: 0 0 1.5rem;
+}
+
+.resume-contact a {
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+
+.resume-contact a:hover {
+  color: var(--cyan);
+}
+
+.resume-block {
+  margin: 1.75rem 0;
+  border-top: 1px solid var(--rule);
+  padding-top: 1.25rem;
+}
+
+.resume-block h2 {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cyan);
+  margin: 0 0 0.75rem;
+}
+
+.resume-job {
+  margin-bottom: 1.25rem;
+}
+
+.resume-job-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.resume-job-role {
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.resume-job-period {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-mute);
+}
+
+.resume-job-org {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 0.15rem 0 0.5rem;
+}
+
+.resume-job-loc {
+  color: var(--ink-mute);
+}
+
+.resume-job-bullets {
+  margin: 0;
+  padding-left: 1.1rem;
+  list-style: none;
+}
+
+.resume-job-bullets li {
+  position: relative;
+  margin-bottom: 0.4rem;
+  padding-left: 0.1rem;
+}
+
+.resume-job-bullets li::before {
+  content: '▸';
+  position: absolute;
+  left: -1.1rem;
+  color: var(--cyan);
+  font-size: 10px;
+  top: 0.32em;
+}
+
+.resume-projects {
+  margin: 0;
+  padding-left: 1.1rem;
+  list-style: none;
+}
+
+.resume-projects li {
+  position: relative;
+  margin-bottom: 0.65rem;
+}
+
+.resume-projects li::before {
+  content: '▸';
+  position: absolute;
+  left: -1.1rem;
+  color: var(--cyan);
+  font-size: 10px;
+  top: 0.32em;
+}
+
+.resume-projects a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.resume-projects a:hover {
+  color: var(--cyan);
+}
+
+.resume-projects strong {
+  font-weight: 600;
+}
+
+.resume-link {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--cyan) !important;
+  letter-spacing: 0.05em;
+}
+
+.resume-stack {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.7;
+}
+
+.resume-foot {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-mute);
+  letter-spacing: 0.04em;
+}
+
+/* ===== /resume print stylesheet ===== */
+
+@media print {
+  /* Hide everything chrome — header bar, agent dock, scroll progress, etc. */
+  .resume-screen-bar,
+  .agent-dock,
+  .scroll-progress,
+  .keyboard-shortcuts-overlay {
+    display: none !important;
+  }
+
+  /* Pure white page, black ink — print-ready. */
+  html,
+  body,
+  .resume-app {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .resume-sheet {
+    max-width: none;
+    margin: 0;
+    padding: 0.5in 0.5in;
+    background: #fff !important;
+    border: 0 !important;
+    border-radius: 0;
+    color: #000 !important;
+    font-size: 10.5pt;
+    line-height: 1.4;
+  }
+
+  .resume-head h1 {
+    font-size: 22pt;
+    color: #000 !important;
+  }
+
+  .resume-role {
+    color: #444 !important;
+    font-size: 10pt;
+  }
+
+  .resume-contact,
+  .resume-contact a,
+  .resume-job-period,
+  .resume-job-loc,
+  .resume-stack,
+  .resume-foot {
+    color: #333 !important;
+  }
+
+  .resume-block {
+    border-top: 1px solid #888;
+    padding-top: 0.5rem;
+    margin: 1rem 0;
+    break-inside: avoid;
+  }
+
+  .resume-block h2 {
+    color: #000 !important;
+    font-size: 8.5pt;
+  }
+
+  .resume-job-role,
+  .resume-projects strong,
+  .resume-projects a {
+    color: #000 !important;
+  }
+
+  .resume-job-bullets li::before,
+  .resume-projects li::before {
+    color: #555 !important;
+  }
+
+  .resume-link {
+    color: #444 !important;
+  }
+
+  /* Show full URLs after links so the print version is self-contained. */
+  .resume-contact a[href^="mailto:"]::after {
+    content: '';
+  }
+  .resume-contact a[href^="http"]::after {
+    content: ' (' attr(href) ')';
+    font-size: 7pt;
+    color: #666;
+  }
+
+  .resume-foot {
+    border-top: 1px solid #888;
+  }
+
+  @page {
+    margin: 0.4in;
+  }
+}
