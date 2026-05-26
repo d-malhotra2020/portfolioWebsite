@@ -77,6 +77,18 @@ const WRITING_ROUTES = [
     description:
       'How an API input-validation audit at Brivo surfaced a vulnerability that let production records have their required fields removed — and what it taught me about adversarial testing.',
   },
+  {
+    slug: 'honesty-playbook',
+    title: 'The honesty playbook — Drew Malhotra',
+    description:
+      "Five of my hobby projects shipped homepage claims the code wasn't measuring. I scrubbed them in a single week. This is the five-step playbook I used, and what it taught me about the difference between claims and measurements.",
+  },
+  {
+    slug: 'real-video-analytics',
+    title: 'What a real video-analytics platform would need — Drew Malhotra',
+    description:
+      'My YOLOv8 benchmark is object detection on still images with a thin visualization tier. Here is the roadmap that turns it into something a hiring manager would call a platform — tracking, streaming, asymmetric error budgets, shadow-mode deployment.',
+  },
 ]
 
 const STANDALONE_ROUTES = [
