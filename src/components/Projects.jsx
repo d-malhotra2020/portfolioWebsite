@@ -8,18 +8,19 @@ const projects = [
   {
     id: '#001',
     year: '2024',
-    category: 'CLOUD · AI',
-    title: 'Video Surveillance Analytics',
-    summary: 'Cloud-based video analytics platform for enterprise security. AI-powered threat detection, real-time alerts, scalable processing of 500+ concurrent streams.',
+    category: 'CV · BENCHMARK',
+    title: 'Video Analytics — YOLOv8 Honest Benchmark',
+    summary: 'Off-the-shelf YOLOv8n measured on a 210-image stratified sample of COCO val2017, then visualized end-to-end on OpenCV\'s pedestrian clip. Person F1 = 0.688 (drops 0.798 → 0.651 from sparse to dense scenes). `make bench` reproducible locally.',
     stats: [
-      { lbl: 'Streams', val: '500+' },
-      { lbl: 'Alerts', val: '4,600+' },
-      { lbl: 'Accuracy', val: '92%' },
-      { lbl: 'Detection', val: 'AI' }
+      { lbl: 'Person F1', val: '0.688' },
+      { lbl: 'Vehicle F1', val: '0.600' },
+      { lbl: 'Sample', val: '210 imgs' },
+      { lbl: 'Repro', val: 'make bench' }
     ],
-    stack: ['Python', 'aiohttp', 'Docker', 'PostgreSQL', 'CV'],
+    stack: ['Python', 'YOLOv8', 'aiohttp', 'PyTorch', 'OpenCV'],
     github: 'https://github.com/d-malhotra2020/video-analytics',
-    live: 'https://video-analytics-production.up.railway.app'
+    live: 'https://video-analytics-production.up.railway.app',
+    deepDive: 'video-analytics'
   },
   {
     id: '#002',

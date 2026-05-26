@@ -6,7 +6,7 @@ import CommitFeed from './CommitFeed'
 const services = [
   { id: 'brivo', name: 'Brivo · SDET layer', kind: 'employment', url: null, note: '24 envs · 99.9% delivery' },
   { id: 'portfolio', name: 'drewmalhotra.com', kind: 'self', url: 'https://drewmalhotra.com', note: 'this site' },
-  { id: 'video', name: 'video-analytics', kind: 'self', url: 'https://video-analytics-production.up.railway.app', note: 'cloud · ai' },
+  { id: 'video', name: 'video-analytics', kind: 'self', url: 'https://video-analytics-production.up.railway.app', note: 'yolov8 · honest bench' },
   { id: 'traffic', name: 'traffic-optimization', kind: 'self', url: 'https://traffic-optimization-production.up.railway.app', note: 'osm topology · microsim' },
   { id: 'finance', name: 'financial-analysis-tool', kind: 'self', url: 'https://financial-analysis-tool-production.up.railway.app', note: 'data · ml' },
   { id: 'home', name: 'smart-home-automation', kind: 'self', url: 'https://smart-home-automation-production.up.railway.app', note: 'iot · edge' },

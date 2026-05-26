@@ -3,8 +3,19 @@ import donationPlatform from './donation-platform.md?raw'
 import financialAnalysis from './financial-analysis.md?raw'
 import smartHome from './smart-home.md?raw'
 import thisPortfolio from './this-portfolio.md?raw'
+import videoAnalytics from './video-analytics.md?raw'
 
 export const workPosts = [
+  {
+    slug: 'video-analytics',
+    title: 'Video Analytics — YOLOv8 Honest Benchmark',
+    category: 'CV · BENCHMARK',
+    year: '2024',
+    stack: ['Python', 'YOLOv8', 'PyTorch', 'OpenCV', 'aiohttp'],
+    github: 'https://github.com/d-malhotra2020/video-analytics',
+    live: 'https://video-analytics-production.up.railway.app',
+    body: videoAnalytics
+  },
   {
     slug: 'donation-platform',
     title: 'Donation Platform Recommender',
