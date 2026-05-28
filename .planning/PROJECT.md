@@ -45,6 +45,7 @@ is downstream of that.
 - [ ] REQ-06: Trust signals beyond Drew's own claims (LinkedIn recs, certs)
 - [ ] REQ-07: Cost-bounded — a viral day cannot run up an unbounded bill
 - [ ] REQ-08: Self-maintaining — recurring checklist keeps the site from going stale
+- [ ] REQ-09: Agent answers concretely from a broad, scrubbed work corpus — Brivo Jira tickets + GitHub PRs cited by name without leaking customer data, without fabricated metrics, and without raising per-request cost (prompt caching offsets growth)
 
 ### Out of Scope
 

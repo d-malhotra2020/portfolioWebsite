@@ -30,6 +30,7 @@ per hour invested. Phases are sized for single sessions (≤2 hours).
 - [x] **Phase 10: Cost Guardrails** - Worker daily-cost circuit breaker ($0.333/day KV-backed, 503 + Retry-After) + Anthropic dashboard runbook + Cost guardrails docs. ✅ 2026-05-23 (deploy + dashboard cap = Drew actions)
 - [ ] **Phase 11: Mobile UX Deep-Pass** - Real-device test pass on iOS + Android; fix what's broken
 - [x] **Phase 12: Recurring Maintenance Scaffolding** - Monthly check-in GH issue template (`.github/ISSUE_TEMPLATE/monthly-checkin.md`) + first-run walkthrough + roadmap reprioritized to 6 → 8 → 11. ✅ 2026-05-23
+- [x] **Phase 13: Agent Context Expansion** - SYSTEM_PROMPT gained 8 supplementary Jira entries + 6 GitHub PR/repo entries. Upstream API call switched to structured-array `system` form with `cache_control: { type: 'ephemeral' }`. Worker re-deployed; verification curls confirmed both new content citation and cache hits (6,005 cache_read_input_tokens on second call). ✅ 2026-05-27
 
 ## Phase Details
 
@@ -220,6 +221,28 @@ Plans:
 - [x] 12-01: Author GitHub issue template + maintenance checklist
 - [x] 12-02: Run the first maintenance check-in + reprioritize roadmap
 
+### Phase 13: Agent Context Expansion
+**Goal**: The interview agent's `SYSTEM_PROMPT` cites Drew's recent GitHub work + a broader set of Brivo Jira tickets — without growing per-request cost (prompt caching offsets the size growth).
+**Depends on**: Phase 3 (Worker structure), Phase 10 (cost breaker compatibility)
+**Requirements**: REQ-09
+**Success Criteria** (what must be TRUE):
+  1. `workers/agent/src/index.js`'s `SYSTEM_PROMPT` contains two new sections: `# Additional Brivo Jira — supplementary named tickets` (8 entries) and `# GitHub — shipped work` (6 entries — 5 private PRs + 1 public repo callout)
+  2. The `system` field in the upstream `fetch` call uses the array form with `cache_control: { type: 'ephemeral' }` enabling Anthropic prompt caching
+  3. All entries comply with the sensitivity filter (no customer names, no private-PR URLs, no vulnerability repro steps) defined in `13-CONTEXT.md`
+  4. All entries comply with the honesty rule (every claim traceable to the staged candidate files; no fabricated metrics)
+  5. Worker passes a syntax check after the edit and either `wrangler deploy` succeeds (autonomous path) OR a `DEPLOY-PENDING.md` note exists with the exact command Drew needs to run (manual path)
+  6. Two verification curls each return responses that cite at least one new entry from the expanded prompt
+**Plans**: 2 plans (to be authored by plan-phase)
+
+Plans:
+- [ ] 13-01: Curate from staged candidates + edit `SYSTEM_PROMPT` + enable cache_control + syntax check
+- [ ] 13-02: Deploy via `wrangler deploy` (autonomous if creds present, else write `DEPLOY-PENDING.md`) + run verification curls
+
+**Pre-staged inputs** (executor reads, does NOT re-query):
+- `.planning/phases/13-agent-context-expansion/13-CANDIDATES-jira.md`
+- `.planning/phases/13-agent-context-expansion/13-CANDIDATES-github.md`
+- `.planning/phases/13-agent-context-expansion/13-CONTEXT.md` (decisions locked — discuss-phase can be skipped)
+
 ## Progress
 
 **Execution Order:**
@@ -240,3 +263,4 @@ Phases execute in numeric order. Some phases (3, 4, 7, 9, 11) can run in paralle
 | 10. Cost Guardrails | 0/2 | Not started | - |
 | 11. Mobile UX Deep-Pass | 0/2 | Not started | - |
 | 12. Recurring Maintenance Scaffolding | 0/2 | Not started | - |
+| 13. Agent Context Expansion | 2/2 | Complete | 2026-05-27 |

@@ -5,14 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-05-23)
 
 **Core value:** A hiring manager who lands on the site walks away with a concrete, résumé-accurate read on Drew's engineering depth — and a frictionless path to start a conversation.
-**Current focus:** Milestone v1.0 close-out (Phases 6, 8, 11 blocked on external inputs — held for follow-up milestone)
+**Current focus:** Milestone v1.0 close-out (Phase 13 shipped 2026-05-27; Phases 6, 8, 11 remain blocked on external inputs — DEFERRED-DREW.md notes filed in each phase directory)
 
 ## Current Position
 
-Phase: All autonomous-eligible phases shipped (10 of 12). Phases 6, 8, 11 remain in the milestone but each blocks on external inputs Drew controls. Roadmap reprioritized in Phase 12: 6 → 8 → 11 once those blockers clear.
+Phase: 11 of 13 autonomous-eligible phases shipped. Phase 13 (agent context expansion + prompt caching) shipped today. Phases 6, 8, 11 remain — each has a DEFERRED-DREW.md describing exact Drew-actions needed before autonomous mode can run them.
 Plan: —
-Status: Portfolio autonomous work complete. **Side-project polish playbook hat-trick + 1: smart-home, traffic-optimization, donation-platform, financial-analysis-tool, and now video-analytics — all five side projects now back honest measurements instead of fabricated stats.**
-Last activity: 2026-05-26 (continued, full session totaling ~8 hr across video-analytics rewrite + 8 portfolio improvements). After the OG infra landed, shipped five more deliverables — every one ended in `git push origin main` and a GitHub Pages auto-deploy:
+Status: Interview agent now cites 8 additional Brivo Jira tickets + 6 GitHub PR/repo entries, and prompt caching is enabled (cache hits verified — 6,005 cache_read tokens on second call). **Net cost per request drops once a 5-minute cache window has any traffic, despite the larger prompt.**
+Last activity: 2026-05-27 — Autonomous run via `/gsd-autonomous`. **Phase 13 shipped end-to-end:** SYSTEM_PROMPT (in `workers/agent/src/index.js`) gained two new sections — "Additional Brivo Jira — supplementary named tickets" (8 EEPD entries) and "GitHub — shipped work" (5 private PRs + 1 public repo callout). Upstream API call's `system` field switched from bare-string to structured array with `cache_control: { type: 'ephemeral' }`. Worker re-deployed (`npx wrangler deploy`, version `a5b34d8e-93df-47a2-861b-3793849c9976`). Two verification curls confirmed (a) responses cite new content (e.g., "EENCloud/qalab-alertMonitor", "EEPD-117237"), and (b) cache hits are observable in SSE usage events. Commits `72076e0` (worker edit) + `fe076da` (planning artifacts). Sub-agent dispatched the plan + execute + verification cycle; orchestrator filed DEFERRED-DREW.md for Phases 6/8/11 documenting exactly what Drew needs to provide before each of those can run autonomously (LinkedIn recs / GA4 console clicks / real-device pass).
+
+Previous activity: 2026-05-26 (continued, full session totaling ~8 hr across video-analytics rewrite + 8 portfolio improvements). After the OG infra landed, shipped five more deliverables — every one ended in `git push origin main` and a GitHub Pages auto-deploy:
 
 1. **`/resume` page** (`src/components/Resume.jsx` + `src/lib/router.js` route, commit `00bf13f`) generated from `src/data/whoami.js`, the canonical source already feeding `/whoami`. Adds an `experience` block (Brivo + USN with full bullets), expands `projects` from 4 to 7, scrubs three more leftover fabricated claims that survived the polish playbook ("1.5M users · +25% retention" donation-platform, "94% prediction accuracy" financial-analysis, "30% energy savings" smart-home — all replaced with measured numbers). Print stylesheet (`@media print`) swaps to black-on-white, sets `@page` margins to 0.4in, appends full URLs after each link so a printed copy is self-contained. Verified clean 2-page Letter PDF via `page.pdf()`. **`sitemap.xml`** expanded from 1 URL to 13 (closes Phase 5 deferred GSC submission gap).
 
@@ -30,7 +32,7 @@ Previous activity: 2026-05-26 — Shipped video-analytics rewrite end-to-end (~2
 
 Previous activity: 2026-05-25 — Shipped donation-platform end-to-end across two contiguous sessions (~5 hr total). Slice 1 = real PyTorch two-tower + 5 baselines benchmarked on 3K real ProPublica orgs + 8K synthetic users + 113K events; reproducible via `make bench` in ~1.5 min. Three presentation tiers: (1) raw-PNG plots inline in `src/work/donation-platform.md` + measured stats on Projects.jsx card #003 (NDCG@10 5.7× random, 1.9× popularity, 99% catalog coverage); (2) static benchmark report on GitHub Pages at d-malhotra2020.github.io/donation-platform; (3) live FastAPI operator console at donation-platform-production-c8e0.up.railway.app — pick a synthetic user → see top-10 real-org recommendations with synthesized reasons. Donation-platform back on StatusBoard.jsx (removed in Phase 7). Resume point + menu of next moves captured in `~/separate-projects/donation-platform/NEXT-SESSION.md`.
 
-Progress: [█████████░] 83% (Phases 0, 1, 2, 3, 4, 5, 7, 9, 10, 12 complete of 12; 6, 8, 11 deferred on Drew-actions)
+Progress: [█████████░] 85% (Phases 0, 1, 2, 3, 4, 5, 7, 9, 10, 12, 13 complete of 13; 6, 8, 11 deferred on Drew-actions with DEFERRED-DREW.md filed)
 
 ## Phases shipped today
 
