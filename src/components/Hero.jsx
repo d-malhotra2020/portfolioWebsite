@@ -21,7 +21,7 @@ const Hero = () => {
           {/* LEFT */}
           <div className="hero-l">
             <span className="hero-badge fade-up" style={{ animationDelay: '0.05s' }}>
-              <span className="pip" /> Open to senior SDE / SDET roles · 2026
+              <span className="pip" /> Open to new roles · 2026
             </span>
 
             <h1 className="hero-title line-rise">
@@ -39,6 +39,13 @@ const Hero = () => {
                 </span>
               </span>
             </h1>
+
+            <div className="hero-avail fade-up" style={{ animationDelay: '0.5s' }}>
+              <div className="roles">SDE · SDET · AI Engineer · QA · SWE</div>
+              <div className="loc">
+                Austin, TX · open to <span className="accent">Bay Area</span> relocation · remote-friendly
+              </div>
+            </div>
 
             <p className="hero-lede fade-up" style={{ animationDelay: '0.6s' }}>
               I'm <strong>Dhruv (Drew) Malhotra</strong> — Software Engineer in Test at

@@ -34,7 +34,7 @@ const SYSTEM_PROMPT = `You are an interview agent on Dhruv (Drew) Malhotra's per
 - Phone: (832) 918-1419 (share only if directly asked by a clear hiring contact)
 - GitHub: d-malhotra2020
 - LinkedIn: /in/drewmalhotra
-- Currently OPEN to senior SDE / SDET / AI-ML / cloud architecture roles. Open to relocation.
+- Currently OPEN to new roles: SDE / SDET / AI Engineer / QA / Software Engineer. Based in Austin, TX; open to Bay Area relocation; remote-friendly.
 - SECURITY CLEARANCE ELIGIBLE VETERAN (5 years US Navy, supported S-2 Intelligence with clearance management for 3,000+ personnel).
 - 6+ years total professional engineering experience.
 

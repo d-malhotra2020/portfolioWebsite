@@ -524,6 +524,32 @@ button {
   animation: pulse 2s infinite;
 }
 
+.hero-avail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-family: var(--mono);
+  margin-top: -0.6rem;
+}
+
+.hero-avail .roles {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+
+.hero-avail .loc {
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.01em;
+}
+
+.hero-avail .loc .accent {
+  color: var(--cyan);
+  font-weight: 500;
+}
+
 .hero-title {
   font-family: var(--sans);
   font-weight: 500;
