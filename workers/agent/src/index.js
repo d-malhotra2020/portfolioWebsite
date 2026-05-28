@@ -71,6 +71,28 @@ Source: 265 Jira tickets across the EEPD (Eagle Eye Product Development) project
 
 How to use this section: when a recruiter asks "what did you actually build at Brivo?" or "tell me about a specific project," pick ONE of the named projects above (Synthetic Monitoring Framework, GRACE, Cross-Pod Pulsar, the 'api_tester' redesign, the 15× SLA report, the auth bug hunt) and lead with its name + the most striking metric. Don't dump the whole list. If pressed for a second project, pick a complementary one (e.g., if you led with Synthetic Monitoring → follow with the auth bug hunt for security depth, or the api_tester redesign for tooling depth).
 
+# Additional Brivo Jira — supplementary named tickets
+These complement the named projects above — they show the *breadth* of QA ownership across the EEPD project beyond the highlighted work.
+
+- **EEPD-117237 imageOptions: missing alertImage returns HTTP 500 instead of 400** — Input-validation gap on a public API surface: bad input was crashing the server instead of returning a clean client error. The class of bug input-validation audits are built to catch.
+- **EEPD-108893 Notifications still being sent after the rule has been deleted** — Stateful-cleanup bug where deletion left active downstream effects. Exactly the failure mode adversarial test design surfaces.
+- **EEPD-96197 Disabling an AlertAction fails when associated user has been deleted** — Cascading-state bug: action lifecycle did not handle a deleted-user dependency cleanly, blocking a basic admin operation.
+- **EEPD-92085 Multiple alerts populating for the same event** — Dedup / idempotency bug where a single underlying event produced duplicate alerts; the kind of fan-out defect that erodes trust in the alert channel.
+- **EEPD-106035 Time zone not reflecting in email notification** — Localization correctness bug: notification timestamps rendered in the wrong zone, downstream of an i18n contract gap.
+- **EEPD-74866 Create an API traceability matrix** — Built the QA-coverage artifact tying tests → endpoints → requirements, giving the team a single source for "what is and isn't covered" across the alerts API surface.
+- **EEPD-75169 Oyez Concourse acceptance tests to run pytest** — Migrated the CI acceptance pipeline from Robot Framework to pytest, unifying the test stack and unlocking the same fixtures unit tests already used.
+- **EEPD-80160 Cloud: Purging Video Alerts based on Video Retention** — Data-lifecycle validation work tying alert retention to video-retention policy so deleted media did not leave orphaned alert records.
+
+# GitHub — shipped work
+Drew's GitHub work spans public side projects (listed above) and a steady cadence of merged PRs in private Brivo repos. A representative slice:
+
+- **Add alert monitor implementation** — EENCloud/qalab-alertMonitor (private), merged 2026-05-11. The initial productization commit (61 files) that took the alert-pipeline monitor from a localhost script to a hosted internal service.
+- **Bugfixes, test foundation, legacy cleanup, and route audit** — EENCloud/qalab-alertMonitor (private), merged 2026-05-26. Post-ship hardening pass across 31 files — net code reduction while adding tests and auditing routes.
+- **Add Claude Context System — QA Integration Edition** — EENCloud/test-tools (private), merged 2026-02-11. Internal Claude / agent tooling for QA workflows — direct evidence of the LLM-augmented QA practice at Brivo.
+- **Update PATCH /alertActions/{actionId} documentation to clarify partial update behavior** — EENCloud/api-v3-documentation (private), merged 2025-12-10. API-contract correctness fix tied to the PATCH vulnerability case study on drewmalhotra.com/writing/patch-vulnerability.
+- **Temporarily remove 'test_alert_get_images' to unblock deployment** — EENCloud/concourse-pipelines (private), merged 2025-05-14. Test-infrastructure call: quarantined a flaky acceptance test to unblock the deploy queue rather than let the whole release stall, then tracked the un-quarantine separately.
+- **qa-webhook-server** — Public sibling of internal QA webhook-server work; a small public artifact of QA infrastructure thinking. github.com/d-malhotra2020/qa-webhook-server
+
 - 2023.07 – 2024.10: Software Engineer, Yunex Traffic, Austin TX
   - Global leader in Intelligent Transportation Systems (formerly Siemens ITS), pursuing Vision Zero
   - Real-time Python traffic software with complex scheduling + database state handling
@@ -444,7 +466,13 @@ export default {
       body: JSON.stringify({
         model,
         max_tokens: MAX_TOKENS,
-        system: SYSTEM_PROMPT,
+        system: [
+          {
+            type: 'text',
+            text: SYSTEM_PROMPT,
+            cache_control: { type: 'ephemeral' }
+          }
+        ],
         messages,
         stream: true
       })
