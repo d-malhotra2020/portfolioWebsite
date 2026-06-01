@@ -32,11 +32,11 @@ const Resume = () => {
             <span aria-hidden="true"> · </span>
             <span>{whoami.location}</span>
             <span aria-hidden="true"> · </span>
-            <a href={whoami.links.github} target="_blank" rel="noopener">
+            <a href={whoami.links.github} target="_blank" rel="noopener noreferrer">
               github.com/d-malhotra2020
             </a>
             <span aria-hidden="true"> · </span>
-            <a href={whoami.links.linkedin} target="_blank" rel="noopener">
+            <a href={whoami.links.linkedin} target="_blank" rel="noopener noreferrer">
               linkedin.com/in/drewmalhotra
             </a>
           </p>
@@ -80,7 +80,7 @@ const Resume = () => {
                 {p.live && (
                   <>
                     {' '}
-                    <a className="resume-link" href={p.live} target="_blank" rel="noopener">
+                    <a className="resume-link" href={p.live} target="_blank" rel="noopener noreferrer">
                       [live]
                     </a>
                   </>

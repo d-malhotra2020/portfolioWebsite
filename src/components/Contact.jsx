@@ -73,7 +73,7 @@ const Contact = () => {
         >
           <div>
             <h3 className="contact-headline">
-              Currently <span className="grad">open</span> to senior engineering roles.
+              Currently <span className="grad">open</span> to new engineering roles.
             </h3>
             <p className="contact-blurb">
               Full-time SDE / SDET, AI/ML, or cloud architecture. Particularly interested in
