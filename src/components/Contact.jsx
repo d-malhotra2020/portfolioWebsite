@@ -119,6 +119,7 @@ const Contact = () => {
               <input
                 type="text"
                 name="name"
+                autoComplete="name"
                 required
                 value={form.name}
                 onChange={onChange}
@@ -133,6 +134,7 @@ const Contact = () => {
               <input
                 type="email"
                 name="email"
+                autoComplete="email"
                 required
                 value={form.email}
                 onChange={onChange}
@@ -159,7 +161,11 @@ const Contact = () => {
               {!sending && <ArrowUpRight size={14} className="arrow" />}
             </button>
 
-            {status && <div className="form-status">→ {status}</div>}
+            {status && (
+              <div className="form-status" role="status" aria-live="polite">
+                → {status}
+              </div>
+            )}
           </form>
         </motion.div>
 

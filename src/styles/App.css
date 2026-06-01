@@ -48,6 +48,10 @@
 
 html {
   scroll-behavior: smooth;
+  /* Offset in-page anchor targets below the fixed statusbar + nav so
+     section headings aren't hidden when navigation isn't JS-intercepted
+     (hash links, back/forward, keyboard focus jumps). */
+  scroll-padding-top: 110px;
 }
 
 html, body {
@@ -475,6 +479,25 @@ button {
 }
 
 .btn:hover .arrow { transform: translate(2px, -2px); }
+
+/* ============================================================
+   Accessible focus rings — keyboard-only (:focus-visible)
+   Primary interactive elements share the same cyan ring the
+   project cards / shortcuts / agent dock already use, so keyboard
+   navigation is consistent and on-brand instead of relying on the
+   low-contrast browser default outline on the dark theme.
+   ============================================================ */
+.btn:focus-visible,
+.nav-cta:focus-visible,
+.nav-lockup:focus-visible,
+.nav-link:focus-visible,
+.nav-hamburger:focus-visible,
+.hero-quicklinks a:focus-visible,
+.channel:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
 
 /* ============================================================
    Hero
