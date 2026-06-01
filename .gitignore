@@ -59,3 +59,9 @@ Thumbs.db
 public/whoami/index.html
 public/whoami.json
 public/whoami.txt
+
+# Installed agent skills (local dev tooling, not part of the site)
+.agents/
+.claude/
+skills-lock.json
+**/__pycache__/
