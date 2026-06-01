@@ -56,6 +56,14 @@ const Hero = () => {
               Yunex Traffic. <strong>Security clearance eligible veteran.</strong>
             </p>
 
+            <p className="hero-proof fade-up" style={{ animationDelay: '0.68s' }}>
+              <span className="hero-proof-tag">known for</span>
+              Not trusting that the tools tell the truth — I caught my team's load
+              tester silently misreporting throughput, rebuilt it, and surfaced{' '}
+              <strong>16% TimeoutErrors and 7% 502s</strong> that had been hidden for
+              months.
+            </p>
+
             <div className="hero-ctas fade-up" style={{ animationDelay: '0.75s' }}>
               <button className="btn btn-primary" onClick={() => scrollTo('contact')}>
                 Get in touch
