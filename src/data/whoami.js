@@ -91,7 +91,7 @@ export const whoami = {
     {
       title: 'smart-home automation',
       oneliner:
-        'flask command center + real paho-mqtt mosquitto broker round-trip + graceful sim-mode fallback. Raspberry Pi operator-terminal UI with a `// system reality` footer that distinguishes real from simulated.',
+        'flask command center + real paho-mqtt mosquitto broker round-trip + graceful sim-mode fallback. operator-terminal UI with a `// system reality` footer that distinguishes real from simulated.',
       url: 'https://drewmalhotra.com/work/smart-home',
       live: 'https://smart-home-automation-production.up.railway.app'
     },

@@ -61,14 +61,14 @@ const projects = [
     year: '2024',
     category: 'DATA · ML',
     title: 'Financial Analysis Engine',
-    summary: 'Processes 1M+ daily data points. Combines statistical models with ML for risk analysis and real-time market signals — 94% prediction accuracy.',
+    summary: 'Market direction-prediction engine built on one rule: the code that runs live is the same code that runs in backtest — no notebook-only models, no marketing-only accuracy. A first-class backtest harness reports 49.5% next-day direction (985/1990 predictions, 10 large-caps, 1-year window, no lookahead) and serves a live calibration report at `/api/v1/calibration/latest`.',
     stats: [
-      { lbl: 'Data points', val: '1M+/day' },
-      { lbl: 'Accuracy', val: '94%' },
-      { lbl: 'Latency', val: 'Real-time' },
-      { lbl: 'Models', val: 'ML + Stat' }
+      { lbl: 'Next-day dir', val: '49.5%' },
+      { lbl: 'Eval', val: 'Backtested' },
+      { lbl: 'Predictions', val: '1,990' },
+      { lbl: 'Data', val: 'yfinance' }
     ],
-    stack: ['Python', 'Pandas', 'sklearn', 'Postgres', 'FastAPI'],
+    stack: ['Python', 'FastAPI', 'Next.js', 'yfinance', 'pandas'],
     github: 'https://github.com/d-malhotra2020/financial-analysis-tool',
     live: 'https://financial-analysis-tool-production.up.railway.app',
     deepDive: 'financial-analysis'
@@ -76,16 +76,16 @@ const projects = [
   {
     id: '#005',
     year: '2024',
-    category: 'IOT · EDGE',
+    category: 'IOT · SIM',
     title: 'Smart Home Automation',
-    summary: 'Self-built home automation integrating 15+ IoT sensors via MQTT with Flask command center on Raspberry Pi. Mobile + voice control, 30% energy savings.',
+    summary: 'Operator-console dashboard for a simulated home-automation system with an honest real MQTT broker round-trip: every device mutation publishes to the broker and an external client can drive devices back through topic commands. Flask + Flask-SocketIO + paho-mqtt over SQLite state — the broker pip degrades transparently to `offline · sim` instead of faking a connection.',
     stats: [
-      { lbl: 'Sensors', val: '15+' },
-      { lbl: 'Latency', val: '<500ms' },
-      { lbl: 'Energy', val: '−30%' },
-      { lbl: 'Control', val: 'Voice + UI' }
+      { lbl: 'Devices', val: 'Simulated' },
+      { lbl: 'Transport', val: 'MQTT' },
+      { lbl: 'Round-trip', val: 'Real broker' },
+      { lbl: 'Realtime', val: 'WebSocket' }
     ],
-    stack: ['Python', 'Raspberry Pi', 'MQTT', 'Flask'],
+    stack: ['Python', 'Flask', 'MQTT', 'SQLite', 'Mosquitto'],
     github: 'https://github.com/d-malhotra2020/smart-home-automation',
     live: 'https://smart-home-automation-production.up.railway.app',
     deepDive: 'smart-home'

@@ -20,7 +20,7 @@ const experiences = [
         'LLM-Augmented QA Workflow: Automated API test generation and data analysis, reducing manual testing cycles from days to ~15 minutes across enterprise endpoints',
         'Distributed Error-Handling Suites: End-to-end tests validating cooloff behavior, retry policies, and webhook concurrency across RESTful APIs',
         'Gmail Ingestion Pipeline: Fault-tolerant batch processor for 200+ emails/day; 5× throughput via concurrency, caching, and backoff logic; enriches alerts via API and exports to CSV',
-        'API Load Testing Tool: High-concurrency Python/aiohttp framework with session auth, dynamic CLI filtering, pagination handling, and Docker CI/CD integration for benchmarking core platform APIs',
+        'API Load Testing Tool: Caught the team\'s existing load tester silently misreporting RPS with no rate pacing — rebuilt it as a correct high-concurrency Python/aiohttp framework (session auth, dynamic CLI filtering, pagination, Docker CI/CD) that exposed 16% TimeoutErrors and 7% 502s hidden for months',
         'API Input-Validation Audit: 6+ endpoint groups reviewed — uncovered critical PATCH vulnerability in the rules endpoint allowing removal of required fields in production; led immediate remediation'
       ],
       impact: [

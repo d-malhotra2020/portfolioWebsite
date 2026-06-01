@@ -1,59 +1,64 @@
 ## The hook
 
-A financial analysis tool that ingests ~1M data points per day from public market feeds, runs both classical statistical models and a small set of ML predictors, and exposes the output via a FastAPI service backed by PostgreSQL. Built primarily to teach myself the difference between **statistical models that have something to say about a time series** and **ML models that pattern-match without understanding it.** Spoiler: combining the two beats either alone.
+A market-data and analysis tool built around a single principle: every model has a sibling backtest function, and the code that runs live is the same code that runs in backtest. No notebook-only models, no marketing-only accuracy claims. It ingests daily bars from yfinance, computes a stack of technical indicators, runs a direction-prediction model, and serves a calibration report the UI reads straight from the harness — so the number on the page is always the number the harness measured.
 
 ## Architecture
 
 ```text
    +---------------------+
-   | yfinance / Alpha    |
-   | Vantage feeds       |     <-- ingestion (cron, 5-min interval)
-   +----------+----------+
-              |
-              v
-   +---------------------+
-   |   FastAPI ingestor  |     ~1M data points / day
-   |   (Python)          |     dedupe, normalize, type-cast
+   |   yfinance daily    |     <-- ingestion, cached under
+   |   bars              |         data/backtest_cache/
    +----------+----------+
               |
               v
    +---------------------+        +--------------------------+
-   |    PostgreSQL       |<------>|  Two parallel engines:   |
-   |    (time-series     |        |                          |
-   |     schema with     |        |  1. Statistical (ARIMA,  |
-   |     hypertables)    |        |     GARCH for vol)       |
-   +----------+----------+        |  2. ML (sklearn ensemble |
-              |                   |     of GBM + LSTM)       |
-              v                   +-----------+--------------+
-   +---------------------+                    |
-   |   FastAPI read API  |<-------------------+
-   |   /signals          |   merged signal + confidence
-   |   /portfolio        |
+   |  Technical analysis |        |  Backtest harness        |
+   |  RSI · SMA · MACD   |<------>|  walk-forward replay,    |
+   |  Bollinger · vol ·  |        |  no lookahead            |
+   |  momentum           |        |  python -m app.backtest  |
+   +----------+----------+        +-----------+--------------+
+              |                               |
+              v                               v
+   +---------------------+        +--------------------------+
+   |  predict_direction()|        |  calibration report      |
+   |  (shared service —  |        |  data/calibration/*.json |
+   |   same code live &  |        +-----------+--------------+
+   |   in backtest)      |                    |
+   +----------+----------+                    |
+              |                               v
+              v                   +--------------------------+
+   +---------------------+        |  GET /api/v1/calibration |
+   |  FastAPI read API   |<-------|  {latest, history}       |
+   |  + Next.js dashboard|        +--------------------------+
    +---------------------+
 ```
 
-The two engines run on their own schedule; results land back in PostgreSQL and the read API merges them at query time with a confidence-weighted ensemble.
+`predict_direction()` is a single shared function. The live API and the backtest harness both call it — there is no separate "research" model that quietly diverges from what ships.
+
+## Real accuracy (trust the harness, not the homepage)
+
+The first version of this project's README claimed "94% accuracy" with nothing behind it. That number was aspirational, and I scrubbed it. The honest number, measured by the harness in `app/backtest/`, is:
+
+**49.5% next-day direction accuracy** — 985 / 1990 predictions, 10 large-cap symbols (SPY, AAPL, NVDA, MSFT, GOOGL, AMZN, TSLA, META, JPM, BRK-B), trailing 12 months, 1-day horizon, no lookahead.
+
+That's essentially coin-flip. The simple trend-extrapolation model has no edge on next-day direction across this universe — and the page says so. If a future model pushes the number higher, the harness will report it and the UI will follow. The README is not a place to make promises the harness can't back.
 
 ## Key decisions
 
-**PostgreSQL with TimescaleDB-style hypertables, not InfluxDB.** Hypertables are PostgreSQL's native time-series feature when you install the extension. I considered InfluxDB (purpose-built for time-series) but kept PostgreSQL for two reasons: (1) I already speak SQL fluently and didn't want to learn InfluxQL/Flux, and (2) I needed to JOIN time-series data against non-time-series reference data (instrument metadata, my own portfolio holdings). InfluxDB would have forced me to either denormalize aggressively or run a second database. PostgreSQL + hypertables gave me time-series performance without a polyglot persistence layer.
+**Backtest harness as a first-class feature, not a notebook script.** Every model has a sibling backtest function that runs against historical data and emits a calibration report (predicted vs. actual). The whole pipeline is "code that runs the same way live as it does in backtests." I have specific opinions about engineers who keep their backtests in notebooks they never check in — it's the same anti-pattern as tests that only pass on your laptop.
 
-**Statistical and ML models in parallel, not "ML replaces classical."** ARIMA + GARCH are 50+ year old techniques with strong theoretical grounding for what they say about volatility and momentum. A gradient boosted machine doesn't replace what they say; it adds a different signal. I run them both, weight by historical out-of-sample accuracy, and let the ensemble be smarter than either model alone. The 94% prediction accuracy number on the homepage card is the ensemble's, not either model's solo.
+**Report the honest result, even when it's coin-flip.** The interesting engineering decision here wasn't the model — it was building the calibration plumbing so the system *can't* overstate itself. The dashboard fetches `data/calibration/latest.json` directly; there's no hand-edited number anywhere in the path. A 49.5% that I trust is worth more than a 94% I can't reproduce.
 
-**No realtime feeds in v1.** The feeds I'm using are free-tier — yfinance and Alpha Vantage — which means I can't subscribe to a WebSocket; I poll. I built the system around 5-minute polling intervals. That's fine for medium-frequency signals and disqualifies the system from any high-frequency strategy. Trade-off: shipping in a weekend versus shipping in two months with paid market data and a real streaming pipeline. The system's audience is "Drew learning how this stack works," so the 5-minute cadence is fine.
+**FastAPI + Next.js, one Docker image.** The backend is FastAPI (auto-generated OpenAPI docs, Pydantic validation that caught a feed returning `NaN` as a string instead of a float). The frontend is a Next.js static export. Both ship in a single Docker image — Next.js build plus Python runtime — so there's one thing to deploy and one thing to reason about.
 
-**FastAPI not Flask.** I default to Flask for hobby work (see the smart-home deep-dive). For this project I picked FastAPI specifically because the read API serves a number of clients (Jupyter notebooks I use, the static frontend, a Slack bot I built for myself) and the auto-generated OpenAPI schema saved hours of "what's the shape of /signals again?" lookups. Pydantic-driven validation also caught a bug where a feed was returning `NaN` as a string instead of a float — would have silently corrupted predictions otherwise.
-
-**Backtest harness as a first-class feature, not a notebook script.** Every model has a sibling backtest function that runs against historical data and emits a calibration report (predicted vs. actual, by time window and instrument class). The whole pipeline is "code that runs the same way live as it does in backtests." I have specific opinions about engineers who keep their backtests in notebooks they never check in — it's the same anti-pattern as writing tests that only pass on your laptop.
+**yfinance daily bars, not a paid streaming feed.** Free-tier daily data disqualifies the system from any high-frequency strategy, and that's fine: the audience is "Drew learning how this stack works." Daily bars, cached locally, reproducible with one CLI command.
 
 ## What I'd do differently
 
-**Lean harder on Polars, less on Pandas.** I built the data plumbing in Pandas because it's what I knew. Polars is dramatically faster on the kind of group-by-and-aggregate work this pipeline does and has stricter null handling. I'd port the hot paths if the system ever needed to scale beyond ~1M points/day.
+**Move past trend-extrapolation.** The current model is deliberately simple — it's the baseline I built the harness around. The honest 49.5% is the *starting* point; the harness exists precisely so that any future model gets measured the same way before its number goes anywhere near the UI.
 
-**Don't roll the ensemble weighting from scratch.** I wrote my own confidence-weighted ensemble. It works fine. It's also a thing `mlxtend.classifier.EnsembleVoteClassifier` does well enough. Reinventing-the-ensemble was a tax I paid for "fun"; in a production setting it would've been the wrong default.
-
-**Track model drift continuously.** I check calibration once a quarter. A model that worked great in 2024 will drift as market regimes change. The right pattern is rolling-window calibration with an alert when out-of-sample accuracy degrades past a threshold. I have the infrastructure for it; I haven't wired it up yet.
+**Rolling-window calibration with drift alerts.** Right now I run the harness on demand. The right pattern is continuous rolling-window calibration that fires an alert when out-of-sample accuracy degrades. The infrastructure is there; I haven't wired the scheduler.
 
 ## Stack
 
-Python (Pandas, NumPy, Scikit-learn, statsmodels), PostgreSQL with time-series hypertables, FastAPI, Pydantic for validation, Docker for deployment, Railway for hosting. Backtest harness in pure Python; visualizations in Plotly when I need them ad-hoc.
+Python, FastAPI, yfinance, pandas. Next.js (static export) + TypeScript frontend. yfinance daily bars cached under `data/backtest_cache/`. Backtest harness in pure Python (walk-forward replay, no lookahead). Deployed as a single Docker image on Railway.

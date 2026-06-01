@@ -42,7 +42,7 @@ export const workPosts = [
     title: 'Financial Analysis Engine',
     category: 'DATA · ML',
     year: '2024',
-    stack: ['Python', 'Pandas', 'sklearn', 'PostgreSQL', 'FastAPI'],
+    stack: ['Python', 'FastAPI', 'Next.js', 'yfinance', 'pandas'],
     github: 'https://github.com/d-malhotra2020/financial-analysis-tool',
     live: 'https://financial-analysis-tool-production.up.railway.app',
     body: financialAnalysis
@@ -50,9 +50,9 @@ export const workPosts = [
   {
     slug: 'smart-home',
     title: 'Smart Home Automation',
-    category: 'IOT · EDGE',
+    category: 'IOT · SIM',
     year: '2024',
-    stack: ['Python', 'Raspberry Pi', 'MQTT', 'Flask'],
+    stack: ['Python', 'Flask', 'MQTT', 'SQLite', 'Mosquitto'],
     github: 'https://github.com/d-malhotra2020/smart-home-automation',
     live: 'https://smart-home-automation-production.up.railway.app',
     body: smartHome
