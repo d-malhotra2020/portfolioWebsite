@@ -2,8 +2,18 @@
 import patchVuln from './patch-vulnerability.md?shiki'
 import honestyPlaybook from './honesty-playbook.md?shiki'
 import realVideoAnalytics from './real-video-analytics.md?shiki'
+import agentGuardrails from './agent-guardrails.md?shiki'
 
 export const posts = [
+  {
+    slug: 'agent-guardrails',
+    title: 'Guardrails for an agent that speaks for me',
+    dek: 'The chat dock on this site answers recruiters in my voice — which means it can damage my credibility faster than any bug. The four failure modes I designed against: fabrication, cost runaway, abuse, and silent degradation.',
+    date: '2026-06-09',
+    readingTime: 6,
+    tags: ['llm', 'agents', 'sdet', 'reliability'],
+    body: agentGuardrails
+  },
   {
     slug: 'real-video-analytics',
     title: 'What a real video-analytics platform would actually need',

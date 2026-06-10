@@ -1357,6 +1357,25 @@ button {
   color: var(--cyan);
 }
 
+.work-proof {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  line-height: 1.55;
+  color: var(--ink-mute);
+  border-top: 1px solid var(--rule-soft);
+  padding-top: 0.7rem;
+  margin: -0.35rem 0 1.25rem;
+}
+
+.work-proof .work-proof-lbl {
+  display: block;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.62rem;
+  margin-bottom: 0.25rem;
+}
+
 .work-stack {
   display: flex;
   flex-wrap: wrap;

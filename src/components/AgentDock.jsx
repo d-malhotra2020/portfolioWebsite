@@ -7,12 +7,12 @@ const ENDPOINT = import.meta.env.VITE_AGENT_ENDPOINT
 const SUGGESTIONS = [
   'What are you working on at Brivo right now?',
   'Walk me through that PATCH vulnerability you found.',
-  'How do you approach load testing at scale?',
+  'How do you use LLMs in your QA work?',
   'Are you open to relocation?'
 ]
 
 const GREETING =
-  "Hey — I'm Drew, or rather, an agent trained on my resume and projects. Ask me anything about my work, my stack, or how to hire me. I'll keep it concrete."
+  "Hey — I'm Drew, or rather, an agent I built end-to-end to speak for me (Cloudflare Worker + Claude, with guardrails so I can't invent numbers). Ask me what I actually shipped at Brivo, how I use LLMs in QA, or how to hire me. I'll keep it concrete."
 
 // Phase 9 — per-tab AgentDock persistence.
 // Versioned key so a future schema change can bump to v2 and orphan old data safely.

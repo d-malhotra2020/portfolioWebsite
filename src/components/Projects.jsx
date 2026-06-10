@@ -17,6 +17,7 @@ const projects = [
       { lbl: 'Sample', val: '210 imgs' },
       { lbl: 'Repro', val: 'make bench' }
     ],
+    proof: 'make bench on a stratified COCO val2017 sample — results committed to the repo',
     stack: ['Python', 'YOLOv8', 'aiohttp', 'PyTorch', 'OpenCV'],
     github: 'https://github.com/d-malhotra2020/video-analytics',
     live: 'https://video-analytics-production.up.railway.app',
@@ -34,6 +35,7 @@ const projects = [
       { lbl: 'Source', val: 'OSM · DT SF' },
       { lbl: 'Stack', val: 'FastAPI' }
     ],
+    proof: 'seeded microsim, 40 trials × 30 min vs fixed-time baseline — results committed to the repo',
     stack: ['Python', 'FastAPI', 'OpenStreetMap', 'Docker', 'Railway'],
     github: 'https://github.com/d-malhotra2020/traffic-optimization',
     live: 'https://traffic-optimization-production.up.railway.app',
@@ -51,6 +53,7 @@ const projects = [
       { lbl: 'Models', val: '6 compared' },
       { lbl: 'Repro', val: 'make bench' }
     ],
+    proof: 'make bench vs 5 baselines — reproducible locally in ~1.5 min',
     stack: ['Python', 'PyTorch', 'FAISS', 'pandas'],
     github: 'https://github.com/d-malhotra2020/donation-platform',
     live: 'https://donation-platform-production-c8e0.up.railway.app',
@@ -68,6 +71,7 @@ const projects = [
       { lbl: 'Predictions', val: '1,990' },
       { lbl: 'Data', val: 'yfinance' }
     ],
+    proof: 'backtest harness, no lookahead — live calibration report at /api/v1/calibration/latest',
     stack: ['Python', 'FastAPI', 'Next.js', 'yfinance', 'pandas'],
     github: 'https://github.com/d-malhotra2020/financial-analysis-tool',
     live: 'https://financial-analysis-tool-production.up.railway.app',
@@ -85,6 +89,8 @@ const projects = [
       { lbl: 'Round-trip', val: 'Real broker' },
       { lbl: 'Realtime', val: 'WebSocket' }
     ],
+    proofLabel: 'how verified',
+    proof: 'drive a device from any external MQTT client — the broker pip degrades to offline · sim, never fakes',
     stack: ['Python', 'Flask', 'MQTT', 'SQLite', 'Mosquitto'],
     github: 'https://github.com/d-malhotra2020/smart-home-automation',
     live: 'https://smart-home-automation-production.up.railway.app',
@@ -119,6 +125,8 @@ const projects = [
       { lbl: 'Cost cap', val: '$10/mo' },
       { lbl: 'Edge', val: 'Cloudflare' }
     ],
+    proofLabel: 'how verified',
+    proof: 'worker source is public — rate limit, cost breaker, and system prompt all in this repo',
     stack: ['Cloudflare Workers', 'Anthropic API', 'KV', 'SSE'],
     github: 'https://github.com/d-malhotra2020/portfolioWebsite/tree/main/workers/agent',
     live: 'https://drewmalhotra.com',
@@ -195,6 +203,13 @@ const Projects = () => {
                     </div>
                   ))}
                 </div>
+
+                {p.proof && (
+                  <div className="work-proof">
+                    <span className="work-proof-lbl">{p.proofLabel || 'how measured'}</span>
+                    {p.proof}
+                  </div>
+                )}
 
                 <div className="work-stack">
                   {p.stack.map((s, j) => (

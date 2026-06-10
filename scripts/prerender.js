@@ -78,6 +78,12 @@ const WORK_ROUTES = [
 
 const WRITING_ROUTES = [
   {
+    slug: 'agent-guardrails',
+    title: 'Guardrails for an agent that speaks for me — Drew Malhotra',
+    description:
+      'The chat dock on drewmalhotra.com answers recruiters in my voice — which means it can damage my credibility faster than any bug. The four failure modes I designed against: fabrication, cost runaway, abuse, and silent degradation.',
+  },
+  {
     slug: 'patch-vulnerability',
     title: 'The PATCH that nullified prod — Drew Malhotra',
     description:

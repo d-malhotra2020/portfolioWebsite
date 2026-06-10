@@ -51,6 +51,7 @@ const WORK_ROUTES = [
 ]
 
 const WRITING_ROUTES = [
+  { slug: 'agent-guardrails',     category: 'LLM · RELIABILITY',     title: 'Guardrails for an agent that speaks for me',      tag: 'anti-fabrication · cost breaker · fail-open' },
   { slug: 'patch-vulnerability',  category: 'SECURITY · CASE STUDY', title: 'The PATCH that nullified prod',                  tag: 'API input validation · adversarial testing' },
   { slug: 'honesty-playbook',     category: 'PROCESS · CRAFT',       title: 'The honesty playbook',                            tag: '5 fabricated claims · scrubbed in one week' },
   { slug: 'real-video-analytics', category: 'ML · ROADMAP',          title: 'What a real video-analytics platform would need', tag: 'tracking · streaming · asymmetric errors' },
