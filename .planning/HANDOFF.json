@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-06-10T13:50:37.905Z",
+  "phase": null,
+  "phase_name": "ad-hoc: recruiter-appeal improvements (post-phase-13 maintenance)",
+  "phase_dir": null,
+  "plan": null,
+  "task": null,
+  "total_tasks": null,
+  "status": "complete",
+  "completed_tasks": [
+    {"id": 1, "name": "Recruiter-appeal audit of full site (Explore agent, 10-dimension report)", "status": "done", "commit": null},
+    {"id": 2, "name": "AI proof above the fold: hero lede LLM-augmented QA line, agent greeting reframe, LLM suggestion chip", "status": "done", "commit": "28920b7"},
+    {"id": 3, "name": "New writing post: agent-guardrails (registry + prerender + OG image + sitemap)", "status": "done", "commit": "28920b7"},
+    {"id": 4, "name": "Project cards: how-measured/how-verified proof lines + CSS; deleted 3MB unreferenced images; freshness stamps", "status": "done", "commit": "28920b7"},
+    {"id": 5, "name": "CommitFeed fix: per-repo cap (2) + neetcode-submissions/Grind75/lansweeper-data-quality in fallback", "status": "done", "commit": "81e59f4"},
+    {"id": 6, "name": "Hero stats reworded to claim contribution, not borrowed company scale", "status": "done", "commit": "6db6dc0"},
+    {"id": 7, "name": "Analytics Engine telemetry enabled: account toggle + TELEMETRY binding deployed (worker version c76959c8), docs updated to shipped state", "status": "done", "commit": "b80d0ef"},
+    {"id": 8, "name": "Repaired claude-mem plugin (13.5.x update shipped without node_modules; bun install fixed worker crash on zod/v3)", "status": "done", "commit": null}
+  ],
+  "remaining_tasks": [],
+  "blockers": [],
+  "human_actions_pending": [],
+  "decisions": [
+    {"decision": "Telemetry docs (interview-agent deep-dive, agent-guardrails post Guard 4) updated only AFTER the binding actually deployed", "rationale": "Site's honesty rule: never let repo/docs claim something not yet true", "phase": null},
+    {"decision": "Kept Haiku 4.5 as agent model", "rationale": "System-prompt-bound Q&A doesn't benefit enough from a bigger model; $10/mo budget covers hundreds of conversations; revisit once telemetry shows volume/cost headroom", "phase": null},
+    {"decision": "Hero stat labels claim contribution (shipped/validated/built) instead of company scale", "rationale": "Audit item 3 — borrowed-scale framing contradicted the honesty-playbook standard the site itself teaches", "phase": null}
+  ],
+  "uncommitted_files": [],
+  "next_action": "Nothing pending. Optional follow-ups: (1) after ~a week of traffic, query drew_agent_events in Cloudflare Analytics Engine to see conversation volume/cost and decide whether a model upgrade fits the $10/mo cap; (2) keep writing cadence alive — next post shouldn't be another meta/honesty post; (3) review .planning/phases/06-trust-social-proof/DEFERRED-DREW.md for any still-relevant deferred items.",
+  "context_notes": "Session was ad-hoc maintenance driven by a recruiter-appeal audit, not a roadmap phase. All four commits (28920b7, 81e59f4, 6db6dc0, b80d0ef) pushed to main with green GitHub Pages deploys; worker deployed separately via wrangler. Wrangler OAuth was re-authed interactively by Drew this session and Analytics Engine was enabled in the dashboard (account e7dad404f45c1988908e61257146e18c)."
+}
