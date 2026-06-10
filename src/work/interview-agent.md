@@ -74,7 +74,7 @@ Same playbook as [the honesty post](/writing/honesty-playbook): the agent's trai
 
 ## What I'd do differently next time
 
-**Telemetry.** Right now I see per-conversation cost in the breaker's KV record, but I don't have a dashboard. Cloudflare Workers Analytics Engine would let me track per-conversation token counts, response latencies, model errors, and abandonment rates with a few `analytics.writeDataPoint()` calls. The `wrangler.toml` has the `[[analytics_engine_datasets]]` block commented out, waiting for the dashboard toggle to be flipped. Same deferred state for a couple of weeks.
+**Telemetry — since shipped.** This sat at the top of this list for a couple of weeks: cost lived in the breaker's KV record with no dashboard behind it, and the `[[analytics_engine_datasets]]` block in `wrangler.toml` was commented out. It's live now — the Worker writes a structured event per request to Workers Analytics Engine (model, outcome — `ok` / `rate_limited` / `cost_capped` / `bad_request` / `upstream_error` — token counts, and computed micro-USD cost), captured by teeing the SSE stream and parsing the usage events in the background. [The guardrails post](/writing/agent-guardrails) covers the design.
 
 **Streaming-aware error handling.** When the Anthropic API returns mid-stream with a 5xx — rare but happens — the current code drops the connection. A more robust implementation would catch the error, send a structured SSE event the browser can render as "the agent got cut off, retry?", and let the user click to resume. ~30 lines of code, not yet shipped.
 

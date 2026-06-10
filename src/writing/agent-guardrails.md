@@ -50,11 +50,11 @@ Getting the usage numbers without breaking streaming took the one genuinely fun 
 
 Prompt caching is the quiet half of this guard: the system prompt is sent with `cache_control: ephemeral`, so repeat conversations pay a fraction of the input-token cost. The cheapest token is the one billed at the cached rate.
 
-## Guard 4: telemetry with one honest caveat
+## Guard 4: telemetry that can't break the request
 
-Every request path — success, rate-limited, cost-capped, bad request, upstream error, misconfigured — writes a structured data point: model, outcome, token counts, computed cost. Outcomes are indexed, so "how many conversations hit the cost cap this week?" is a query, not an archaeology project. And the telemetry writer is wrapped so it can never break the request path — observability that takes down the thing it observes has negative value.
+Every request path — success, rate-limited, cost-capped, bad request, upstream error, misconfigured — writes a structured data point to Workers Analytics Engine: model, outcome, token counts, computed cost. Outcomes are indexed, so "how many conversations hit the cost cap this week?" is a query, not an archaeology project. And the telemetry writer is wrapped so it can never break the request path — observability that takes down the thing it observes has negative value.
 
-The caveat, because this site has a rule about claims: the instrumentation is fully wired in the Worker, but the Analytics Engine **dataset binding** is still commented out in `wrangler.toml`, waiting on a dashboard toggle. Until I flip it, the events have nowhere to land. Instrumented is not the same as collecting, and I'd rather say so here than have you find it in the repo.
+For the first day this post was up, that paragraph carried a caveat: the instrumentation was fully wired in the Worker, but the Analytics Engine dataset binding was still commented out in `wrangler.toml` — instrumented, not collecting. That gap is closed now; the binding is deployed and every outcome event lands in the `drew_agent_events` dataset. The caveat was here while it was true, because this site has a rule about claims.
 
 ## The pattern underneath
 

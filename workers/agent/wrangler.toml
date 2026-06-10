@@ -37,11 +37,8 @@ DAILY_COST_LIMIT_MICRO_USD = "333000"
 binding = "RATE_LIMIT"
 id = "b22c64c77ec34f57bc161773a3b301c1"
 
-# Workers Analytics Engine — receives per-request telemetry events.
-# Enable Analytics Engine in your Cloudflare dashboard FIRST, then uncomment:
-#   https://dash.cloudflare.com/<account>/workers/analytics-engine
-# Once enabled, run `npx wrangler deploy` again and telemetry starts capturing
-# token counts + estimated cost per conversation.
-# [[analytics_engine_datasets]]
-# binding = "TELEMETRY"
-# dataset = "drew_agent_events"
+# Workers Analytics Engine — receives per-request telemetry events
+# (token counts + estimated cost per conversation, outcome-indexed).
+[[analytics_engine_datasets]]
+binding = "TELEMETRY"
+dataset = "drew_agent_events"
