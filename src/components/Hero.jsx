@@ -2,9 +2,9 @@ import React from 'react'
 import { Download, ArrowUpRight } from 'lucide-react'
 
 const stats = [
-  { num: '1.5', tail: 'M+', label: 'Users served\nat Givelify scale' },
-  { num: '99.9', tail: '%', label: 'Delivery reliability\npost-migration' },
-  { num: '3,000', tail: '+', label: 'Intersections simulated\nfor Yunex load tests' },
+  { num: '1.5', tail: 'M+', label: 'Served by the recommender\nI shipped at Givelify' },
+  { num: '99.9', tail: '%', label: 'Delivery reliability\nI validated post-migration' },
+  { num: '3,000', tail: '+', label: 'Intersections simulated\nby load tests I built' },
   { num: '1,800', tail: '+', label: 'Tests authored\nacross prod stacks' }
 ]
 
