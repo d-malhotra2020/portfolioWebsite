@@ -5,8 +5,14 @@ import { GitCommit } from 'lucide-react'
 
 const USER = 'd-malhotra2020'
 const MAX_EVENTS = 6
+// Cap rows per repo so one busy repo (a 6-commit portfolio push, a NeetCode
+// grind session) can't fill every slot — the feed should show breadth.
+const MAX_PER_REPO = 2
 const FALLBACK_REPOS = [
   'portfolioWebsite',
+  'neetcode-submissions',
+  'Grind75',
+  'lansweeper-data-quality',
   'video-analytics',
   'traffic-optimization',
   'donation-platform',
@@ -32,16 +38,19 @@ const timeAgo = (iso) => {
 
 const fetchEvents = async () => {
   try {
-    const res = await fetch(`https://api.github.com/users/${USER}/events/public?per_page=30`, {
+    const res = await fetch(`https://api.github.com/users/${USER}/events/public?per_page=100`, {
       headers: { Accept: 'application/vnd.github+json' }
     })
     if (!res.ok) return []
     const data = await res.json()
     const commits = []
+    const perRepo = {}
     for (const ev of data) {
       if (ev.type !== 'PushEvent') continue
       const repo = ev.repo?.name?.split('/')?.[1] || ev.repo?.name
       for (const c of ev.payload?.commits || []) {
+        if ((perRepo[repo] || 0) >= MAX_PER_REPO) break
+        perRepo[repo] = (perRepo[repo] || 0) + 1
         commits.push({
           sha: c.sha?.slice(0, 7),
           message: c.message.split('\n')[0].slice(0, 100),
