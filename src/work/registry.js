@@ -2,6 +2,7 @@
 import donationPlatform from './donation-platform.md?shiki'
 import financialAnalysis from './financial-analysis.md?shiki'
 import interviewAgent from './interview-agent.md?shiki'
+import lansweeperDq from './lansweeper-dq.md?shiki'
 import smartHome from './smart-home.md?shiki'
 import thisPortfolio from './this-portfolio.md?shiki'
 import trafficOptimization from './traffic-optimization.md?shiki'
@@ -76,6 +77,15 @@ export const workPosts = [
     github: 'https://github.com/d-malhotra2020/portfolioWebsite/tree/main/workers/agent',
     live: 'https://drewmalhotra.com',
     body: interviewAgent
+  },
+  {
+    slug: 'lansweeper-dq',
+    title: 'Data-Quality Validation Harness · Lansweeper technical test',
+    category: 'QA · TDD',
+    year: '2026',
+    stack: ['Python', 'pytest', 'jsonschema', 'NVD/CVE'],
+    github: 'https://github.com/d-malhotra2020/lansweeper-data-quality',
+    body: lansweeperDq
   }
 ]
 

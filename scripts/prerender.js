@@ -74,6 +74,12 @@ const WORK_ROUTES = [
     description:
       'Cloudflare Worker proxying the Anthropic Messages API with SSE streaming, KV-backed sliding-window rate limit (20 req/min/IP), and a daily-cost circuit breaker that fires at $0.333/day before the dashboard cap. Drew built it end-to-end.',
   },
+  {
+    slug: 'lansweeper-dq',
+    title: 'Data-Quality Validation Harness · Lansweeper technical test',
+    description:
+      'Test-first take-home: cross-scanner device identity resolution with trust-precedence reconciliation and provenance, plus NVD CPE applicability-range matching with an OpenSSL-aware version comparator. 41/41 pytest, pure-stdlib core.',
+  },
 ]
 
 const WRITING_ROUTES = [

@@ -48,6 +48,7 @@ const WORK_ROUTES = [
   { slug: 'smart-home',           category: 'IOT · EDGE',     title: 'Smart Home Automation', tag: 'paho-mqtt · Mosquitto · sim-mode fallback' },
   { slug: 'this-portfolio',       category: 'WEB · DESIGN',   title: 'This Portfolio', tag: 'React · Vite · Framer · LLM-augmented' },
   { slug: 'interview-agent',      category: 'LLM · EDGE',     title: 'Interview Agent · this chatbot', tag: 'CF Worker · SSE · KV · $10/mo cap' },
+  { slug: 'lansweeper-dq',        category: 'QA · TDD',       title: 'Data-Quality Validation Harness', tag: '41/41 pytest · CPE range matching · stdlib' },
 ]
 
 const WRITING_ROUTES = [

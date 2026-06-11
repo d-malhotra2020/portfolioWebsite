@@ -131,6 +131,24 @@ const projects = [
     github: 'https://github.com/d-malhotra2020/portfolioWebsite/tree/main/workers/agent',
     live: 'https://drewmalhotra.com',
     deepDive: 'interview-agent'
+  },
+  {
+    id: '#008',
+    year: '2026',
+    category: 'QA · TDD',
+    title: 'Data-Quality Validation Harness · Lansweeper technical test',
+    summary: 'Take-home technical test built test-first: cross-scanner device identity resolution (MAC + serial fingerprinting — IP is never an identity key) with trust-precedence reconciliation that retains conflicts and provenance, plus a vulnerability-pipeline integrity suite — NVD CPE applicability-range matching with an OpenSSL-aware version comparator that knows 1.0.1f is Heartbleed-vulnerable and 1.0.1g isn\'t. Pure-stdlib core.',
+    stats: [
+      { lbl: 'Tests', val: '41/41' },
+      { lbl: 'Runtime', val: '~0.5s' },
+      { lbl: 'Core deps', val: 'stdlib' },
+      { lbl: 'Built', val: 'TDD' }
+    ],
+    proofLabel: 'how verified',
+    proof: 'pytest -v — every test named for its strategy-doc case ID, so the output reads as a live coverage report',
+    stack: ['Python', 'pytest', 'jsonschema', 'NVD/CVE'],
+    github: 'https://github.com/d-malhotra2020/lansweeper-data-quality',
+    deepDive: 'lansweeper-dq'
   }
 ]
 
@@ -142,7 +160,7 @@ const Projects = () => {
       <div className="shell">
         <div className="section-marker">
           <span className="tag"><span className="dot" /> // 03 · projects.list()</span>
-          <h2>Selected <span className="em">work</span>, 2023 – 2025.</h2>
+          <h2>Selected <span className="em">work</span>, 2023 – 2026.</h2>
         </div>
 
         <motion.div

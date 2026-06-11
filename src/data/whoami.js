@@ -96,6 +96,12 @@ export const whoami = {
       live: 'https://smart-home-automation-production.up.railway.app'
     },
     {
+      title: 'lansweeper data-quality harness (technical test)',
+      oneliner:
+        'test-first take-home: cross-scanner device identity resolution (MAC+serial, trust-precedence reconciliation with provenance) + NVD CPE range matching with an OpenSSL-aware version comparator. 41/41 pytest, pure-stdlib core.',
+      url: 'https://drewmalhotra.com/work/lansweeper-dq'
+    },
+    {
       title: 'this portfolio',
       oneliner:
         'operator-console aesthetic. React + Vite, custom CSS design system, Framer Motion choreography, Cloudflare Worker proxying Claude for an in-page interview agent.',
