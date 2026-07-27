@@ -73,7 +73,7 @@ export const workPosts = [
     title: 'Interview Agent · this chatbot',
     category: 'LLM · EDGE',
     year: '2026',
-    stack: ['Cloudflare Workers', 'Anthropic API', 'KV', 'SSE'],
+    stack: ['Cloudflare Workers', 'Workers AI', 'KV', 'SSE'],
     github: 'https://github.com/d-malhotra2020/portfolioWebsite/tree/main/workers/agent',
     live: 'https://drewmalhotra.com',
     body: interviewAgent

@@ -5,7 +5,7 @@ The chat dock on this site speaks as me. That's the pitch — a recruiter types 
 So I treated it the way I treat any system at work: enumerate the failure modes first, then build a guard for each one. The four that matter for an agent speaking on my behalf:
 
 1. **Fabrication** — the model confidently quotes a number I never measured.
-2. **Cost runaway** — someone scripts requests against the endpoint and my Anthropic bill becomes the story.
+2. **Cost runaway** — someone scripts requests against the endpoint and my Cloudflare bill becomes the story.
 3. **Abuse** — one IP hammers the worker and the agent is down for everyone else.
 4. **Silent degradation** — any of the above happens and I don't find out until a recruiter does.
 
@@ -42,13 +42,13 @@ Per-IP sliding window in Workers KV: 20 requests a minute, timestamps pruned on 
 
 That's backwards from how I'd build a security control at work, and that's the point: this guard protects a $10 budget, not customer data. A KV blip taking the agent down for every legitimate visitor is a worse outcome than sixty seconds of unmetered traffic. Knowing **which** failure direction is cheap is the actual engineering decision; the sliding window is a detail.
 
-## Guard 3: a circuit breaker that fires before the official one
+## Guard 3: a circuit breaker that's an independent safety net
 
-Anthropic's dashboard has a monthly spend cap, and it's a blunt instrument — when it trips, the API just starts refusing mid-conversation. So the Worker runs its own breaker one layer down: every completed request's token usage is priced out in micro-USD and accumulated in a KV key per UTC day. When the day's total crosses **$0.333** (= $10/month ÷ 30), the Worker short-circuits with a clean 503, a `Retry-After` pointing at UTC midnight, and a banner that says the budget is spent — instead of a recruiter watching message 8 of 12 die with no explanation.
+The agent originally proxied the Anthropic API, whose dashboard has a monthly spend cap — a blunt instrument that, when it trips, just starts refusing mid-conversation. I later migrated the backend to Cloudflare Workers AI (an open-source Llama model, no external vendor at all — see [the deep-dive](/work/interview-agent) for why), which changes the billing surface but not the need for a guard: the Worker still runs its own breaker one layer down. Every completed request's token usage is priced out in micro-USD and accumulated in a KV key per UTC day. When the day's total crosses **$0.333**, the Worker short-circuits with a clean 503, a `Retry-After` pointing at UTC midnight, and a banner that says the budget is spent — instead of a recruiter watching message 8 of 12 die with no explanation.
 
-Getting the usage numbers without breaking streaming took the one genuinely fun trick in the codebase: you can't read a stream twice, so the Worker **tees** the Anthropic SSE stream — one branch goes straight to the browser, the other is parsed in the background for the `usage` events that carry token counts. `ctx.waitUntil` keeps the Worker alive after the response is returned so the cost write actually lands.
+Getting the usage numbers without breaking streaming took the one genuinely fun trick in the codebase: you can't read a stream twice, so the Worker **tees** the SSE stream — one branch goes straight to the browser, the other is parsed in the background for the `usage` events that carry token counts. `ctx.waitUntil` keeps the Worker alive after the response is returned so the cost write actually lands.
 
-Prompt caching is the quiet half of this guard: the system prompt is sent with `cache_control: ephemeral`, so repeat conversations pay a fraction of the input-token cost. The cheapest token is the one billed at the cached rate.
+**What didn't carry over from the Anthropic version:** prompt caching (`cache_control: ephemeral`) shaved the input-token cost of repeat conversations, but it was an Anthropic-specific feature — Workers AI doesn't expose an equivalent yet, so that optimization is gone for now. Given Workers AI's per-token pricing is already a fraction of what Anthropic charged, the net cost is still lower even without it.
 
 ## Guard 4: telemetry that can't break the request
 

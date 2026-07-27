@@ -118,16 +118,16 @@ const projects = [
     year: '2026',
     category: 'LLM · EDGE',
     title: 'Interview Agent · this chatbot',
-    summary: 'The chat dock on this site — a Cloudflare Worker proxying the Anthropic Messages API with SSE streaming, sliding-window rate limit (20 req/min/IP via KV), and a daily-cost circuit breaker that short-circuits at $0.333/day before the dashboard cap fires. Resume + project profile baked in as the system prompt.',
+    summary: 'The chat dock on this site — a Cloudflare Worker proxying Workers AI (open-source Llama 3.3 70B) with SSE streaming, sliding-window rate limit (20 req/min/IP via KV), and a daily-cost circuit breaker that short-circuits at $0.333/day. Resume + project profile baked in as the system prompt.',
     stats: [
-      { lbl: 'Model', val: 'Haiku 4.5' },
+      { lbl: 'Model', val: 'Llama 3.3 70B' },
       { lbl: 'Stream', val: 'SSE' },
-      { lbl: 'Cost cap', val: '$10/mo' },
+      { lbl: 'Cost cap', val: '$0.333/day' },
       { lbl: 'Edge', val: 'Cloudflare' }
     ],
     proofLabel: 'how verified',
     proof: 'worker source is public — rate limit, cost breaker, and system prompt all in this repo',
-    stack: ['Cloudflare Workers', 'Anthropic API', 'KV', 'SSE'],
+    stack: ['Cloudflare Workers', 'Workers AI', 'KV', 'SSE'],
     github: 'https://github.com/d-malhotra2020/portfolioWebsite/tree/main/workers/agent',
     live: 'https://drewmalhotra.com',
     deepDive: 'interview-agent'

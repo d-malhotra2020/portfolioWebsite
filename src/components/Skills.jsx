@@ -26,7 +26,7 @@ const blocks = [
   {
     n: '05',
     h: 'AI · ML · LLMs',
-    skills: ['TensorFlow', 'PyTorch', 'Scikit-learn', 'Pandas', 'NumPy', 'Time-series', 'Anomaly detection', 'Claude Code', 'Codex', 'Gemini', 'Anthropic API', 'LLM-augmented QA']
+    skills: ['TensorFlow', 'PyTorch', 'Scikit-learn', 'Pandas', 'NumPy', 'Time-series', 'Anomaly detection', 'Claude Code', 'Codex', 'Gemini', 'Cloudflare Workers AI', 'LLM-augmented QA']
   },
   {
     n: '06',
