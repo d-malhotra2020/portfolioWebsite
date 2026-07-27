@@ -31,7 +31,7 @@ export const whoami = {
     'Kubernetes',
     'PyTorch',
     'React',
-    'Anthropic API'
+    'Cloudflare Workers AI'
   ],
   experience: [
     {
@@ -104,13 +104,13 @@ export const whoami = {
     {
       title: 'this portfolio',
       oneliner:
-        'operator-console aesthetic. React + Vite, custom CSS design system, Framer Motion choreography, Cloudflare Worker proxying Claude for an in-page interview agent.',
+        'operator-console aesthetic. React + Vite, custom CSS design system, Framer Motion choreography, Cloudflare Worker proxying an open-source LLM (Workers AI) for an in-page interview agent.',
       url: 'https://drewmalhotra.com/work/this-portfolio'
     },
     {
       title: 'interview agent (the chat dock on this site)',
       oneliner:
-        'cloudflare worker proxying the anthropic messages api. SSE streaming, KV-backed sliding-window rate limit (20 req/min/IP), daily-cost circuit breaker at $0.333/day = $10/mo before the dashboard cap.',
+        'cloudflare worker proxying workers ai (open-source llama). SSE streaming, KV-backed sliding-window rate limit (20 req/min/IP), daily-cost circuit breaker at $0.333/day.',
       url: 'https://drewmalhotra.com/work/interview-agent'
     }
   ],

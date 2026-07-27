@@ -1,28 +1,29 @@
 /**
  * Drew Malhotra · Interview Agent · Cloudflare Worker
  *
- * Proxies chat requests to the Claude API with Drew's resume / projects baked in
- * as a system prompt. Streams responses back to the browser using SSE.
+ * Proxies chat requests to Cloudflare Workers AI (open-source LLM, run on
+ * Cloudflare's own infra — no external API key) with Drew's resume / projects
+ * baked in as a system prompt. Streams responses back to the browser using SSE.
  *
- * Required Worker secrets (set via `wrangler secret put`):
- *   ANTHROPIC_API_KEY   — your Anthropic API key
+ * Required bindings (set in wrangler.toml):
+ *   AI                  — Workers AI binding, no secret required
  *
  * Optional bindings (set in wrangler.toml [vars] or via dashboard):
  *   ALLOWED_ORIGIN      — e.g. "https://drewmalhotra.com" (defaults to "*")
- *   MODEL               — defaults to "claude-haiku-4-5-20251001"
+ *   MODEL               — defaults to "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
  */
 
-const DEFAULT_MODEL = 'claude-haiku-4-5-20251001'
+const DEFAULT_MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast'
 const MAX_TOKENS = 1024
 const MAX_HISTORY = 12
 const MAX_USER_CHARS = 1000
 
 // Pricing in micro-USD per token (USD * 1_000_000) for cost telemetry.
-// Update when Anthropic prices change or the default model rotates.
-// Haiku 4.5: $1 / MTok input, $5 / MTok output → 1 / 5 micro-USD per token.
+// Source: https://developers.cloudflare.com/workers-ai/platform/pricing/
+// Update when Cloudflare prices change or the default model rotates.
 const PRICING_MICRO_USD = {
-  'claude-haiku-4-5-20251001': { input: 1, output: 5 },
-  'claude-sonnet-4-6': { input: 3, output: 15 }
+  '@cf/meta/llama-3.3-70b-instruct-fp8-fast': { input: 0.293, output: 2.253 },
+  '@cf/meta/llama-3.1-8b-instruct': { input: 0.282, output: 0.827 }
 }
 
 const SYSTEM_PROMPT = `You are an interview agent on Dhruv (Drew) Malhotra's personal portfolio. You speak in Drew's voice — direct, technically grounded, confident without bragging. Your job is to answer questions from recruiters, hiring managers, and engineers who land on the site.
@@ -139,7 +140,7 @@ Drew's GitHub work spans public side projects (listed above) and a steady cadenc
 - smart-home-automation — Flask command center on Raspberry Pi + real paho-mqtt Mosquitto broker round-trip + graceful sim-mode fallback. \`// system reality\` footer on the dashboard distinguishes real from simulated. No power telemetry collected, so no energy-savings number claimed. (Python, Flask, MQTT, Mosquitto · /work/smart-home)
 - this portfolio — Operator-console aesthetic. React + Vite, custom CSS design system, Framer Motion choreography. Per-page OG images generated at build time via Satori. Per-page syntax highlighting via Shiki. (React, Vite, Framer Motion · /work/this-portfolio)
 - lansweeper-data-quality — Take-home technical test built test-first: cross-scanner device identity resolution (MAC + serial fingerprinting, trust-precedence reconciliation with provenance and conflict retention) + vulnerability-pipeline integrity (NVD CPE applicability-range matching with an OpenSSL-aware version comparator — 1.0.1f Heartbleed-vulnerable, 1.0.1g not). 41/41 pytest in ~0.5s, pure-stdlib core, only deps pytest + jsonschema. (Python, pytest, TDD · /work/lansweeper-dq)
-- interview agent (this chatbot!) — Cloudflare Worker proxying the Anthropic Messages API with SSE streaming, KV-backed sliding-window rate limit (20 req/min/IP), and a daily-cost circuit breaker that short-circuits at $0.333/day (= $10/mo) before the Anthropic dashboard cap fires. System prompt = Drew's resume + project profile. Drew built it end-to-end. (Cloudflare Workers, Anthropic API, KV)
+- interview agent (this chatbot!) — Cloudflare Worker proxying Workers AI (open-source Llama 3.3 70B) with SSE streaming, KV-backed sliding-window rate limit (20 req/min/IP), and a daily-cost circuit breaker that short-circuits at $0.333/day. System prompt = Drew's resume + project profile. Drew built it end-to-end. (Cloudflare Workers, Workers AI, KV)
 
 # Stack inventory (matches the resume)
 - Languages: Python, Java, JavaScript, TypeScript, C/C++, Swift, HTML/CSS
@@ -152,7 +153,7 @@ Drew's GitHub work spans public side projects (listed above) and a steady cadenc
 # LLM tooling — Drew is enthusiastic and hands-on
 - Daily collaborators in Drew's workflow: Claude Code, OpenAI Codex, Gemini.
 - The LLM-augmented QA workflow at Brivo (manual cycles days → ~15 min) is direct evidence of LLM ROI in production engineering work.
-- The chat dock on the portfolio is itself an example: Cloudflare Worker proxying the Anthropic Messages API, with rate-limiting and a structured system prompt. Drew built it end-to-end.
+- The chat dock on the portfolio is itself an example: Cloudflare Worker proxying Workers AI (open-source Llama), with rate-limiting and a structured system prompt. Drew built it end-to-end.
 - If the conversation involves AI tooling — productivity gains, dev workflows, agentic systems — lean in. This is a strong fit signal.
 
 # Principles
@@ -202,7 +203,7 @@ function badRequest(message, origin) {
 function costCapped(origin, retryAfterSec) {
   return new Response(
     JSON.stringify({
-      error: "agent's resting — Drew's daily Anthropic budget is spent for today. Try again tomorrow, or email Drew directly at dhruvmalhotra2026@gmail.com."
+      error: "agent's resting — Drew's daily agent budget is spent for today. Try again tomorrow, or email Drew directly at dhruvmalhotra2026@gmail.com."
     }),
     {
       status: 503,
@@ -332,7 +333,7 @@ async function incrementDailyCost(kv, costMicroUsd) {
 function writeTelemetry(env, fields) {
   if (!env.TELEMETRY) return
   const { model, outcome, inputTokens, outputTokens, ip } = fields
-  const pricing = PRICING_MICRO_USD[model] || { input: 1, output: 5 }
+  const pricing = PRICING_MICRO_USD[model] || { input: 0.293, output: 2.253 }
   const costMicro =
     (inputTokens || 0) * pricing.input + (outputTokens || 0) * pricing.output
   try {
@@ -346,19 +347,22 @@ function writeTelemetry(env, fields) {
   }
 }
 
-// Tee the Anthropic SSE stream — one branch streams to the client, the other
-// parses out usage events so we can record token counts + cost. Returns the
-// pass-through stream and a Promise that resolves with usage when the upstream
-// completes.
-function teeWithUsage(upstreamBody) {
-  const [forClient, forUsage] = upstreamBody.tee()
+// Tee the Workers AI SSE stream — one branch streams to the client, the other
+// extracts real token usage for telemetry. Workers AI's final stream event
+// carries a `usage: { prompt_tokens, completion_tokens }` object (confirmed
+// against the live endpoint) — that's what we record. The chars/4 estimate
+// passed in as a fallback only covers the edge case where that event never
+// arrives (e.g. the stream is cut off mid-response).
+function teeWithUsage(upstreamStream, estimatedInputTokens) {
+  const [forClient, forUsage] = upstreamStream.tee()
 
   const usagePromise = (async () => {
     const reader = forUsage.getReader()
     const decoder = new TextDecoder()
     let buf = ''
-    let inputTokens = 0
-    let outputTokens = 0
+    let text = ''
+    let inputTokens = null
+    let outputTokens = null
 
     while (true) {
       const { value, done } = await reader.read()
@@ -372,17 +376,20 @@ function teeWithUsage(upstreamBody) {
         if (!payload || payload === '[DONE]') continue
         try {
           const ev = JSON.parse(payload)
-          if (ev.type === 'message_start' && ev.message?.usage) {
-            inputTokens = ev.message.usage.input_tokens || 0
-          } else if (ev.type === 'message_delta' && ev.usage) {
-            outputTokens = ev.usage.output_tokens || outputTokens
+          if (typeof ev.response === 'string') text += ev.response
+          if (ev.usage) {
+            if (typeof ev.usage.prompt_tokens === 'number') inputTokens = ev.usage.prompt_tokens
+            if (typeof ev.usage.completion_tokens === 'number') outputTokens = ev.usage.completion_tokens
           }
         } catch (_) {
           // ignore parse errors in usage stream
         }
       }
     }
-    return { inputTokens, outputTokens }
+    return {
+      inputTokens: inputTokens ?? estimatedInputTokens,
+      outputTokens: outputTokens ?? Math.ceil(text.length / 4)
+    }
   })()
 
   return { forClient, usagePromise }
@@ -405,10 +412,10 @@ export default {
       return new Response('method not allowed', { status: 405, headers: corsHeaders(origin) })
     }
 
-    if (!env.ANTHROPIC_API_KEY) {
+    if (!env.AI) {
       writeTelemetry(env, { model, outcome: 'misconfigured', ip })
       return new Response(
-        JSON.stringify({ error: 'agent not configured · missing ANTHROPIC_API_KEY' }),
+        JSON.stringify({ error: 'agent not configured · missing AI binding' }),
         {
           status: 503,
           headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) }
@@ -435,8 +442,9 @@ export default {
       )
     }
 
-    // Daily-cost circuit breaker — fires before the Anthropic dashboard cap.
-    // Fails open on KV errors (getDailyCost returns {total: 0} on failure).
+    // Daily-cost circuit breaker — an independent safety net on top of
+    // Workers AI's own free tier + Cloudflare billing. Fails open on KV
+    // errors (getDailyCost returns {total: 0} on failure).
     const dailyCost = await getDailyCost(env.RATE_LIMIT)
     if (dailyCost.total >= dailyLimit) {
       writeTelemetry(env, { model, outcome: 'cost_capped', ip })
@@ -457,33 +465,24 @@ export default {
       return badRequest('invalid messages — must end with a user turn', origin)
     }
 
-    const upstream = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model,
+    const aiMessages = [{ role: 'system', content: SYSTEM_PROMPT }, ...messages]
+    // Workers AI doesn't return usage in the stream — estimate input tokens
+    // up front from message length (chars/4 heuristic, see teeWithUsage).
+    const estimatedInputTokens = Math.ceil(
+      aiMessages.reduce((sum, m) => sum + m.content.length, 0) / 4
+    )
+
+    let upstreamStream
+    try {
+      upstreamStream = await env.AI.run(model, {
+        messages: aiMessages,
         max_tokens: MAX_TOKENS,
-        system: [
-          {
-            type: 'text',
-            text: SYSTEM_PROMPT,
-            cache_control: { type: 'ephemeral' }
-          }
-        ],
-        messages,
         stream: true
       })
-    })
-
-    if (!upstream.ok || !upstream.body) {
-      const text = await upstream.text().catch(() => '')
+    } catch (err) {
       writeTelemetry(env, { model, outcome: 'upstream_error', ip })
       return new Response(
-        JSON.stringify({ error: 'upstream error', status: upstream.status, detail: text.slice(0, 500) }),
+        JSON.stringify({ error: 'upstream error', detail: String(err?.message || err).slice(0, 500) }),
         {
           status: 502,
           headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) }
@@ -492,7 +491,7 @@ export default {
     }
 
     // Tee the stream — client gets one branch, telemetry inspects the other.
-    const { forClient, usagePromise } = teeWithUsage(upstream.body)
+    const { forClient, usagePromise } = teeWithUsage(upstreamStream, estimatedInputTokens)
 
     // ctx.waitUntil keeps the Worker alive past the response so the telemetry
     // write and the daily-cost increment actually fire after the upstream
@@ -509,7 +508,7 @@ export default {
             outputTokens,
             ip
           })
-          const pricing = PRICING_MICRO_USD[model] || { input: 1, output: 5 }
+          const pricing = PRICING_MICRO_USD[model] || { input: 0.293, output: 2.253 }
           const costMicro =
             (inputTokens || 0) * pricing.input +
             (outputTokens || 0) * pricing.output

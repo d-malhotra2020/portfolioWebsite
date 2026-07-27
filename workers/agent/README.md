@@ -1,10 +1,12 @@
 # drew-agent · Cloudflare Worker
 
-A thin proxy in front of the Anthropic Claude API. The browser chat dock on
-drewmalhotra.com posts a conversation here, the Worker injects Drew's resume +
-project profile as a system prompt, and streams the response back as SSE.
+A thin proxy in front of Cloudflare Workers AI (an open-source Llama model,
+hosted on Cloudflare's own infra). The browser chat dock on drewmalhotra.com
+posts a conversation here, the Worker injects Drew's resume + project profile
+as a system prompt, and streams the response back as SSE.
 
-The Worker exists so the Anthropic API key never ships to the browser.
+No external API key is involved — the Worker reaches the model through a
+native `env.AI` binding scoped to the same Cloudflare account.
 
 ---
 
@@ -16,12 +18,9 @@ npm install
 npx wrangler login           # opens browser, links to your Cloudflare account
 ```
 
-Set the Anthropic API key as a Worker secret (never commit it):
-
-```bash
-npx wrangler secret put ANTHROPIC_API_KEY
-# paste your sk-ant-... key when prompted
-```
+No secret to provision — the `[ai]` binding in `wrangler.toml` is all that's
+needed; it activates automatically on deploy for any Cloudflare account with
+Workers AI access (on by default).
 
 Deploy:
 
@@ -143,18 +142,25 @@ ORDER BY day DESC;
 ```
 
 The cost estimate uses constants in `src/index.js` (`PRICING_MICRO_USD`).
-Update those whenever Anthropic prices change or the default model rotates.
+Update those whenever Cloudflare's Workers AI prices change or the default
+model rotates. Token counts come from the real `usage` object Workers AI
+emits in the final stream event; a chars/4 heuristic is only a fallback for
+the rare case that event never arrives (see `teeWithUsage` in `src/index.js`).
 
 ---
 
 ## Cost & rate-limits
 
-Defaults to `claude-haiku-4-5-20251001` for speed and low cost. Most chats
-will land under 1,500 tokens total. Cloudflare's free tier covers 100k
-Worker requests/day, so the bottleneck is Anthropic billing.
+Defaults to `@cf/meta/llama-3.3-70b-instruct-fp8-fast` for a balance of
+quality and cost. Most chats will land under 1,500 tokens total. Cloudflare's
+Workers free tier covers 100k Worker requests/day, and Workers AI's own free
+tier (10,000 neurons/day) comfortably covers this site's realistic traffic —
+overage beyond that is billed at $0.011 / 1,000 neurons.
 
-If you want to swap models, set `MODEL = "claude-sonnet-4-6"` in
-`wrangler.toml` and redeploy.
+If you want to swap models, set `MODEL = "@cf/meta/llama-3.1-8b-instruct"`
+(cheaper, smaller) in `wrangler.toml` and redeploy. See
+[developers.cloudflare.com/workers-ai/models](https://developers.cloudflare.com/workers-ai/models/)
+for the full catalog.
 
 ---
 
@@ -165,72 +171,54 @@ The system prompt — Drew's resume + voice instructions — lives at the top of
 
 ---
 
-## Anthropic dashboard configuration
+## Cloudflare billing configuration (optional)
 
-The Anthropic dashboard spend cap is the **hard wall** in this Worker's
-two-layer cost defense. The Worker-side daily-cost circuit breaker
-(documented in **Cost guardrails** below) is the **early warning** that
-ideally trips first and keeps the dashboard cap from ever being reached.
-This is a one-time Drew-action, not a code change. Future-Drew should
-re-run these steps whenever the Anthropic API key is rotated, a new
-Anthropic project is created, or a new month's billing window opens and
-you want to confirm the cap is still attached.
+Unlike the old Anthropic setup, there's no separate dashboard to configure
+before deploying — Workers AI's free tier + the Worker's own daily-cost
+breaker (below) are the guardrails out of the box. Two optional additions
+for extra visibility, neither required:
 
-1. Sign in at `https://console.anthropic.com/settings/billing`.
-2. Under "Spend limits", set "Monthly spend cap" = **$10**.
-3. Enable email alerts at **50% ($5)** and **90% ($9)** so you get a
-   heads-up well before the hard cap fires.
-4. Confirm the configured cap by running `npx wrangler tail` (from
-   `workers/agent/`) while sending a real chat from the deployed site,
-   and watch for an `outcome=ok` telemetry event with a non-zero cost —
-   that confirms the API key the Worker is using is the same one the
-   dashboard cap applies to.
-5. Replace the screenshot placeholder below with a screenshot of the
-   configured cap page (drag-and-drop into the README on GitHub, or
-   commit a PNG to `workers/agent/docs/` and link it).
-
-[Anthropic dashboard cap screenshot — Drew adds]
-
-See **Cost guardrails** below for the Worker-side daily breaker that
-fires before this dashboard cap does.
+1. **Budget alerts** (informational, on by default for pay-as-you-go
+   accounts) — see
+   [developers.cloudflare.com/billing/manage/budget-alerts](https://developers.cloudflare.com/billing/manage/budget-alerts/).
+   These notify but don't block traffic.
+2. **AI Gateway spend limits** (hard cap, closer to what the Anthropic
+   dashboard cap used to do) — routes the `env.AI.run()` call through an AI
+   Gateway with a configurable per-day/per-user dollar limit that actually
+   blocks further requests. Not wired in here; would mean adding a gateway
+   binding. Worth it only if traffic outgrows the Worker's own breaker.
 
 ---
 
 ## Cost guardrails
 
-Two layers of cost defense protect against a viral day running up an
-unbounded Anthropic bill. The **Anthropic dashboard spend cap** (configured
-in the section above) is the hard wall — once the monthly cap is hit, the
-API itself rejects further requests. The Worker's **daily-cost circuit
-breaker**, documented here, is the early warning that ideally trips first,
-so visitors get a clean "agent's resting" message instead of upstream
-failures, and the dashboard cap stays comfortably out of reach.
+The Worker's **daily-cost circuit breaker** is the primary defense against a
+viral day running up cost: it fires before Workers AI's free tier is
+exhausted, so visitors get a clean "agent's resting" message instead of the
+Worker silently eating cost or erroring upstream.
 
 ### Per-turn cost math
 
 Cost is computed inside `writeTelemetry` from the `PRICING_MICRO_USD` table
-in `src/index.js`. At the default `claude-haiku-4-5-20251001`:
+in `src/index.js`. At the default `@cf/meta/llama-3.3-70b-instruct-fp8-fast`:
 
-- $1 / MTok input → **1 micro-USD per input token**
-- $5 / MTok output → **5 micro-USD per output token**
+- $0.293 / MTok input → **0.293 micro-USD per input token**
+- $2.253 / MTok output → **2.253 micro-USD per output token**
 
 A typical interview-agent chat turn lands around **500 input + 150 output
-tokens** ≈ `500 × 1 + 150 × 5 = 1,250 µUSD ≈ $0.00125 per turn`. At the
-default $0.333/day threshold, that's roughly **130–170 chat turns/day**
-before the breaker fires. A normal day stays well under it; a coordinated
-abuse spike trips it.
+tokens** ≈ `500 × 0.293 + 150 × 2.253 ≈ 484 µUSD ≈ $0.00048 per turn`. At the
+default $0.333/day threshold, that's roughly **690 chat turns/day** before
+the breaker fires — and Workers AI's own 10,000-neurons/day free tier covers
+realistic traffic on its own well before that. A normal day stays well
+under both; a coordinated abuse spike trips the breaker.
 
 ### Daily threshold + how to change it
 
 The breaker reads `DAILY_COST_LIMIT_MICRO_USD` from the wrangler `[vars]`
-block. Default `"333000"` = $0.333/day = **$10/month ÷ 30**.
+block. Default `"333000"` = $0.333/day.
 
 To raise or lower it, edit `workers/agent/wrangler.toml`, change the value,
 and run `npx wrangler deploy`. No code change required.
-
-If future-Drew raises the Anthropic monthly cap (e.g. to $20), also raise
-this variable to `"666000"` (= 20 / 30 = $0.666/day) so the Worker breaker
-continues to fire *before* the dashboard cap rather than after it.
 
 ### KV key shape + manual reset
 
@@ -266,7 +254,7 @@ body:
 
 ```json
 {
-  "error": "agent's resting — Drew's daily Anthropic budget is spent for today. Try again tomorrow, or email Drew directly at dhruvmalhotra2026@gmail.com."
+  "error": "agent's resting — Drew's daily agent budget is spent for today. Try again tomorrow, or email Drew directly at dhruvmalhotra2026@gmail.com."
 }
 ```
 
