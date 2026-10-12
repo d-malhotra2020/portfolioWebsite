@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { lazy, Suspense, useState } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import StatusBoard from './components/StatusBoard'
@@ -9,14 +9,16 @@ import Skills from './components/Skills'
 import Contact from './components/Contact'
 import ScrollProgress from './components/ScrollProgress'
 import AgentDock from './components/AgentDock'
-import WritingIndex from './components/WritingIndex'
-import WritingPost from './components/WritingPost'
-import WorkPost from './components/WorkPost'
-import Resume from './components/Resume'
 import KeyboardShortcutsOverlay from './components/KeyboardShortcutsOverlay'
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts'
 import { useHashRoute, matchRoute } from './lib/router'
 import './styles/App.css'
+
+// Non-home routes (and the markdown they pull in) load on demand to keep the landing bundle small.
+const WritingIndex = lazy(() => import('./components/WritingIndex'))
+const WritingPost = lazy(() => import('./components/WritingPost'))
+const WorkPost = lazy(() => import('./components/WorkPost'))
+const Resume = lazy(() => import('./components/Resume'))
 
 function App() {
   const path = useHashRoute()
@@ -33,7 +35,7 @@ function App() {
     return (
       <div className="app">
         <ScrollProgress />
-        <WritingIndex />
+        <Suspense fallback={null}><WritingIndex /></Suspense>
         <AgentDock />
         <KeyboardShortcutsOverlay open={helpOpen} onClose={closeHelp} />
       </div>
@@ -44,7 +46,7 @@ function App() {
     return (
       <div className="app">
         <ScrollProgress />
-        <WritingPost slug={route.slug} />
+        <Suspense fallback={null}><WritingPost slug={route.slug} /></Suspense>
         <AgentDock />
         <KeyboardShortcutsOverlay open={helpOpen} onClose={closeHelp} />
       </div>
@@ -55,7 +57,7 @@ function App() {
     return (
       <div className="app">
         <ScrollProgress />
-        <WorkPost slug={route.slug} />
+        <Suspense fallback={null}><WorkPost slug={route.slug} /></Suspense>
         <AgentDock />
         <KeyboardShortcutsOverlay open={helpOpen} onClose={closeHelp} />
       </div>
@@ -65,7 +67,7 @@ function App() {
   if (route.kind === 'resume') {
     return (
       <div className="app resume-app">
-        <Resume />
+        <Suspense fallback={null}><Resume /></Suspense>
         <KeyboardShortcutsOverlay open={helpOpen} onClose={closeHelp} />
       </div>
     )
