@@ -50,6 +50,10 @@ const About = () => {
               className="about-portrait"
               src="/ImageFiles/profilePhoto.jpeg"
               alt="Dhruv Malhotra"
+              width="960"
+              height="720"
+              loading="lazy"
+              decoding="async"
             />
             <div className="about-meta">
               <div className="row"><span className="k">role</span><span className="v">SDET</span></div>

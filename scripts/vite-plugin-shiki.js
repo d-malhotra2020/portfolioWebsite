@@ -17,10 +17,11 @@ import { createHighlighter } from 'shiki'
 
 // Lazy-init one highlighter for the whole build. Loading grammars is
 // the expensive part; reusing the instance across files keeps build fast.
+// Cache the promise, not the instance: Vite loads .md files concurrently, so
+// every caller must await the same in-flight creation.
 let _highlighter = null
-async function getHighlighter() {
-  if (_highlighter) return _highlighter
-  _highlighter = await createHighlighter({
+function getHighlighter() {
+  _highlighter ??= createHighlighter({
     // Theme — picked for the operator-terminal aesthetic. `vesper` is dark
     // with muted palette; `min-dark` is also a candidate. Switch in one
     // place if the theme should change.
