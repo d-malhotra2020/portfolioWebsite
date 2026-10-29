@@ -48,14 +48,14 @@ const Hero = () => {
             </div>
 
             <p className="hero-lede fade-up" style={{ animationDelay: '0.6s' }}>
-              I'm <strong>Dhruv (Drew) Malhotra</strong> — Software Engineer in Test at
-              Brivo (fmr. Eagle Eye Networks), running synthetic monitoring across
-              <span className="accent"> 26 production environments</span> in 6 global regions
-              and building <strong>LLM-augmented QA workflows</strong> that cut manual test
-              cycles from days to ~15 minutes. Before that I shipped a PyTorch recommender
-              to <strong>1.5M users</strong> at Givelify, and ran load tests across{' '}
-              <strong>3,000+ intersections</strong> for Yunex Traffic.{' '}
-              <strong>Security clearance eligible veteran.</strong>
+              I'm <strong>Dhruv (Drew) Malhotra</strong> — Senior Software Engineer in Test
+              at <strong>Lansweeper</strong>, owning the validation and security surface of
+              its IT asset discovery platform. I've gated <span className="accent">8 shipped
+              features</span>, surfaced high-priority access-control exposures, and hardened
+              the Kafka data pipelines feeding dashboards and analytics. Before that I ran
+              synthetic monitoring across <strong>26 production environments</strong> at
+              Brivo and shipped a PyTorch recommender to <strong>1.5M users</strong> at
+              Givelify. <strong>Security clearance eligible veteran.</strong>
             </p>
 
             <p className="hero-proof fade-up" style={{ animationDelay: '0.68s' }}>
@@ -121,11 +121,11 @@ const Hero = () => {
               </div>
               <div className="term-line" style={{ paddingLeft: '1.25rem' }}>
                 <span className="term-key">"role":</span>
-                <span className="term-string">"Software Engineer in Test"</span>,
+                <span className="term-string">"Senior Software Engineer in Test"</span>,
               </div>
               <div className="term-line" style={{ paddingLeft: '1.25rem' }}>
                 <span className="term-key">"company":</span>
-                <span className="term-string">"Brivo (fmr. Eagle Eye Networks)"</span>,
+                <span className="term-string">"Lansweeper"</span>,
               </div>
               <div className="term-line" style={{ paddingLeft: '1.25rem' }}>
                 <span className="term-key">"location":</span>

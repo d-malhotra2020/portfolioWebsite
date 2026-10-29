@@ -5,14 +5,14 @@ import { X, ArrowUp, Trash2 } from 'lucide-react'
 const ENDPOINT = import.meta.env.VITE_AGENT_ENDPOINT
 
 const SUGGESTIONS = [
-  'What are you working on at Brivo right now?',
+  'What are you working on at Lansweeper right now?',
   'Walk me through that PATCH vulnerability you found.',
   'How do you use LLMs in your QA work?',
   'Are you open to relocation?'
 ]
 
 const GREETING =
-  "Hey — I'm Drew, or rather, an agent I built end-to-end to speak for me (Cloudflare Worker + an open-source LLM via Workers AI, with guardrails so I can't invent numbers). Ask me what I actually shipped at Brivo, how I use LLMs in QA, or how to hire me. I'll keep it concrete."
+  "Hey — I'm Drew, or rather, an agent I built end-to-end to speak for me (Cloudflare Worker + an open-source LLM via Workers AI, with guardrails so I can't invent numbers). Ask me what I actually shipped at Lansweeper, how I use LLMs in QA, or how to hire me. I'll keep it concrete."
 
 // Phase 9 — per-tab AgentDock persistence.
 // Versioned key so a future schema change can bump to v2 and orphan old data safely.

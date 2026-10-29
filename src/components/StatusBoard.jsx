@@ -4,7 +4,7 @@ import { useInView } from 'react-intersection-observer'
 import CommitFeed from './CommitFeed'
 
 const services = [
-  { id: 'brivo', name: 'Brivo · SDET layer', kind: 'employment', url: null, note: '24 envs · 99.9% delivery' },
+  { id: 'lansweeper', name: 'Lansweeper · SDET layer', kind: 'employment', url: null, note: 'asset discovery · validation + security' },
   { id: 'portfolio', name: 'drewmalhotra.com', kind: 'self', url: 'https://drewmalhotra.com', note: 'this site' },
   { id: 'video', name: 'video-analytics', kind: 'self', url: 'https://video-analytics-production.up.railway.app', note: 'yolov8 · honest bench' },
   { id: 'traffic', name: 'traffic-optimization', kind: 'self', url: 'https://traffic-optimization-production.up.railway.app', note: 'osm topology · microsim' },
@@ -115,7 +115,7 @@ const StatusBoard = () => {
                         {s.url.replace(/^https?:\/\//, '')} ↗
                       </a>
                     ) : (
-                      <span className="status-employment">proprietary · brivo internal</span>
+                      <span className="status-employment">proprietary · lansweeper internal</span>
                     )}
                   </span>
                   <span className="status-state">

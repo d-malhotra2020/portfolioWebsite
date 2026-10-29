@@ -56,8 +56,8 @@ const About = () => {
               decoding="async"
             />
             <div className="about-meta">
-              <div className="row"><span className="k">role</span><span className="v">SDET</span></div>
-              <div className="row"><span className="k">company</span><span className="v">Brivo</span></div>
+              <div className="row"><span className="k">role</span><span className="v">Senior SDET</span></div>
+              <div className="row"><span className="k">company</span><span className="v">Lansweeper</span></div>
               <div className="row"><span className="k">years exp</span><span className="v">6+</span></div>
               <div className="row"><span className="k">location</span><span className="v">Austin, TX</span></div>
               <div className="row"><span className="k">timezone</span><span className="v">UTC −6</span></div>
@@ -72,10 +72,16 @@ const About = () => {
               into building the systems that keep millions of users transacting safely.
             </h3>
             <p>
-              Today I'm a <strong>Software Engineer in Test at Brivo</strong> (formerly Eagle
-              Eye Networks), where I built a multi-cluster Python/Flask synthetic monitoring
-              platform validating notification pipelines across <strong>26 production
-              environments in 6 global regions</strong>.
+              Today I'm a <strong>Senior Software Engineer in Test at Lansweeper</strong>,
+              where I own the validation and security surface of its IT asset discovery
+              platform — gating feature ships, hunting access-control exposures, and
+              hardening the Kafka data pipelines that feed dashboards and analytics.
+            </p>
+            <p>
+              Before that, at <strong>Brivo</strong> (formerly Eagle Eye Networks), I built a
+              multi-cluster Python/Flask synthetic monitoring platform validating
+              notification pipelines across <strong>26 production environments in 6 global
+              regions</strong>.
             </p>
             <p>
               Before that — four years at Givelify shipping a PyTorch recommender to

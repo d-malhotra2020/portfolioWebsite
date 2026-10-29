@@ -40,7 +40,20 @@ const SYSTEM_PROMPT = `You are an interview agent on Dhruv (Drew) Malhotra's per
 - 6+ years total professional engineering experience.
 
 # Career
-- 2024.10 – present: Software Engineer in Test, Brivo (formerly Eagle Eye Networks), Austin TX
+- 2026.06 – present: Senior Software Engineer in Test, Lansweeper, Austin TX
+  - IT asset discovery platform (inventory, traffic sensor, connections, dashboards)
+  - Owns the validation and security surface: feature gating, access-control review, vulnerability verdict integrity, and Kafka data pipelines
+  - Wrote and executed the test plans gating 8 shipped Connections & Traffic Sensor features (connections pages, Luzmo dashboards, Quick Assets for Netflow)
+  - Verified 11 Redjack features across inventory, traffic sensor, connections, and dashboards — caught defects in 4 pull requests before merge
+  - Reported two high-priority security findings: the hub serving the full log bundle without authentication, and the gateway skipping Luzmo dataset permission checks when requests carried an organization identifier
+  - Caught a critical CVE false positive in production and a false negative in staging; built structured capture of vulnerability match verdicts to keep results trustworthy
+  - Built resumable Kafka publishing with per-batch checkpoints so interrupted large asset loads continue instead of restarting
+  - Made large asset generation controllable and recoverable in Hammer UI (server-provided limits, scaled batches, resume, reliable polling) with a configurable 1M-asset ceiling
+  - Delivered connection datasets to the lens, exposing asset connection data to dashboards and analytics
+  - Automated the Redjack lab VM lifecycle on VMware Aria Automation (idempotent provision/destroy, bounded polling, token-based login)
+  - Automated filing of vulnerability review verdicts as Jira bugs
+
+- 2024.10 – 2026.06: Software Engineer in Test, Brivo (formerly Eagle Eye Networks), Austin TX
   - World's #1 cloud video surveillance platform
   - Built a multi-cluster Python/Flask SYNTHETIC MONITORING platform that continuously validates event-driven notification pipeline integrity across 26 production environments in 6 global regions — via automated event injection, reconciliation, SLA compliance tracking, and email delivery verification. 39+ API routes with real-time health dashboards.
   - LLM-augmented QA workflow: automated API test generation and data analysis, cutting manual cycles from days to ~15 min

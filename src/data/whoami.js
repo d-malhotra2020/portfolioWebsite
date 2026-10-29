@@ -14,11 +14,11 @@
 
 export const whoami = {
   name: 'Drew Malhotra',
-  role: 'software engineer · sdet',
-  employer: 'Brivo (fmr. Eagle Eye Networks)',
+  role: 'senior software engineer in test · sdet',
+  employer: 'Lansweeper',
   location: 'Austin, TX',
   focus:
-    'distributed test infra + synthetic monitoring across 26 production envs in 6 regions; ai/ml-augmented qa on the side.',
+    'validation + security surface of it asset discovery: feature gating, access-control review, kafka data pipelines, vulnerability verdict integrity.',
   stack: [
     'Python',
     'Java',
@@ -35,9 +35,22 @@ export const whoami = {
   ],
   experience: [
     {
+      role: 'Senior Software Engineer in Test',
+      org: 'Lansweeper',
+      period: '2026.06 — present',
+      location: 'Austin, TX',
+      bullets: [
+        'Wrote and executed the test plans gating 8 shipped Connections and Traffic Sensor features — from connections pages and Luzmo dashboards to Quick Assets for Netflow.',
+        'Reported two high-priority security findings: the hub serving the full log bundle without authentication, and the gateway skipping Luzmo dataset permission checks when requests carried an organization identifier.',
+        'Caught a critical CVE false positive in production and a false negative in staging, then built structured capture of vulnerability match verdicts to keep results trustworthy.',
+        'Built resumable Kafka publishing with per-batch checkpoints so interrupted large asset loads continue instead of restarting.',
+        'Automated the Redjack lab VM lifecycle on VMware Aria Automation (idempotent provision/destroy, bounded polling, token-based login), replacing manual test environment setup.'
+      ]
+    },
+    {
       role: 'Software Engineer in Test',
       org: 'Brivo (fmr. Eagle Eye Networks)',
-      period: '2024.10 — present',
+      period: '2024.10 — 2026.06',
       location: 'Austin, TX',
       bullets: [
         'Architected a 24×7 Synthetic Monitoring Framework for the Automations Alert Platform validating the end-to-end Alerts V3 pipeline across all 21 EEN production clusters. Defined SLA thresholds (<60s alert latency, <30s webhook latency, 99.9% availability, 100% payload completeness) and escalation rules.',
