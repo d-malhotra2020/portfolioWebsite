@@ -6,12 +6,36 @@ import { navigateTo } from '../lib/router'
 
 const experiences = [
   {
-    date: '2024.10 — present',
+    date: '2026.06 — present',
+    title: 'Senior Software Engineer in Test',
+    company: 'Lansweeper',
+    location: 'Austin, TX',
+    current: true,
+    lede: 'Owning the validation and security surface of Lansweeper\'s IT asset discovery platform — gating feature ships, hunting access-control exposures, and hardening the data pipelines that feed dashboards and analytics.',
+    skills: ['Test Planning', 'Security Review', 'Kafka', 'VMware Aria Automation', 'Luzmo', 'Jira'],
+    details: {
+      projects: [
+        'Connections & Traffic Sensor Test Plans: Authored and executed the plans that gated 8 shipped features — from connections pages and Luzmo dashboards to Quick Assets for Netflow',
+        'Vulnerability Verdict Integrity: Caught a critical CVE false positive in production and a false negative in staging, then built structured capture of vulnerability match verdicts to keep results trustworthy',
+        'Security Review — Unauthenticated Log Bundle: Reported a high-priority exposure where the hub served the full log bundle without authentication, flagging risk to internal log data',
+        'Security Review — Luzmo Permission Bypass: Reported a high-priority gap where the gateway skipped dataset permission checks when requests carried an organization identifier',
+        'Resumable Kafka Publishing: Built per-batch checkpointing so interrupted large asset loads continue instead of restarting',
+        'Connections Dataset Exposure: Delivered connection datasets to the lens, making asset connection data available to dashboards and analytics'
+      ],
+      impact: [
+        'Verified 11 Redjack features across inventory, traffic sensor, connections, and dashboards — catching defects in 4 pull requests before merge',
+        'Made large asset generation controllable and recoverable in Hammer UI — server-provided limits, scaled batches, resume, and reliable polling — with a configurable 1M-asset ceiling for larger inventory loads',
+        'Automated the Redjack lab VM lifecycle on VMware Aria Automation (idempotent provision/destroy, bounded polling, token-based login), replacing manual test environment setup',
+        'Automated filing of vulnerability review verdicts as Jira bugs, removing manual triage steps'
+      ]
+    }
+  },
+  {
+    date: '2024.10 — 2026.06',
     title: 'Software Engineer in Test',
     company: 'Brivo',
     sub: 'fmr. Eagle Eye Networks',
     location: 'Austin, TX',
-    current: true,
     lede: 'Owning the validation layer of the world\'s #1 cloud video surveillance platform — proving 26 production environments deliver notifications reliably across 6 global regions for enterprise customers.',
     skills: ['Python', 'Flask', 'aiohttp', 'pytest-django', 'Postman', 'Docker', 'k6', 'Browserstack'],
     details: {
